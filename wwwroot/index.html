@@ -1,0 +1,135 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VisorHR Login</title>
+  <link rel="icon" href="visorhr_logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="glow glow-a"></div>
+    <div class="glow glow-b"></div>
+
+    <main class="shell">
+      <section class="brand">
+        <div class="logo">
+          <svg class="logo-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Visor HR">
+            <style>
+              .mark {
+                transform-origin: 32px 32px;
+                transition: transform 0.3s ease;
+              }
+              .wave {
+                animation: waveFloat 3s ease-in-out infinite;
+              }
+              .mark {
+                animation: markTilt 4s ease-in-out infinite;
+              }
+              @keyframes waveFloat {
+                0% { transform: translate(0, 0); }
+                25% { transform: translate(1px, -1px); }
+                50% { transform: translate(0, 0); }
+                75% { transform: translate(-1px, 1px); }
+                100% { transform: translate(0, 0); }
+              }
+              @keyframes markTilt {
+                0% { transform: rotate(0deg); }
+                50% { transform: rotate(7deg); }
+                100% { transform: rotate(0deg); }
+              }
+            </style>
+            <g class="mark" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M56 32c0 13.255-10.745 24-24 24S8 45.255 8 32 18.745 8 32 8"/>
+              <path class="wave" d="M56 8s-14 0-24 16S8 32 8 32"/>
+            </g>
+          </svg>
+          <span>VisorHR</span>
+        </div>
+        <h1>Welcome back.</h1>
+        <p class="lead">
+          Manage teams, payroll, and performance with a view that keeps the details sharp.
+        </p>
+        <div class="stats">
+          <div>
+            <strong>13</strong>
+            <span>active Factory</span>
+          </div>
+          <div>
+            <strong>8k+</strong>
+            <span>Total Active Employee</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>Sign in</h2>
+          <p>Use your company account to continue.</p>
+        </div>
+
+        <form class="form" autocomplete="on">
+          <label class="field">
+            <span>Unit</span>
+            <div class="select-wrap">
+              <div class="dropdown" data-dropdown>
+                <button class="dropdown-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                  <span data-dropdown-label>Select a unit</span>
+                </button>
+                <span class="select-icon" aria-hidden="true"></span>
+                <ul class="dropdown-list" role="listbox">
+                  <li role="option" data-value="NTTML">NTTML</li>
+                  <li role="option" data-value="TFL">TFL</li>
+                  <li role="option" data-value="ZZAL">ZZAL</li>
+                  <li role="option" data-value="NISML">NISML</li>
+                  <li role="option" data-value="NSYML">NSYML</li>
+                  <li role="option" data-value="SFL1">SFL1</li>
+                  <li role="option" data-value="SFL2">SFL2</li>
+                  <li role="option" data-value="SFL3">SFL3</li>
+                  <li role="option" data-value="NFL1">NFL1</li>
+                  <li role="option" data-value="NFL2">NFL2</li>
+                  <li role="option" data-value="AKL">AKL</li>
+                  <li role="option" data-value="AFL">AFL</li>
+                  <li role="option" data-value="MTML">MTML</li>
+                </ul>
+                <input type="hidden" name="unit" required />
+              </div>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>User Name/ Email</span>
+            <input type="text" name="username" placeholder="user name or you@company.com" required />
+          </label>
+
+          <label class="field">
+            <span>Password</span>
+            <div class="password-wrap">
+              <input type="password" name="password" placeholder="Enter your password" required />
+              <button class="ghost" type="button" id="togglePassword">Show</button>
+            </div>
+          </label>
+
+          <div class="row">
+            <a class="link" href="#">Forgot password?</a>
+          </div>
+
+          <button class="primary" type="submit">
+            Sign in
+          </button>
+
+          <div class="notice" role="status" aria-live="polite"></div>
+
+          <div class="alt">
+            <span>New to VisorHR?</span>
+            <a class="link" href="#">Request access</a>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

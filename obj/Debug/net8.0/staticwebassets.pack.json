@@ -1,0 +1,49 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\app.js",
+      "PackagePath": "staticwebassets\\app.js"
+    },
+    {
+      "Id": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\styles.css",
+      "PackagePath": "staticwebassets\\styles.css"
+    },
+    {
+      "Id": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\visorhr_logo.svg",
+      "PackagePath": "staticwebassets\\visorhr_logo.svg"
+    },
+    {
+      "Id": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\welcome.html",
+      "PackagePath": "staticwebassets\\welcome.html"
+    },
+    {
+      "Id": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\welcome.js",
+      "PackagePath": "staticwebassets\\welcome.js"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.VisorHR.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.VisorHR.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.VisorHR.props",
+      "PackagePath": "build\\VisorHR.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.VisorHR.props",
+      "PackagePath": "buildMultiTargeting\\VisorHR.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.VisorHR.props",
+      "PackagePath": "buildTransitive\\VisorHR.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -1,0 +1,196 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VisorHR Welcome</title>
+  <link rel="icon" href="visorhr_logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="welcome">
+  <div class="page">
+    <div class="glow glow-a"></div>
+    <div class="glow glow-b"></div>
+
+    <main class="dashboard">
+      <aside class="side-nav" id="sideNav">
+        <div class="logo">
+          <svg class="logo-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Visor HR">
+            <style>
+              .mark {
+                transform-origin: 32px 32px;
+                transition: transform 0.3s ease;
+              }
+              .wave {
+                animation: waveFloat 3s ease-in-out infinite;
+              }
+              .mark {
+                animation: markTilt 4s ease-in-out infinite;
+              }
+              @keyframes waveFloat {
+                0% { transform: translate(0, 0); }
+                25% { transform: translate(1px, -1px); }
+                50% { transform: translate(0, 0); }
+                75% { transform: translate(-1px, 1px); }
+                100% { transform: translate(0, 0); }
+              }
+              @keyframes markTilt {
+                0% { transform: rotate(0deg); }
+                50% { transform: rotate(7deg); }
+                100% { transform: rotate(0deg); }
+              }
+            </style>
+            <g class="mark" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M56 32c0 13.255-10.745 24-24 24S8 45.255 8 32 18.745 8 32 8"/>
+              <path class="wave" d="M56 8s-14 0-24 16S8 32 8 32"/>
+            </g>
+          </svg>
+          <span>VisorHR</span>
+        </div>
+        <nav class="menu">
+          <a class="menu-item is-active" href="#">Overview</a>
+          <a class="menu-item" href="#">Employees</a>
+          <a class="menu-item" href="#">Attendance</a>
+          <a class="menu-item" href="#">Payroll</a>
+          <a class="menu-item" href="#">Reports</a>
+          <a class="menu-item" href="#">Settings</a>
+          <a class="menu-item" href="#">Departments</a>
+          <a class="menu-item" href="#">Shift Planner</a>
+          <a class="menu-item" href="#">Leave Requests</a>
+          <a class="menu-item" href="#">Compliance</a>
+          <a class="menu-item" href="#">Training</a>
+          <a class="menu-item" href="#">Onboarding</a>
+          <a class="menu-item" href="#">Benefits</a>
+          <a class="menu-item" href="#">Assets</a>
+          <a class="menu-item" href="#">Help Desk</a>
+          <a class="menu-item" href="#">System Logs</a>
+        </nav>
+        <div class="side-footer">
+          <div class="user-card">
+            <span class="user-label">Signed in as</span>
+            <strong id="userName">User</strong>
+          </div>
+          <a class="link" href="/">Log out</a>
+        </div>
+      </aside>
+      <button class="menu-toggle" type="button" id="menuToggle" aria-controls="sideNav" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="side-overlay" id="sideOverlay" aria-hidden="true"></div>
+
+      <section class="content">
+        <header class="content-header">
+          <div class="header-logo" aria-hidden="true">
+            <svg class="logo-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+              <g fill="none" stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M56 32c0 13.255-10.745 24-24 24S8 45.255 8 32 18.745 8 32 8"/>
+                <path d="M56 8s-14 0-24 16S8 32 8 32"/>
+              </g>
+            </svg>
+          </div>
+          <div class="header-title">
+            <p class="eyebrow">Unit</p>
+            <h2 id="welcomeTitle">Welcome</h2>
+          </div>
+          <div></div>
+        </header>
+        <div class="content-body">
+          <section class="header-box" aria-label="Unit summary">
+            <div class="overview-grid">
+            <div class="overview-card">
+              <span>Total Employees</span>
+              <strong id="totalEmployees">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Active Employees</span>
+              <strong id="activeEmployees">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Inactive Employees</span>
+              <strong id="inactiveEmployees">--</strong>
+            </div>
+            <div class="overview-card">
+              <span id="newJoinersLabel">New Joiners</span>
+              <strong id="newJoinersValue">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Total Close</span>
+              <strong id="closeEmployees">--</strong>
+            </div>
+            <div class="overview-card">
+              <span id="releaseLabel">Release</span>
+              <strong id="releaseEmployees">--</strong>
+            </div>
+            <div class="overview-card">
+              <span id="resignLabel">Resign</span>
+              <strong id="resignEmployees">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Total Worker</span>
+              <strong id="totalWorker">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Total Staff</span>
+              <strong id="totalStaff">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Total Officer</span>
+              <strong id="totalOfficer">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Total Male <strong class="symbol">&male;</strong></span>
+              <strong id="totalMale">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Total Female <strong class="symbol">&female;</strong></span>
+              <strong id="totalFemale">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Cash Pay Emp</span>
+              <strong id="cashPay">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Bank Pay Emp</span>
+              <strong id="bankPay">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Mobile Pay Emp</span>
+              <strong id="mobilePay">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Tax Holder</span>
+              <strong id="taxHolder">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Quarter Holder</span>
+              <strong id="quarterHolder">--</strong>
+            </div>
+            <div class="overview-card">
+              <span id="incrementLabel">Increment</span>
+              <strong id="incrementValue">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>Off Duty</span>
+              <strong id="offDuty">--</strong>
+            </div>
+            <div class="overview-card">
+              <span id="leaveLabel">Leave</span>
+              <strong id="leaveValue">--</strong>
+            </div>
+            <div class="overview-card">
+              <span>On Maternity</span>
+              <strong id="maternityCount">--</strong>
+            </div>
+            </div>
+          </section>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <script src="welcome.js"></script>
+</body>
+</html>
