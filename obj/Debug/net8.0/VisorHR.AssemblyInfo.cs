@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VisorHR")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9dd0b855c3bd729194142c68ee44f70532af0eea")]
 [assembly: System.Reflection.AssemblyProductAttribute("VisorHR")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VisorHR")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

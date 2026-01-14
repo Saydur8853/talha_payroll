@@ -48,8 +48,8 @@
           <span>VisorHR</span>
         </div>
         <nav class="menu">
-          <a class="menu-item is-active" href="#">Overview</a>
-          <a class="menu-item" href="#">Employees</a>
+          <a class="menu-item is-active" href="#" data-view="overview">Dashboard</a>
+          <a class="menu-item" href="#" data-view="employees">Employees</a>
           <a class="menu-item" href="#">Attendance</a>
           <a class="menu-item" href="#">Payroll</a>
           <a class="menu-item" href="#">Reports</a>
@@ -70,7 +70,7 @@
             <span class="user-label">Signed in as</span>
             <strong id="userName">User</strong>
           </div>
-          <a class="link" href="/">Log out</a>
+          <a class="link" href="/" id="logoutLink">Log out</a>
         </div>
       </aside>
       <button class="menu-toggle" type="button" id="menuToggle" aria-controls="sideNav" aria-expanded="false">
@@ -91,106 +91,673 @@
             </svg>
           </div>
           <div class="header-title">
-            <p class="eyebrow">Unit</p>
+            <p class="eyebrow" id="sectionLabel">Unit</p>
             <h2 id="welcomeTitle">Welcome</h2>
           </div>
           <div></div>
         </header>
         <div class="content-body">
-          <section class="header-box" aria-label="Unit summary">
-            <div class="overview-grid">
-            <div class="overview-card">
-              <span>Total Employees</span>
-              <strong id="totalEmployees">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Active Employees</span>
-              <strong id="activeEmployees">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Inactive Employees</span>
-              <strong id="inactiveEmployees">--</strong>
-            </div>
-            <div class="overview-card">
-              <span id="newJoinersLabel">New Joiners</span>
-              <strong id="newJoinersValue">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Total Close</span>
-              <strong id="closeEmployees">--</strong>
-            </div>
-            <div class="overview-card">
-              <span id="releaseLabel">Release</span>
-              <strong id="releaseEmployees">--</strong>
-            </div>
-            <div class="overview-card">
-              <span id="resignLabel">Resign</span>
-              <strong id="resignEmployees">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Total Worker</span>
-              <strong id="totalWorker">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Total Staff</span>
-              <strong id="totalStaff">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Total Officer</span>
-              <strong id="totalOfficer">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Total Male <strong class="symbol">&male;</strong></span>
-              <strong id="totalMale">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Total Female <strong class="symbol">&female;</strong></span>
-              <strong id="totalFemale">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Cash Pay Emp</span>
-              <strong id="cashPay">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Bank Pay Emp</span>
-              <strong id="bankPay">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Mobile Pay Emp</span>
-              <strong id="mobilePay">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Tax Holder</span>
-              <strong id="taxHolder">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Quarter Holder</span>
-              <strong id="quarterHolder">--</strong>
-            </div>
-            <div class="overview-card">
-              <span id="incrementLabel">Increment</span>
-              <strong id="incrementValue">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>Off Duty</span>
-              <strong id="offDuty">--</strong>
-            </div>
-            <div class="overview-card">
-              <span id="leaveLabel">Leave</span>
-              <strong id="leaveValue">--</strong>
-            </div>
-            <div class="overview-card">
-              <span>On Maternity</span>
-              <strong id="maternityCount">--</strong>
-            </div>
-            </div>
-          </section>
+          <div class="view is-active" data-view="overview">
+            <section class="header-box" aria-label="Unit summary">
+              <div class="overview-grid">
+              <div class="overview-card">
+                <span>Total Employees</span>
+                <strong id="totalEmployees">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Active Employees</span>
+                <strong id="activeEmployees">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Inactive Employees</span>
+                <strong id="inactiveEmployees">--</strong>
+              </div>
+              <div class="overview-card">
+                <span id="newJoinersLabel">New Joiners</span>
+                <strong id="newJoinersValue">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Total Close</span>
+                <strong id="closeEmployees">--</strong>
+              </div>
+              <div class="overview-card">
+                <span id="releaseLabel">Release</span>
+                <strong id="releaseEmployees">--</strong>
+              </div>
+              <div class="overview-card">
+                <span id="resignLabel">Resign</span>
+                <strong id="resignEmployees">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Total Worker</span>
+                <strong id="totalWorker">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Total Staff</span>
+                <strong id="totalStaff">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Total Officer</span>
+                <strong id="totalOfficer">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Total Male <strong class="symbol">&male;</strong></span>
+                <strong id="totalMale">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Total Female <strong class="symbol">&female;</strong></span>
+                <strong id="totalFemale">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Cash Pay Emp</span>
+                <strong id="cashPay">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Bank Pay Emp</span>
+                <strong id="bankPay">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Mobile Pay Emp</span>
+                <strong id="mobilePay">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Tax Holder</span>
+                <strong id="taxHolder">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>Quarter Holder</span>
+                <strong id="quarterHolder">--</strong>
+              </div>
+              <div class="overview-card">
+                <span id="incrementLabel">Increment</span>
+                <strong id="incrementValue">--</strong>
+              </div>
+              <div class="overview-card is-hidden">
+                <span>Off Duty</span>
+                <strong id="offDuty">--</strong>
+              </div>
+              <div class="overview-card">
+                <span id="leaveLabel">Leave</span>
+                <strong id="leaveValue">--</strong>
+              </div>
+              <div class="overview-card">
+                <span>On Maternity</span>
+                <strong id="maternityCount">--</strong>
+              </div>
+              </div>
+            </section>
+          </div>
+          <div class="view" data-view="employees">
+            <section class="employee-shell" aria-label="Employee management">
+              <div class="employee-grid is-single">
+                <div class="employee-card">
+                  <div class="employee-card-header">
+                    <div>
+                      <p class="eyebrow">Employee</p>
+                      <h3>Employee Entry</h3>
+                    </div>
+                  </div>
+                  <div class="employee-search">
+                    <div class="field">
+                      <label for="empSearchCode">Search Employee Code</label>
+                      <input id="empSearchCode" name="empSearchCode" type="text" placeholder="EMP-0001" />
+                    </div>
+                    <button class="btn-outline" type="button" id="employeeSearchBtn">Search</button>
+                  </div>
+                  <form class="employee-form" id="employeeForm">
+                    <input type="hidden" id="employeeRowId" value="" />
+                    <div class="section-title">Identity</div>
+                    <div class="identity-grid">
+                      <div class="identity-col">
+                        <div class="field">
+                          <label for="empCode">Employee Code</label>
+                          <input id="empCode" name="empCode" type="text" placeholder="EMP-0001" required />
+                        </div>
+                        <div class="field">
+                          <label for="erpCode">ERP Code</label>
+                          <input id="erpCode" name="erpCode" type="text" placeholder="ERP-001" />
+                        </div>
+                        <div class="field">
+                          <label for="empName">Employee Name</label>
+                          <input id="empName" name="empName" type="text" placeholder="Full name" required />
+                        </div>
+                        <div class="field">
+                          <label for="empNameBang">Employee Name (Bangla)</label>
+                          <input id="empNameBang" name="empNameBang" type="text" placeholder="নাম" />
+                        </div>
+                        <div class="field">
+                          <label for="fatherName">Father's Name</label>
+                          <input id="fatherName" name="fatherName" type="text" placeholder="Father's name" />
+                        </div>
+                        <div class="field">
+                          <label for="fatherNameBang">Father's Name (Bangla)</label>
+                          <input id="fatherNameBang" name="fatherNameBang" type="text" placeholder="পিতা" />
+                        </div>
+                      </div>
+                      <div class="identity-col">
+                        <div class="field">
+                          <label for="motherNameBang">Mother's Name (Bangla)</label>
+                          <input id="motherNameBang" name="motherNameBang" type="text" placeholder="মাতা" />
+                        </div>
+                        <div class="field">
+                          <label for="spouseNameBang">Husband/Wife (Bangla)</label>
+                          <input id="spouseNameBang" name="spouseNameBang" type="text" placeholder="স্বামী/স্ত্রী" />
+                        </div>
+                        <div class="field">
+                          <label for="motherName">Mother's Name</label>
+                          <input id="motherName" name="motherName" type="text" placeholder="Mother's name" />
+                        </div>
+                        <div class="field">
+                          <label for="spouseName">Husband/Wife</label>
+                          <input id="spouseName" name="spouseName" type="text" placeholder="Husband or wife" />
+                        </div>
+                        <div class="field">
+                          <label for="gender">Gender</label>
+                          <select id="gender" name="gender">
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                          </select>
+                        </div>
+                        <div class="field">
+                          <label for="religion">Religion</label>
+                          <select id="religion" name="religion">
+                            <option value="ISLAM">Islam</option>
+                            <option value="HINDU">Hindu</option>
+                            <option value="KRISTIAN">Kristian</option>
+                            <option value="BUDDHIST">Buddhist</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="identity-col">
+                        <div class="field">
+                          <label for="maritalStatus">Marital Status</label>
+                          <select id="maritalStatus" name="maritalStatus">
+                            <option value="SINGLE">Single</option>
+                            <option value="MARRIED">Married</option>
+                            <option value="DIVORCED">Divorced</option>
+                            <option value="WIDOW">Widow</option>
+                          </select>
+                        </div>
+                        <div class="field">
+                          <label for="bloodGroup">Blood Group</label>
+                          <select id="bloodGroup" name="bloodGroup">
+                            <option value="A-">A-</option>
+                            <option value="A+">A+</option>
+                            <option value="B-">B-</option>
+                            <option value="B+">B+</option>
+                            <option value="O-">O-</option>
+                            <option value="O+">O+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="N/A">N/A</option>
+                          </select>
+                        </div>
+                        <div class="field">
+                          <label for="birthDate">Date of Birth</label>
+                          <input id="birthDate" name="birthDate" type="text" placeholder="dd-mmm-yyyy" />
+                        </div>
+                        <div class="field">
+                          <label for="age">Age</label>
+                          <input id="age" name="age" type="text" placeholder="Years, months, days" />
+                        </div>
+                        <div class="field">
+                          <label for="education">Education</label>
+                          <input id="education" name="education" type="text" placeholder="Education" />
+                        </div>
+                        <div class="field">
+                          <label for="experience">Experience</label>
+                          <input id="experience" name="experience" type="text" placeholder="Experience" />
+                        </div>
+                      </div>
+                      <div class="identity-media">
+                        <div class="media-card">
+                          <span>Employee Photo</span>
+                      <div class="media-preview">
+                        <img id="employeePhotoPreview" alt="Employee photo preview" class="is-empty" />
+                        <span class="media-placeholder">No Preview</span>
+                      </div>
+                          <div class="media-actions">
+                            <input id="employeePhotoInput" type="file" accept="image/*" hidden />
+                            <button class="btn-outline" type="button" id="employeePhotoUpload">Upload Photo</button>
+                          </div>
+                        </div>
+                        <div class="media-card signature-card">
+                          <span>Employee Signature</span>
+                      <div class="media-preview">
+                        <img id="employeeSignaturePreview" alt="Employee signature preview" class="is-empty" />
+                        <span class="media-placeholder">No Preview</span>
+                      </div>
+                          <div class="media-actions">
+                            <input id="employeeSignatureInput" type="file" accept="image/*" hidden />
+                            <button class="btn-outline" type="button" id="employeeSignatureUpload">Upload Signature</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="identity-extra parent">
+                      <div class="div1 field">
+                        <label for="nationalId">National ID</label>
+                        <input id="nationalId" name="nationalId" type="text" placeholder="National ID" />
+                      </div>
+                      <div class="div2 field">
+                        <label for="licenseNo">License No</label>
+                        <input id="licenseNo" name="licenseNo" type="text" placeholder="License no" />
+                      </div>
+                    </div>
+
+                    <div class="section-title">Contact</div>
+                    <div class="field">
+                      <label for="cellNo">Cell No</label>
+                      <input id="cellNo" name="cellNo" type="tel" placeholder="01XXXXXXXXX" />
+                    </div>
+                    <div class="field">
+                      <label for="emergencyCell">Emergency Cell</label>
+                      <input id="emergencyCell" name="emergencyCell" type="tel" placeholder="Emergency contact" />
+                    </div>
+                    <div class="field">
+                      <label for="email">Email</label>
+                      <input id="email" name="email" type="email" placeholder="name@example.com" />
+                    </div>
+
+                    <div class="section-title">Present Address</div>
+                    <div class="field">
+                      <label for="presentVill">Village</label>
+                      <input id="presentVill" name="presentVill" type="text" placeholder="Village" />
+                    </div>
+                    <div class="field">
+                      <label for="presentPo">P.O.</label>
+                      <input id="presentPo" name="presentPo" type="text" placeholder="Post office" />
+                    </div>
+                    <div class="field">
+                      <label for="presentPs">P.S.</label>
+                      <input id="presentPs" name="presentPs" type="text" placeholder="Police station" />
+                    </div>
+                    <div class="field">
+                      <label for="presentDist">District</label>
+                      <input id="presentDist" name="presentDist" type="text" placeholder="District" />
+                    </div>
+
+                    <div class="section-title">Present Address (Bangla)</div>
+                    <div class="field">
+                      <label for="presentVillBang">Village (Bangla)</label>
+                      <input id="presentVillBang" name="presentVillBang" type="text" placeholder="গ্রাম" />
+                    </div>
+                    <div class="field">
+                      <label for="presentPoBang">P.O. (Bangla)</label>
+                      <input id="presentPoBang" name="presentPoBang" type="text" placeholder="ডাকঘর" />
+                    </div>
+                    <div class="field">
+                      <label for="presentPsBang">P.S. (Bangla)</label>
+                      <input id="presentPsBang" name="presentPsBang" type="text" placeholder="থানা" />
+                    </div>
+                    <div class="field">
+                      <label for="presentDistBang">District (Bangla)</label>
+                      <input id="presentDistBang" name="presentDistBang" type="text" placeholder="জেলা" />
+                    </div>
+
+                    <div class="section-title">Permanent Address</div>
+                    <div class="field">
+                      <label for="permanentVill">Village</label>
+                      <input id="permanentVill" name="permanentVill" type="text" placeholder="Village" />
+                    </div>
+                    <div class="field">
+                      <label for="permanentPo">P.O.</label>
+                      <input id="permanentPo" name="permanentPo" type="text" placeholder="Post office" />
+                    </div>
+                    <div class="field">
+                      <label for="permanentPs">P.S.</label>
+                      <input id="permanentPs" name="permanentPs" type="text" placeholder="Police station" />
+                    </div>
+                    <div class="field">
+                      <label for="permanentDist">District</label>
+                      <input id="permanentDist" name="permanentDist" type="text" placeholder="District" />
+                    </div>
+
+                    <div class="section-title">Permanent Address (Bangla)</div>
+                    <div class="field">
+                      <label for="permanentVillBang">Village (Bangla)</label>
+                      <input id="permanentVillBang" name="permanentVillBang" type="text" placeholder="গ্রাম" />
+                    </div>
+                    <div class="field">
+                      <label for="permanentPoBang">P.O. (Bangla)</label>
+                      <input id="permanentPoBang" name="permanentPoBang" type="text" placeholder="ডাকঘর" />
+                    </div>
+                    <div class="field">
+                      <label for="permanentPsBang">P.S. (Bangla)</label>
+                      <input id="permanentPsBang" name="permanentPsBang" type="text" placeholder="থানা" />
+                    </div>
+                    <div class="field">
+                      <label for="permanentDistBang">District (Bangla)</label>
+                      <input id="permanentDistBang" name="permanentDistBang" type="text" placeholder="জেলা" />
+                    </div>
+
+                    <div class="section-title">Nominee</div>
+                    <div class="field">
+                      <label for="nomineeName">Nominee</label>
+                      <input id="nomineeName" name="nomineeName" type="text" placeholder="Nominee name" />
+                    </div>
+                    <div class="field">
+                      <label for="nomineeRelation">Relation</label>
+                      <select id="nomineeRelation" name="nomineeRelation">
+                        <option value="">Select relation</option>
+                        <option value="Father">Father</option>
+                        <option value="Mother">Mother</option>
+                        <option value="Sister">Sister</option>
+                        <option value="Brother">Brother</option>
+                        <option value="Husband">Husband</option>
+                        <option value="Wife">Wife</option>
+                        <option value="Son">Son</option>
+                        <option value="Douther">Douther</option>
+                        <option value="Uncle">Uncle</option>
+                        <option value="Aunt">Aunt</option>
+                        <option value="Cousin">Cousin</option>
+                        <option value="Father-in-Law">Father-in-Law</option>
+                        <option value="Mother-in-Law">Mother-in-Law</option>
+                        <option value="Sister-in-Law">Sister-in-Law</option>
+                        <option value="Brother-in-Law">Brother-in-Law</option>
+                        <option value="Son-in-Law">Son-in-Law</option>
+                        <option value="Douther-in-Law">Douther-in-Law</option>
+                        <option value="Others">Others</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label for="nomineeCell">Nominee Cell</label>
+                      <input id="nomineeCell" name="nomineeCell" type="tel" placeholder="Nominee cell" />
+                    </div>
+                    <div class="field">
+                      <label for="nomineeBangla">Nominee Bangla</label>
+                      <input id="nomineeBangla" name="nomineeBangla" type="text" placeholder="Nominee (Bangla)" />
+                    </div>
+
+                    <div class="section-title">Employment</div>
+                    <div class="field">
+                      <label for="unit">Unit</label>
+                      <select id="unit" name="unit"></select>
+                    </div>
+                    <div class="field">
+                      <label for="category">Category</label>
+                      <select id="category" name="category"></select>
+                    </div>
+                    <div class="field">
+                      <label for="department">Department</label>
+                      <select id="department" name="department"></select>
+                    </div>
+                    <div class="field">
+                      <label for="section">Section</label>
+                      <select id="section" name="section"></select>
+                    </div>
+                    <div class="field">
+                      <label for="group">Group</label>
+                      <select id="group" name="group"></select>
+                    </div>
+                    <div class="field">
+                      <label for="designation">Designation</label>
+                      <select id="designation" name="designation"></select>
+                    </div>
+                    <div class="field">
+                      <label for="floor">Floor</label>
+                      <select id="floor" name="floor"></select>
+                    </div>
+                    <div class="field">
+                      <label for="workingTime">Working Time</label>
+                      <input id="workingTime" name="workingTime" type="text" placeholder="Working time" />
+                    </div>
+                    <div class="field">
+                      <label for="salaryRule">Salary Rule</label>
+                      <select id="salaryRule" name="salaryRule"></select>
+                    </div>
+                    <div class="field">
+                      <label for="grade">Grade</label>
+                      <input id="grade" name="grade" type="text" placeholder="Grade" />
+                    </div>
+                    <div class="field">
+                      <label for="joinDate">Joining Date</label>
+                      <input id="joinDate" name="joinDate" type="text" placeholder="dd-mmm-yyyy" />
+                    </div>
+                    <div class="field">
+                      <label for="status">Status</label>
+                      <select id="status" name="status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Close">Close</option>
+                        <option value="Newly">Newly</option>
+                        <option value="Maternity">Maternity</option>
+                        <option value="Long Absent">Long Absent</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label for="closeDate">Close Date</label>
+                      <input id="closeDate" name="closeDate" type="text" placeholder="dd-mmm-yyyy" />
+                    </div>
+                    <div class="field">
+                      <label for="closeReason">Reasons</label>
+                      <select id="closeReason" name="closeReason">
+                        <option value="">Select reason</option>
+                        <option value="Removal">Removal</option>
+                        <option value="Dismissal">Dismissal</option>
+                        <option value="Discharge">Discharge</option>
+                        <option value="Retirement">Retirement</option>
+                        <option value="Resignation">Resignation</option>
+                        <option value="Termination">Termination</option>
+                        <option value="Death Benifit">Death Benifit</option>
+                        <option value="Retrenchment">Retrenchment</option>
+                        <option value="Job Separation">Job Separation</option>
+                        <option value="Un-Authorization">Un-Authorization</option>
+                        <option value="Long Absence Un-Notice">Long Absence Un-Notice</option>
+                        <option value="Maternity Leave With Pay">Maternity Leave With Pay</option>
+                        <option value="Maternity Leave Without Pay">Maternity Leave Without Pay</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label for="weekend">Weekend</label>
+                      <select id="weekend" name="weekend">
+                        <option value="N/A">N/A</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label for="proximityNo">Proximity</label>
+                      <input id="proximityNo" name="proximityNo" type="text" placeholder="Proximity no" />
+                    </div>
+                    <div class="field is-full">
+                      <span>Employment Flags</span>
+                      <div class="option-group">
+                        <label class="checkbox"><input type="checkbox" id="resignGiven" name="resignGiven" />Resign Given</label>
+                        <label class="checkbox"><input type="checkbox" id="contractual" name="contractual" />Contractual</label>
+                        <label class="checkbox"><input type="checkbox" id="transport" name="transport" />Transport</label>
+                      </div>
+                    </div>
+
+                    <div class="section-title">Payroll & Benefits</div>
+                    <div class="field">
+                      <label for="gross">Gross</label>
+                      <input id="gross" name="gross" type="number" step="0.01" placeholder="Gross" />
+                    </div>
+                    <div class="field">
+                      <label for="basic">Basic</label>
+                      <input id="basic" name="basic" type="number" step="0.01" placeholder="Basic" />
+                    </div>
+                    <div class="field">
+                      <label for="accountNo">Account No</label>
+                      <input id="accountNo" name="accountNo" type="text" placeholder="Account no" />
+                    </div>
+                    <div class="field">
+                      <label for="elSegment">EL Segment</label>
+                      <select id="elSegment" name="elSegment">
+                        <option value="N/A">N/A</option>
+                        <option value="July">July</option>
+                        <option value="January">January</option>
+                      </select>
+                    </div>
+                    <div class="field is-full">
+                      <span>Pay Type</span>
+                      <div class="option-group">
+                        <label class="checkbox"><input type="radio" name="payType" value="Bank" />Bank</label>
+                        <label class="checkbox"><input type="radio" name="payType" value="Mobile B" />Mobile B</label>
+                        <label class="checkbox"><input type="radio" name="payType" value="Cash" checked />Cash</label>
+                      </div>
+                    </div>
+                    <div class="field is-full">
+                      <span>Benefits</span>
+                      <div class="option-group">
+                        <label class="checkbox"><input type="checkbox" id="otHolder" name="otHolder" />OT Holder</label>
+                        <label class="checkbox"><input type="checkbox" id="elHolder" name="elHolder" />EL Holder</label>
+                        <label class="checkbox"><input type="checkbox" id="quarterHolder" name="quarterHolder" />Quarter</label>
+                        <label class="checkbox"><input type="checkbox" id="taxHolder" name="taxHolder" />Tax</label>
+                      </div>
+                    </div>
+
+                    <div class="section-title">Remarks & Attachments</div>
+                    <div class="field is-full">
+                      <label for="remarks">Remarks</label>
+                      <textarea id="remarks" name="remarks" rows="3" placeholder="Remarks"></textarea>
+                    </div>
+                    <div class="employee-actions">
+                      <button class="primary" type="submit" id="employeeSave">Save Employee</button>
+                      <button class="btn-outline" type="button" id="employeeReset">Clear</button>
+                      <button class="btn-danger" type="button" id="employeeDelete" disabled>Delete</button>
+                    </div>
+                    <p class="form-hint" id="employeeNotice"></p>
+                  </form>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
 
       </section>
     </main>
   </div>
 
+  <div class="modal" id="employeeModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="employeeModalTitle">
+    <div class="modal-overlay" data-close-modal></div>
+    <div class="modal-card">
+      <header class="modal-header">
+        <h3 id="employeeModalTitle">Employee Information</h3>
+        <button class="ghost" type="button" data-close-modal>Close</button>
+      </header>
+      <div class="modal-body">
+        <div class="modal-grid" id="employeeModalBody">
+          <div class="modal-section-title">Identity</div>
+          <div class="modal-identity-grid">
+            <div class="modal-col">
+              <div class="modal-row"><span>Employee Code</span><strong data-field="empCode">--</strong></div>
+              <div class="modal-row"><span>ERP Code</span><strong data-field="erpCode">--</strong></div>
+              <div class="modal-row"><span>Employee Name</span><strong data-field="empName">--</strong></div>
+              <div class="modal-row"><span>Employee Name (Bangla)</span><strong class="bijoy-text" data-field="empNameBang">--</strong></div>
+              <div class="modal-row"><span>Father Name</span><strong data-field="fatherName">--</strong></div>
+              <div class="modal-row"><span>Father Name (Bangla)</span><strong class="bijoy-text" data-field="fatherNameBang">--</strong></div>
+              <div class="modal-row"><span>Mother Name</span><strong data-field="motherName">--</strong></div>
+              <div class="modal-row"><span>Mother Name (Bangla)</span><strong class="bijoy-text" data-field="motherNameBang">--</strong></div>
+            </div>
+            <div class="modal-col">
+              <div class="modal-row"><span>Husband/Wife</span><strong data-field="spouseName">--</strong></div>
+              <div class="modal-row"><span>Gender</span><strong data-field="gender">--</strong></div>
+              <div class="modal-row"><span>Religion</span><strong data-field="religion">--</strong></div>
+              <div class="modal-row"><span>Marital Status</span><strong data-field="maritalStatus">--</strong></div>
+              <div class="modal-row"><span>Blood Group</span><strong data-field="bloodGroup">--</strong></div>
+              <div class="modal-row"><span>Date of Birth</span><strong data-field="birthDate">--</strong></div>
+            </div>
+            <div class="modal-col">
+              <div class="modal-row"><span>Age</span><strong data-field="age">--</strong></div>
+              <div class="modal-row"><span>Education</span><strong data-field="education">--</strong></div>
+              <div class="modal-row"><span>Experience</span><strong data-field="experience">--</strong></div>
+              <div class="modal-row"><span>National ID</span><strong data-field="nationalId">--</strong></div>
+              <div class="modal-row"><span>License No</span><strong data-field="licenseNo">--</strong></div>
+            </div>
+            <div class="modal-media">
+              <div class="media-card">
+                <span>Photo</span>
+                <div class="media-preview">
+                  <img id="employeePhoto" alt="Employee photo" class="is-empty" />
+                  <span class="media-placeholder">No Photo</span>
+                </div>
+              </div>
+              <div class="media-card signature-card">
+                <span>Signature</span>
+                <div class="media-preview">
+                  <img id="employeeSignature" alt="Employee signature" class="is-empty" />
+                  <span class="media-placeholder">No Signature</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-section-title">Contact</div>
+          <div class="modal-row"><span>Cell No</span><strong data-field="cellNo">--</strong></div>
+          <div class="modal-row"><span>Emergency Cell</span><strong data-field="emergencyCell">--</strong></div>
+          <div class="modal-row"><span>Email</span><strong data-field="email">--</strong></div>
+
+          <div class="modal-section-title">Address</div>
+          <div class="modal-row"><span>Present Village</span><strong data-field="presentVill">--</strong></div>
+          <div class="modal-row"><span>Present Post Office</span><strong data-field="presentPo">--</strong></div>
+          <div class="modal-row"><span>Present Police Station</span><strong data-field="presentPs">--</strong></div>
+          <div class="modal-row"><span>Present District</span><strong data-field="presentDist">--</strong></div>
+          <div class="modal-row"><span>Permanent Village</span><strong data-field="permanentVill">--</strong></div>
+          <div class="modal-row"><span>Permanent Post Office</span><strong data-field="permanentPo">--</strong></div>
+          <div class="modal-row"><span>Permanent Police Station</span><strong data-field="permanentPs">--</strong></div>
+          <div class="modal-row"><span>Permanent District</span><strong data-field="permanentDist">--</strong></div>
+          <div class="modal-section-title">Address (Bangla)</div>
+          <div class="modal-row"><span>Present Village</span><strong class="bijoy-text" data-field="presentVillBang">--</strong></div>
+          <div class="modal-row"><span>Present Post Office</span><strong class="bijoy-text" data-field="presentPoBang">--</strong></div>
+          <div class="modal-row"><span>Present Police Station</span><strong class="bijoy-text" data-field="presentPsBang">--</strong></div>
+          <div class="modal-row"><span>Present District</span><strong class="bijoy-text" data-field="presentDistBang">--</strong></div>
+          <div class="modal-row"><span>Permanent Village</span><strong class="bijoy-text" data-field="permanentVillBang">--</strong></div>
+          <div class="modal-row"><span>Permanent Post Office</span><strong class="bijoy-text" data-field="permanentPoBang">--</strong></div>
+          <div class="modal-row"><span>Permanent Police Station</span><strong class="bijoy-text" data-field="permanentPsBang">--</strong></div>
+          <div class="modal-row"><span>Permanent District</span><strong class="bijoy-text" data-field="permanentDistBang">--</strong></div>
+
+          <div class="modal-section-title">Nominee</div>
+          <div class="modal-row"><span>Nominee</span><strong data-field="nomineeName">--</strong></div>
+          <div class="modal-row"><span>Nominee Relation</span><strong data-field="nomineeRelation">--</strong></div>
+          <div class="modal-row"><span>Nominee Cell</span><strong data-field="nomineeCell">--</strong></div>
+
+          <div class="modal-section-title">Employment</div>
+          <div class="modal-row"><span>Unit</span><strong data-field="unit">--</strong></div>
+          <div class="modal-row"><span>Category</span><strong data-field="category">--</strong></div>
+          <div class="modal-row"><span>Department</span><strong data-field="department">--</strong></div>
+          <div class="modal-row"><span>Section</span><strong data-field="section">--</strong></div>
+          <div class="modal-row"><span>Group</span><strong data-field="group">--</strong></div>
+          <div class="modal-row"><span>Designation</span><strong data-field="designation">--</strong></div>
+          <div class="modal-row"><span>Floor</span><strong data-field="floor">--</strong></div>
+          <div class="modal-row"><span>Working Time</span><strong data-field="workingTime">--</strong></div>
+          <div class="modal-row"><span>Salary Rule</span><strong data-field="salaryRule">--</strong></div>
+          <div class="modal-row"><span>Grade</span><strong data-field="grade">--</strong></div>
+          <div class="modal-row"><span>Joining Date</span><strong data-field="joinDate">--</strong></div>
+          <div class="modal-row"><span>Status</span><strong data-field="status">--</strong></div>
+          <div class="modal-row"><span>Close Date</span><strong data-field="closeDate">--</strong></div>
+          <div class="modal-row"><span>Close Reason</span><strong data-field="closeReason">--</strong></div>
+          <div class="modal-row"><span>Weekend</span><strong data-field="weekend">--</strong></div>
+          <div class="modal-row"><span>Proximity No</span><strong data-field="proximityNo">--</strong></div>
+
+          <div class="modal-section-title">Payroll</div>
+          <div class="modal-row"><span>Gross</span><strong data-field="gross">--</strong></div>
+          <div class="modal-row"><span>Basic</span><strong data-field="basic">--</strong></div>
+          <div class="modal-row"><span>Account No</span><strong data-field="accountNo">--</strong></div>
+          <div class="modal-row"><span>Pay Type</span><strong data-field="payType">--</strong></div>
+          <div class="modal-row"><span>EL Segment</span><strong data-field="elSegment">--</strong></div>
+          <div class="modal-row"><span>Transport</span><strong data-field="transport">--</strong></div>
+          <div class="modal-row"><span>Contractual</span><strong data-field="contractual">--</strong></div>
+          <div class="modal-row"><span>OT Holder</span><strong data-field="otHolder">--</strong></div>
+          <div class="modal-row"><span>EL Holder</span><strong data-field="elHolder">--</strong></div>
+          <div class="modal-row"><span>Quarter</span><strong data-field="quarterHolder">--</strong></div>
+          <div class="modal-row"><span>Tax</span><strong data-field="taxHolder">--</strong></div>
+          <div class="modal-row"><span>Resign Given</span><strong data-field="resignGiven">--</strong></div>
+
+          <div class="modal-section-title">Remarks</div>
+          <div class="modal-row"><span>Remarks</span><strong data-field="remarks">--</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="vendor/unicode2ascii.umd.js"></script>
   <script src="welcome.js"></script>
 </body>
 </html>

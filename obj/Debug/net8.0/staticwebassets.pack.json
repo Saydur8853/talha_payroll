@@ -5,12 +5,20 @@
       "PackagePath": "staticwebassets\\app.js"
     },
     {
+      "Id": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\fonts\\SutonnyMJ.ttf",
+      "PackagePath": "staticwebassets\\fonts\\SutonnyMJ.ttf"
+    },
+    {
       "Id": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {
       "Id": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\styles.css",
       "PackagePath": "staticwebassets\\styles.css"
+    },
+    {
+      "Id": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\vendor\\unicode2ascii.umd.js",
+      "PackagePath": "staticwebassets\\vendor\\unicode2ascii.umd.js"
     },
     {
       "Id": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\visorhr_logo.svg",

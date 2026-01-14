@@ -5,6 +5,7 @@ const notice = document.querySelector(".notice");
 const form = document.querySelector(".form");
 const dropdown = document.querySelector("[data-dropdown]");
 const UNIT_STORAGE_KEY = "visorhr.unit";
+const AUTH_STORAGE_KEY = "visorhr.auth";
 
 if (toggle && passwordInput) {
   toggle.addEventListener("click", () => {
@@ -109,6 +110,7 @@ if (form) {
           if (data.unit) {
             localStorage.setItem("visorhr.unit", data.unit);
           }
+          localStorage.setItem(AUTH_STORAGE_KEY, Date.now().toString());
           const unitValue = data.unit || "";
           const usernameValue = usernameInput?.value?.trim() || "";
           const params = new URLSearchParams({ unit: unitValue, user: usernameValue });

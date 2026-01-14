@@ -45,6 +45,505 @@ app.MapPost("/login", async (LoginRequest request, IConfiguration configuration)
     }
 });
 
+app.MapGet("/employee/by-code", async (string unit, string code, IConfiguration configuration) =>
+{
+    if (string.IsNullOrWhiteSpace(unit) || string.IsNullOrWhiteSpace(code))
+    {
+        return Results.BadRequest(new { ok = false, message = "Unit and employee code are required." });
+    }
+
+    var unitKey = unit.Trim().ToUpperInvariant();
+    var connectionString = configuration.GetSection("UnitConnections")[unitKey];
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return Results.BadRequest(new { ok = false, message = $"Unknown unit: {unitKey}." });
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var command = connection.CreateCommand();
+        command.BindByName = true;
+        command.CommandText = @"
+            SELECT
+                E_O.EMP_ID,
+                E_O.EMP_CODE,
+                E_O.ERP_CODE,
+                E_O.EMP_NAME,
+                E_O.BANG_EMP_NAME,
+                E_P.FATHER_NAME,
+                E_P.BANG_FATHER_NAME,
+                E_P.MOTHER_NAME,
+                E_P.BANG_MOTHER_NAME,
+                E_P.HUSBAND_NAME,
+                E_P.BANG_HUSBAND_NAME,
+                E_P.SEX,
+                E_P.RELIGION,
+                E_P.MARITAL_STATUS,
+                E_P.BLOOD_GROUP,
+                E_P.DATE_OF_BIRTH,
+                E_P.PRESENT_VILL,
+                E_P.PRESENT_HOUSE,
+                E_P.PRESENT_PS,
+                E_P.PRESENT_DIST,
+                E_P.BANG_PRESENT_VILL,
+                E_P.BANG_PRESENT_POST,
+                E_P.BANG_PRESENT_PS,
+                E_P.BANG_PRESENT_DIST,
+                E_P.PARMANENT_VILL,
+                E_P.PARMANENT_HOUSE,
+                E_P.PARMANENT_PS,
+                E_P.PARMANENT_DIST,
+                E_P.BANG_PERMANENT_VILL,
+                E_P.BANG_PERMANENT_POST,
+                E_P.BANG_PERMANENT_PS,
+                E_P.BANG_PERMANENT_DIST,
+                E_P.EDUCATION,
+                E_P.EMPLOYEMENT,
+                E_P.NATIONAL_ID,
+                E_O.BENEFICIARY_NAME,
+                E_O.BANG_BENEFICIARY_NAME,
+                E_O.RELATION_WITH_BENEFICIARY,
+                E_P.NOMINEE_CELL_NO,
+                E_P.REMARKS,
+                NVL(E_O.TRANSPORT,'N') TRANSPORT,
+                E_O.DATE_OF_JOINING,
+                E_O.DESIGNATION_ID,
+                DESG.DESIGNATION_NAME,
+                DESG.GRADE,
+                E_O.UNIT_ID,
+                UNI.UNIT_NAME,
+                E_O.EMP_CATEGORY_ID,
+                EC.EMP_CATEGORY_NAME,
+                E_O.DEPARTMENT_ID,
+                DEPT.DEPARTMENT_NAME,
+                E_O.SECTION_ID,
+                SEC.SECTION_NAME,
+                E_O.LINE_ID,
+                LIN.LINE_NAME,
+                E_O.SHIFT_ID,
+                S_I.SHIFT_NAME,
+                E_O.FLOOR_ID,
+                FL.FLOOR_NAME,
+                E_O.EMP_STATUS,
+                E_O.RULE_ID,
+                SAL_RUL.RULE_NAME,
+                SAL_RUL.RULE_BASIC,
+                SAL_RUL.RULE_HOUSE_RENT,
+                SAL_RUL.RULE_MEDICAL,
+                SAL_RUL.RULE_TRANSPORT,
+                SAL_RUL.RULE_FOOD,
+                NVL(E_O.GROSS,0) GROSS,
+                E_O.WEEKEND,
+                E_O.PROXIMITY_NO,
+                E_O.LICENSE_NO,
+                E_P.E_MAIL,
+                E_P.CONTACT_NO,
+                E_O.ACCOUNT_NO,
+                E_O.MOBILE_BANK_ACC_NO,
+                NVL(E_O.BANK_ACCOUNT_HOLDER,'N') BANK_ACCOUNT_HOLDER,
+                NVL(E_P.CONTRACTUAL,'N') CONTRACTUAL,
+                NVL(E_O.OVER_TIME,'N') OVER_TIME,
+                NVL(E_O.LUNCH,'N') LUNCH,
+                NVL(E_O.TAX_HOLDER,'N') TAX_HOLDER,
+                NVL(E_O.RESIGN_GIVEN,'N') RESIGN_GIVEN,
+                E_O.CLOSE_DATE,
+                E_O.STS_REASONS,
+                NVL(E_O.EL_HOLDER,'N') EL_HOLDER,
+                NVL(E_O.EL_SEGMENT,'') EL_SEGMENT
+            FROM EMP_OFFICIAL E_O
+                INNER JOIN EMP_PERSONAL E_P ON E_O.EMP_ID = E_P.EMP_ID
+                LEFT JOIN UNIT UNI ON E_O.UNIT_ID = UNI.UNIT_ID
+                LEFT JOIN EMP_CATEGORY EC ON E_O.EMP_CATEGORY_ID = EC.EMP_CATEGORY_ID
+                LEFT JOIN DEPARTMENT DEPT ON E_O.DEPARTMENT_ID = DEPT.DEPARTMENT_ID
+                LEFT JOIN SECTION SEC ON E_O.SECTION_ID = SEC.SECTION_ID
+                LEFT JOIN LINE LIN ON E_O.LINE_ID = LIN.LINE_ID
+                LEFT JOIN DESIGNATION DESG ON E_O.DESIGNATION_ID = DESG.DESIGNATION_ID
+                LEFT JOIN SHIFT_INFO S_I ON E_O.SHIFT_ID = S_I.SHIFT_ID
+                LEFT JOIN SALARY_RULE_INFO SAL_RUL ON E_O.RULE_ID = SAL_RUL.RULE_ID
+                LEFT JOIN FLOOR FL ON E_O.FLOOR_ID = FL.FLOOR_ID
+            WHERE E_O.EMP_CODE = :empCode";
+        command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("empCode", code.Trim()));
+
+        await using var reader = await command.ExecuteReaderAsync();
+        if (!await reader.ReadAsync())
+        {
+            return Results.NotFound(new { ok = false, message = "Employee not found." });
+        }
+
+        double gross = reader["GROSS"] == DBNull.Value ? 0 : Convert.ToDouble(reader["GROSS"]);
+        double ruleBasic = reader["RULE_BASIC"] == DBNull.Value ? 0 : Convert.ToDouble(reader["RULE_BASIC"]);
+        double ruleHouseRent = reader["RULE_HOUSE_RENT"] == DBNull.Value ? 0 : Convert.ToDouble(reader["RULE_HOUSE_RENT"]);
+        double ruleMedical = reader["RULE_MEDICAL"] == DBNull.Value ? 0 : Convert.ToDouble(reader["RULE_MEDICAL"]);
+        double ruleTransport = reader["RULE_TRANSPORT"] == DBNull.Value ? 0 : Convert.ToDouble(reader["RULE_TRANSPORT"]);
+        double ruleFood = reader["RULE_FOOD"] == DBNull.Value ? 0 : Convert.ToDouble(reader["RULE_FOOD"]);
+
+        double basic = 0;
+        if (ruleBasic > 0)
+        {
+            if (Math.Abs(ruleBasic - 40) < 0.01 || Math.Abs(ruleBasic - 50) < 0.01)
+            {
+                basic = Math.Round(gross * (ruleBasic / 100.0), 0);
+            }
+            else
+            {
+                var allow = ruleMedical + ruleTransport + ruleFood;
+                basic = Math.Round((gross - allow) / (1.0 + (ruleBasic / 100.0)), 0);
+            }
+        }
+
+        string bankHolder = reader["BANK_ACCOUNT_HOLDER"]?.ToString() ?? "N";
+        string accountNo = reader["ACCOUNT_NO"] == DBNull.Value ? "" : reader["ACCOUNT_NO"].ToString();
+        string mobileAccountNo = reader["MOBILE_BANK_ACC_NO"] == DBNull.Value ? "" : reader["MOBILE_BANK_ACC_NO"].ToString();
+        string resolvedAccountNo = bankHolder == "Y"
+            ? accountNo
+            : bankHolder == "M"
+                ? (string.IsNullOrWhiteSpace(mobileAccountNo) ? accountNo : mobileAccountNo)
+                : (string.IsNullOrWhiteSpace(accountNo) ? mobileAccountNo : accountNo);
+
+        string payType = bankHolder == "Y" ? "Bank" : bankHolder == "M" ? "Mobile B" : "Cash";
+
+        return Results.Ok(new
+        {
+            ok = true,
+            employee = new
+            {
+                empCode = reader["EMP_CODE"]?.ToString(),
+                erpCode = reader["ERP_CODE"]?.ToString(),
+                empName = reader["EMP_NAME"]?.ToString(),
+                empNameBang = reader["BANG_EMP_NAME"]?.ToString(),
+                fatherName = reader["FATHER_NAME"]?.ToString(),
+                fatherNameBang = reader["BANG_FATHER_NAME"]?.ToString(),
+                motherName = reader["MOTHER_NAME"]?.ToString(),
+                motherNameBang = reader["BANG_MOTHER_NAME"]?.ToString(),
+                spouseName = reader["HUSBAND_NAME"]?.ToString(),
+                spouseNameBang = reader["BANG_HUSBAND_NAME"]?.ToString(),
+                gender = reader["SEX"]?.ToString(),
+                religion = reader["RELIGION"]?.ToString(),
+                maritalStatus = reader["MARITAL_STATUS"]?.ToString(),
+                bloodGroup = reader["BLOOD_GROUP"]?.ToString(),
+                birthDate = reader["DATE_OF_BIRTH"] == DBNull.Value ? "" : Convert.ToDateTime(reader["DATE_OF_BIRTH"]).ToString("yyyy-MM-dd"),
+                education = reader["EDUCATION"]?.ToString(),
+                experience = reader["EMPLOYEMENT"]?.ToString(),
+                nationalId = reader["NATIONAL_ID"]?.ToString(),
+                nomineeName = reader["BENEFICIARY_NAME"]?.ToString(),
+                nomineeBangla = reader["BANG_BENEFICIARY_NAME"]?.ToString(),
+                nomineeRelation = reader["RELATION_WITH_BENEFICIARY"]?.ToString(),
+                nomineeCell = reader["NOMINEE_CELL_NO"]?.ToString(),
+                remarks = reader["REMARKS"]?.ToString(),
+                unit = reader["UNIT_NAME"]?.ToString() ?? unitKey,
+                category = reader["EMP_CATEGORY_NAME"]?.ToString(),
+                department = reader["DEPARTMENT_NAME"]?.ToString(),
+                section = reader["SECTION_NAME"]?.ToString(),
+                group = reader["LINE_NAME"]?.ToString(),
+                designation = reader["DESIGNATION_NAME"]?.ToString(),
+                floor = reader["FLOOR_NAME"]?.ToString(),
+                workingTime = reader["SHIFT_NAME"]?.ToString(),
+                salaryRule = reader["RULE_NAME"]?.ToString(),
+                grade = reader["GRADE"]?.ToString(),
+                joinDate = reader["DATE_OF_JOINING"] == DBNull.Value ? "" : Convert.ToDateTime(reader["DATE_OF_JOINING"]).ToString("yyyy-MM-dd"),
+                status = reader["EMP_STATUS"]?.ToString(),
+                closeDate = reader["CLOSE_DATE"] == DBNull.Value ? "" : Convert.ToDateTime(reader["CLOSE_DATE"]).ToString("yyyy-MM-dd"),
+                closeReason = reader["STS_REASONS"]?.ToString(),
+                weekend = reader["WEEKEND"]?.ToString(),
+                proximityNo = reader["PROXIMITY_NO"]?.ToString(),
+                gross = gross,
+                basic = basic,
+                accountNo = resolvedAccountNo,
+                payType,
+                elSegment = reader["EL_SEGMENT"]?.ToString(),
+                elHolder = (reader["EL_HOLDER"]?.ToString() ?? "N") == "Y",
+                otHolder = (reader["OVER_TIME"]?.ToString() ?? "N") == "Y",
+                quarterHolder = (reader["LUNCH"]?.ToString() ?? "N") == "Y",
+                taxHolder = (reader["TAX_HOLDER"]?.ToString() ?? "N") == "Y",
+                contractual = (reader["CONTRACTUAL"]?.ToString() ?? "N") == "Y",
+                transport = (reader["TRANSPORT"]?.ToString() ?? "N") == "Y",
+                resignGiven = (reader["RESIGN_GIVEN"]?.ToString() ?? "N") == "Y",
+                cellNo = reader["CONTACT_NO"]?.ToString(),
+                email = reader["E_MAIL"]?.ToString(),
+                presentVill = reader["PRESENT_VILL"]?.ToString(),
+                presentPo = reader["PRESENT_HOUSE"]?.ToString(),
+                presentPs = reader["PRESENT_PS"]?.ToString(),
+                presentDist = reader["PRESENT_DIST"]?.ToString(),
+                presentVillBang = reader["BANG_PRESENT_VILL"]?.ToString(),
+                presentPoBang = reader["BANG_PRESENT_POST"]?.ToString(),
+                presentPsBang = reader["BANG_PRESENT_PS"]?.ToString(),
+                presentDistBang = reader["BANG_PRESENT_DIST"]?.ToString(),
+                permanentVill = reader["PARMANENT_VILL"]?.ToString(),
+                permanentPo = reader["PARMANENT_HOUSE"]?.ToString(),
+                permanentPs = reader["PARMANENT_PS"]?.ToString(),
+                permanentDist = reader["PARMANENT_DIST"]?.ToString(),
+                permanentVillBang = reader["BANG_PERMANENT_VILL"]?.ToString(),
+                permanentPoBang = reader["BANG_PERMANENT_POST"]?.ToString(),
+                permanentPsBang = reader["BANG_PERMANENT_PS"]?.ToString(),
+                permanentDistBang = reader["BANG_PERMANENT_DIST"]?.ToString(),
+                licenseNo = reader["LICENSE_NO"]?.ToString()
+            }
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+static string GetImageContentType(byte[] data)
+{
+    if (data.Length >= 4 && data[0] == 0x89 && data[1] == 0x50 && data[2] == 0x4E && data[3] == 0x47)
+    {
+        return "image/png";
+    }
+    if (data.Length >= 3 && data[0] == 0xFF && data[1] == 0xD8 && data[2] == 0xFF)
+    {
+        return "image/jpeg";
+    }
+    if (data.Length >= 6 && data[0] == 0x47 && data[1] == 0x49 && data[2] == 0x46)
+    {
+        return "image/gif";
+    }
+    if (data.Length >= 2 && data[0] == 0x42 && data[1] == 0x4D)
+    {
+        return "image/bmp";
+    }
+    return "application/octet-stream";
+}
+
+static byte[]? ReadOracleBlob(Oracle.ManagedDataAccess.Client.OracleDataReader reader, int ordinal)
+{
+    if (reader.IsDBNull(ordinal))
+    {
+        return null;
+    }
+
+    using var blob = reader.GetOracleBlob(ordinal);
+    if (blob == null || blob.Length <= 0)
+    {
+        return null;
+    }
+
+    if (blob.Length > int.MaxValue)
+    {
+        throw new InvalidOperationException("BLOB is too large to buffer in memory.");
+    }
+
+    var buffer = new byte[blob.Length];
+    int offset = 0;
+    const int chunkSize = 8192;
+    while (offset < buffer.Length)
+    {
+        int read = blob.Read(buffer, offset, Math.Min(chunkSize, buffer.Length - offset));
+        if (read <= 0)
+        {
+            break;
+        }
+        offset += read;
+    }
+    return buffer;
+}
+
+static async Task<byte[]?> ReadBlobViaSubstrAsync(
+    Oracle.ManagedDataAccess.Client.OracleConnection connection,
+    string lengthSql,
+    string chunkSql,
+    string empCode)
+{
+    await using var lengthCommand = connection.CreateCommand();
+    lengthCommand.BindByName = true;
+    lengthCommand.CommandText = lengthSql;
+    lengthCommand.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("empCode", empCode));
+    var lengthResult = await lengthCommand.ExecuteScalarAsync();
+    if (lengthResult == null || lengthResult == DBNull.Value)
+    {
+        return null;
+    }
+
+    var length = Convert.ToInt64(lengthResult);
+    if (length <= 0)
+    {
+        return null;
+    }
+
+    const int chunkSize = 2000;
+    using var buffer = new MemoryStream((int)Math.Min(length, int.MaxValue));
+    for (long pos = 1; pos <= length; pos += chunkSize)
+    {
+        int readSize = (int)Math.Min(chunkSize, length - pos + 1);
+        await using var chunkCommand = connection.CreateCommand();
+        chunkCommand.BindByName = true;
+        chunkCommand.CommandText = chunkSql;
+        chunkCommand.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("chunkSize", Oracle.ManagedDataAccess.Client.OracleDbType.Int32, readSize, System.Data.ParameterDirection.Input));
+        chunkCommand.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("pos", Oracle.ManagedDataAccess.Client.OracleDbType.Int32, (int)pos, System.Data.ParameterDirection.Input));
+        chunkCommand.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("empCode", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2, empCode, System.Data.ParameterDirection.Input));
+        var chunk = await chunkCommand.ExecuteScalarAsync();
+        if (chunk == null || chunk == DBNull.Value)
+        {
+            break;
+        }
+
+        byte[]? chunkBytes = null;
+        if (chunk is byte[] rawBytes)
+        {
+            chunkBytes = rawBytes;
+        }
+        else if (chunk is Oracle.ManagedDataAccess.Types.OracleBinary oracleBinary)
+        {
+            chunkBytes = oracleBinary.Value;
+        }
+
+        if (chunkBytes == null || chunkBytes.Length == 0)
+        {
+            break;
+        }
+
+        await buffer.WriteAsync(chunkBytes, 0, chunkBytes.Length);
+    }
+
+    return buffer.Length > 0 ? buffer.ToArray() : null;
+}
+
+app.MapGet("/employee/photo", async (string unit, string code, IConfiguration configuration, HttpContext httpContext) =>
+{
+    if (string.IsNullOrWhiteSpace(unit) || string.IsNullOrWhiteSpace(code))
+    {
+        return Results.BadRequest(new { ok = false, message = "Unit and employee code are required." });
+    }
+
+    var unitKey = unit.Trim().ToUpperInvariant();
+    var connectionString = configuration.GetSection("UnitConnections")[unitKey];
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return Results.BadRequest(new { ok = false, message = $"Unknown unit: {unitKey}." });
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        var data = await ReadBlobViaSubstrAsync(
+            connection,
+            @"SELECT DBMS_LOB.GETLENGTH(E_P.EMP_PHOTO) AS PHOTO_LEN
+              FROM EMP_OFFICIAL E_O
+              INNER JOIN EMP_PERSONAL E_P ON E_O.EMP_ID = E_P.EMP_ID
+              WHERE E_O.EMP_CODE = :empCode",
+            @"SELECT DBMS_LOB.SUBSTR(E_P.EMP_PHOTO, :chunkSize, :pos)
+              FROM EMP_OFFICIAL E_O
+              INNER JOIN EMP_PERSONAL E_P ON E_O.EMP_ID = E_P.EMP_ID
+              WHERE E_O.EMP_CODE = :empCode",
+            code.Trim());
+        if (data == null || data.Length == 0)
+        {
+            return Results.NotFound(new { ok = false, message = "Photo not found." });
+        }
+
+        var contentType = GetImageContentType(data);
+        var format = httpContext.Request.Query["format"].ToString();
+        if (string.Equals(format, "base64", StringComparison.OrdinalIgnoreCase))
+        {
+            return Results.Ok(new { ok = true, contentType, base64 = Convert.ToBase64String(data) });
+        }
+
+        return Results.File(data, contentType);
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+app.MapGet("/employee/signature", async (string unit, string code, IConfiguration configuration, HttpContext httpContext) =>
+{
+    if (string.IsNullOrWhiteSpace(unit) || string.IsNullOrWhiteSpace(code))
+    {
+        return Results.BadRequest(new { ok = false, message = "Unit and employee code are required." });
+    }
+
+    var unitKey = unit.Trim().ToUpperInvariant();
+    var connectionString = configuration.GetSection("UnitConnections")[unitKey];
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return Results.BadRequest(new { ok = false, message = $"Unknown unit: {unitKey}." });
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        var data = await ReadBlobViaSubstrAsync(
+            connection,
+            @"SELECT DBMS_LOB.GETLENGTH(ES.SIGNATURE) AS SIG_LEN
+              FROM EMP_OFFICIAL E_O
+              INNER JOIN EMP_SIGNATURE ES ON E_O.EMP_ID = ES.EMP_ID
+              WHERE E_O.EMP_CODE = :empCode",
+            @"SELECT DBMS_LOB.SUBSTR(ES.SIGNATURE, :chunkSize, :pos)
+              FROM EMP_OFFICIAL E_O
+              INNER JOIN EMP_SIGNATURE ES ON E_O.EMP_ID = ES.EMP_ID
+              WHERE E_O.EMP_CODE = :empCode",
+            code.Trim());
+        if (data == null || data.Length == 0)
+        {
+            return Results.NotFound(new { ok = false, message = "Signature not found." });
+        }
+
+        var contentType = GetImageContentType(data);
+        var format = httpContext.Request.Query["format"].ToString();
+        if (string.Equals(format, "base64", StringComparison.OrdinalIgnoreCase))
+        {
+            return Results.Ok(new { ok = true, contentType, base64 = Convert.ToBase64String(data) });
+        }
+
+        return Results.File(data, contentType);
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+app.MapGet("/employee/photo-length", async (string unit, string code, IConfiguration configuration) =>
+{
+    if (string.IsNullOrWhiteSpace(unit) || string.IsNullOrWhiteSpace(code))
+    {
+        return Results.BadRequest(new { ok = false, message = "Unit and employee code are required." });
+    }
+
+    var unitKey = unit.Trim().ToUpperInvariant();
+    var connectionString = configuration.GetSection("UnitConnections")[unitKey];
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return Results.BadRequest(new { ok = false, message = $"Unknown unit: {unitKey}." });
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var command = connection.CreateCommand();
+        command.BindByName = true;
+        command.CommandText = @"
+            SELECT DBMS_LOB.GETLENGTH(E_P.EMP_PHOTO) AS PHOTO_LEN
+            FROM EMP_OFFICIAL E_O
+            INNER JOIN EMP_PERSONAL E_P ON E_O.EMP_ID = E_P.EMP_ID
+            WHERE E_O.EMP_CODE = :empCode";
+        command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("empCode", code.Trim()));
+
+        var result = await command.ExecuteScalarAsync();
+        if (result == null || result == DBNull.Value)
+        {
+            return Results.Ok(new { ok = true, length = 0 });
+        }
+        return Results.Ok(new { ok = true, length = Convert.ToInt64(result) });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
 app.MapGet("/overview/total-employees", async (string unit, IConfiguration configuration) =>
 {
     if (string.IsNullOrWhiteSpace(unit))
@@ -559,6 +1058,299 @@ app.MapGet("/overview/leave-maternity", async (string unit, IConfiguration confi
         var maternity = maternityResult == null || maternityResult == DBNull.Value ? 0 : Convert.ToInt32(maternityResult);
 
         return Results.Ok(new { ok = true, leaveEmp, leaveDays, maternity, label });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+static string? GetUnitConnection(string unit, IConfiguration configuration)
+{
+    if (string.IsNullOrWhiteSpace(unit))
+    {
+        return null;
+    }
+    var unitKey = unit.Trim().ToUpperInvariant();
+    return configuration.GetSection("UnitConnections")[unitKey];
+}
+
+static IResult MissingUnitResult(string unit) =>
+    Results.BadRequest(new { ok = false, message = string.IsNullOrWhiteSpace(unit) ? "Unit is required." : $"Unknown unit: {unit.Trim().ToUpperInvariant()}." });
+
+app.MapGet("/lookup/units", async (string unit, IConfiguration configuration) =>
+{
+    var connectionString = GetUnitConnection(unit, configuration);
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return MissingUnitResult(unit);
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = "SELECT UNIT_ID, UNIT_NAME FROM UNIT ORDER BY UNIT_NAME";
+
+        await using var reader = await command.ExecuteReaderAsync();
+        var items = new List<object>();
+        while (await reader.ReadAsync())
+        {
+            items.Add(new
+            {
+                id = reader["UNIT_ID"]?.ToString(),
+                name = reader["UNIT_NAME"]?.ToString()
+            });
+        }
+
+        return Results.Ok(new { ok = true, items });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+app.MapGet("/lookup/categories", async (string unit, IConfiguration configuration) =>
+{
+    var connectionString = GetUnitConnection(unit, configuration);
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return MissingUnitResult(unit);
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = "SELECT EMP_CATEGORY_ID, EMP_CATEGORY_NAME FROM EMP_CATEGORY ORDER BY EMP_CATEGORY_NAME";
+
+        await using var reader = await command.ExecuteReaderAsync();
+        var items = new List<object>();
+        while (await reader.ReadAsync())
+        {
+            items.Add(new
+            {
+                id = reader["EMP_CATEGORY_ID"]?.ToString(),
+                name = reader["EMP_CATEGORY_NAME"]?.ToString()
+            });
+        }
+
+        return Results.Ok(new { ok = true, items });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+app.MapGet("/lookup/departments", async (string unit, IConfiguration configuration) =>
+{
+    var connectionString = GetUnitConnection(unit, configuration);
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return MissingUnitResult(unit);
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = "SELECT DEPARTMENT_ID, DEPARTMENT_NAME FROM DEPARTMENT ORDER BY DEPARTMENT_NAME";
+
+        await using var reader = await command.ExecuteReaderAsync();
+        var items = new List<object>();
+        while (await reader.ReadAsync())
+        {
+            items.Add(new
+            {
+                id = reader["DEPARTMENT_ID"]?.ToString(),
+                name = reader["DEPARTMENT_NAME"]?.ToString()
+            });
+        }
+
+        return Results.Ok(new { ok = true, items });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+app.MapGet("/lookup/designations", async (string unit, IConfiguration configuration) =>
+{
+    var connectionString = GetUnitConnection(unit, configuration);
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return MissingUnitResult(unit);
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = "SELECT DESIGNATION_ID, DESIGNATION_NAME FROM DESIGNATION ORDER BY DESIGNATION_NAME";
+
+        await using var reader = await command.ExecuteReaderAsync();
+        var items = new List<object>();
+        while (await reader.ReadAsync())
+        {
+            items.Add(new
+            {
+                id = reader["DESIGNATION_ID"]?.ToString(),
+                name = reader["DESIGNATION_NAME"]?.ToString()
+            });
+        }
+
+        return Results.Ok(new { ok = true, items });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+app.MapGet("/lookup/lines", async (string unit, IConfiguration configuration) =>
+{
+    var connectionString = GetUnitConnection(unit, configuration);
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return MissingUnitResult(unit);
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = "SELECT LINE_ID, LINE_NAME FROM LINE ORDER BY LINE_NAME";
+
+        await using var reader = await command.ExecuteReaderAsync();
+        var items = new List<object>();
+        while (await reader.ReadAsync())
+        {
+            items.Add(new
+            {
+                id = reader["LINE_ID"]?.ToString(),
+                name = reader["LINE_NAME"]?.ToString()
+            });
+        }
+
+        return Results.Ok(new { ok = true, items });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+app.MapGet("/lookup/floors", async (string unit, IConfiguration configuration) =>
+{
+    var connectionString = GetUnitConnection(unit, configuration);
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return MissingUnitResult(unit);
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = "SELECT FLOOR_ID, FLOOR_NAME FROM FLOOR ORDER BY FLOOR_NAME";
+
+        await using var reader = await command.ExecuteReaderAsync();
+        var items = new List<object>();
+        while (await reader.ReadAsync())
+        {
+            items.Add(new
+            {
+                id = reader["FLOOR_ID"]?.ToString(),
+                name = reader["FLOOR_NAME"]?.ToString()
+            });
+        }
+
+        return Results.Ok(new { ok = true, items });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+app.MapGet("/lookup/sections", async (string unit, IConfiguration configuration) =>
+{
+    var connectionString = GetUnitConnection(unit, configuration);
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return MissingUnitResult(unit);
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = "SELECT SECTION_ID, SECTION_NAME FROM SECTION ORDER BY SECTION_NAME";
+
+        await using var reader = await command.ExecuteReaderAsync();
+        var items = new List<object>();
+        while (await reader.ReadAsync())
+        {
+            items.Add(new
+            {
+                id = reader["SECTION_ID"]?.ToString(),
+                name = reader["SECTION_NAME"]?.ToString()
+            });
+        }
+
+        return Results.Ok(new { ok = true, items });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+app.MapGet("/lookup/salary-rules", async (string unit, IConfiguration configuration) =>
+{
+    var connectionString = GetUnitConnection(unit, configuration);
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return MissingUnitResult(unit);
+    }
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = "SELECT RULE_ID, RULE_NAME FROM SALARY_RULE_INFO ORDER BY RULE_NAME";
+
+        await using var reader = await command.ExecuteReaderAsync();
+        var items = new List<object>();
+        while (await reader.ReadAsync())
+        {
+            items.Add(new
+            {
+                id = reader["RULE_ID"]?.ToString(),
+                name = reader["RULE_NAME"]?.ToString()
+            });
+        }
+
+        return Results.Ok(new { ok = true, items });
     }
     catch (Exception ex)
     {
