@@ -37,12 +37,8 @@ const employeeDelete = document.getElementById("employeeDelete");
 const employeeReset = document.getElementById("employeeReset");
 const employeeNotice = document.getElementById("employeeNotice");
 const employeeRowId = document.getElementById("employeeRowId");
-const employeeSearchBtn = document.getElementById("employeeSearchBtn");
-const empSearchCode = document.getElementById("empSearchCode");
-const employeeModal = document.getElementById("employeeModal");
-const employeeModalBody = document.getElementById("employeeModalBody");
-const employeePhoto = document.getElementById("employeePhoto");
-const employeeSignature = document.getElementById("employeeSignature");
+const lengthOfService = document.getElementById("lengthOfService");
+const leaveBalance = document.getElementById("leaveBalance");
 const employeePhotoPreview = document.getElementById("employeePhotoPreview");
 const employeeSignaturePreview = document.getElementById("employeeSignaturePreview");
 const employeePhotoInput = document.getElementById("employeePhotoInput");
@@ -347,6 +343,87 @@ const formatAgeDetails = (birthDate) => {
   return `${years}y ${months}m ${days}d`;
 };
 
+const formatServiceLength = (startDate, endDate) => {
+  if (!startDate || !endDate || Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
+    return "";
+  }
+  let years = endDate.getFullYear() - startDate.getFullYear();
+  let months = endDate.getMonth() - startDate.getMonth();
+  let days = endDate.getDate() - startDate.getDate();
+
+  if (days < 0) {
+    const lastMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0);
+    days += lastMonth.getDate();
+    months -= 1;
+  }
+  if (months < 0) {
+    months += 12;
+    years -= 1;
+  }
+  years = Math.max(years, 0);
+  months = Math.max(months, 0);
+  days = Math.max(days, 0);
+  return `${years}Y-${months}M-${days}D`;
+};
+
+const updateLengthOfService = (joinDateValue, statusValue = "", closeDateValue = "") => {
+  if (!lengthOfService) {
+    return;
+  }
+  const parsedDate = parseDisplayDate(joinDateValue);
+  if (!parsedDate) {
+    lengthOfService.textContent = "";
+    return;
+  }
+  const normalizedStatus = (statusValue || "").trim().toLowerCase();
+  const closeDate = parseDisplayDate(closeDateValue);
+  const endDate = normalizedStatus && normalizedStatus !== "active" && closeDate ? closeDate : new Date();
+  const endIso = `${endDate.getFullYear()}-${String(endDate.getMonth() + 1).padStart(2, "0")}-${String(endDate.getDate()).padStart(2, "0")}`;
+  const displayDate = formatDateForDisplay(endIso);
+  const duration = formatServiceLength(parsedDate, endDate);
+  lengthOfService.textContent = `Length of Service (till ${displayDate}): ${duration}`;
+};
+
+const loadLeaveBalance = async (employeeCode, employeeId, status, closeDate) => {
+  if (!leaveBalance) {
+    return;
+  }
+  if (!employeeCode && !employeeId) {
+    leaveBalance.textContent = "";
+    return;
+  }
+  leaveBalance.textContent = "Leave Balance: --";
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || employeeForm?.unit?.value || "";
+  if (!resolvedUnit) {
+    leaveBalance.textContent = "Leave Balance: -- (unit missing)";
+    return;
+  }
+  const normalizedStatus = (status || "").trim().toLowerCase();
+  const asOfDate = normalizedStatus && normalizedStatus !== "active" && closeDate ? closeDate : "";
+
+  try {
+    const query = new URLSearchParams({
+      unit: resolvedUnit,
+      code: employeeCode || "",
+      empId: employeeId || "",
+      asOf: asOfDate
+    });
+    const response = await fetch(`/employee/leave-balance?${query.toString()}`);
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data?.ok) {
+      const message = data?.message || (response.status === 404 ? "endpoint not found" : "unavailable");
+      leaveBalance.textContent = `Leave Balance: -- (${message})`;
+      return;
+    }
+    const cl = data.cl ?? 0;
+    const sl = data.sl ?? 0;
+    const el = data.el ?? 0;
+    leaveBalance.textContent = `Leave Balance: CL : ${cl} SL : ${sl}${el > 0 ? ` EL : ${el}` : ""}`;
+  } catch (error) {
+    leaveBalance.textContent = "Leave Balance: -- (fetch failed)";
+  }
+};
+
 const LOOKUP_CONFIG = [
   { name: "unit", endpoint: "/lookup/units", placeholder: "Select unit" },
   { name: "category", endpoint: "/lookup/categories", placeholder: "Select category" },
@@ -371,6 +448,12 @@ const clearEmployeeForm = () => {
   }
   if (employeeNotice) {
     employeeNotice.textContent = "";
+  }
+  if (lengthOfService) {
+    lengthOfService.textContent = "";
+  }
+  if (leaveBalance) {
+    leaveBalance.textContent = "";
   }
   if (employeePhotoPreview) {
     employeePhotoPreview.removeAttribute("src");
@@ -535,6 +618,8 @@ const setEmployeeForm = (employee) => {
   if (employee.empCode) {
     updateEmployeePreviews(employee.empCode);
   }
+  updateLengthOfService(employee.joinDate || "", employee.status || "", employee.closeDate || "");
+  loadLeaveBalance(employee.empCode || employee.id || "", employee.empId || "", employee.status, employee.closeDate);
 };
 
 let employees = [];
@@ -589,18 +674,6 @@ const loadEmployeeByCode = async (code) => {
   }
 };
 
-const setModalField = (field, value) => {
-  if (!employeeModalBody) {
-    return;
-  }
-  const target = employeeModalBody.querySelector(`[data-field='${field}']`);
-  if (!target) {
-    return;
-  }
-  const textValue = value === undefined || value === null || value === "" ? "--" : value;
-  target.textContent = textValue;
-};
-
 const loadEmployeeImage = async (imgElement, url) => {
   if (!imgElement) {
     return;
@@ -608,12 +681,22 @@ const loadEmployeeImage = async (imgElement, url) => {
   imgElement.classList.add("is-empty");
   try {
     const response = await fetch(url);
+    if (response.status === 404) {
+      console.info(`Employee image not found: ${url}`);
+      imgElement.removeAttribute("src");
+      imgElement.classList.add("is-empty");
+      return null;
+    }
     if (!response.ok) {
-      throw new Error("Not found");
+      imgElement.removeAttribute("src");
+      imgElement.classList.add("is-empty");
+      return null;
     }
     const data = await response.json().catch(() => ({}));
     if (!data?.base64 || !data?.contentType) {
-      throw new Error("Invalid image data");
+      imgElement.removeAttribute("src");
+      imgElement.classList.add("is-empty");
+      return null;
     }
     imgElement.src = `data:${data.contentType};base64,${data.base64}`;
     imgElement.classList.remove("is-empty");
@@ -644,167 +727,6 @@ const updateEmployeePreviews = (employeeCode) => {
   }
 };
 
-const openEmployeeModal = (employee) => {
-  if (!employeeModal) {
-    return;
-  }
-
-  setModalField("empCode", employee.empCode);
-  setModalField("erpCode", employee.erpCode);
-  setModalField("empName", employee.empName);
-  setModalField("empNameBang", toBijoy(employee.empNameBang));
-  setModalField("fatherName", employee.fatherName);
-  setModalField("fatherNameBang", toBijoy(employee.fatherNameBang));
-  setModalField("motherName", employee.motherName);
-  setModalField("motherNameBang", toBijoy(employee.motherNameBang));
-  setModalField("spouseName", employee.spouseName);
-  setModalField("gender", employee.gender);
-  setModalField("religion", employee.religion);
-  setModalField("maritalStatus", employee.maritalStatus);
-  setModalField("bloodGroup", employee.bloodGroup);
-  setModalField("birthDate", formatDateForDisplay(employee.birthDate));
-  if (employee.birthDate) {
-    const birth = parseDisplayDate(employee.birthDate);
-    setModalField("age", birth ? formatAgeDetails(birth) : employee.age);
-  } else {
-    setModalField("age", employee.age);
-  }
-  setModalField("education", employee.education);
-  setModalField("experience", employee.experience);
-  setModalField("nationalId", employee.nationalId);
-  setModalField("cellNo", employee.cellNo);
-  setModalField("emergencyCell", employee.emergencyCell);
-  setModalField("email", employee.email);
-  setModalField("presentVill", employee.presentVill);
-  setModalField("presentPo", employee.presentPo);
-  setModalField("presentPs", employee.presentPs);
-  setModalField("presentDist", employee.presentDist);
-  setModalField("permanentVill", employee.permanentVill);
-  setModalField("permanentPo", employee.permanentPo);
-  setModalField("permanentPs", employee.permanentPs);
-  setModalField("permanentDist", employee.permanentDist);
-  setModalField("presentVillBang", toBijoy(employee.presentVillBang));
-  setModalField("presentPoBang", toBijoy(employee.presentPoBang));
-  setModalField("presentPsBang", toBijoy(employee.presentPsBang));
-  setModalField("presentDistBang", toBijoy(employee.presentDistBang));
-  setModalField("permanentVillBang", toBijoy(employee.permanentVillBang));
-  setModalField("permanentPoBang", toBijoy(employee.permanentPoBang));
-  setModalField("permanentPsBang", toBijoy(employee.permanentPsBang));
-  setModalField("permanentDistBang", toBijoy(employee.permanentDistBang));
-  setModalField("nomineeName", employee.nomineeName);
-  setModalField("nomineeRelation", employee.nomineeRelation);
-  setModalField("nomineeCell", employee.nomineeCell);
-  setModalField("unit", employee.unit);
-  setModalField("category", employee.category);
-  setModalField("department", employee.department);
-  setModalField("section", employee.section);
-  setModalField("group", employee.group);
-  setModalField("designation", employee.designation);
-  setModalField("floor", employee.floor);
-  setModalField("workingTime", employee.workingTime);
-  setModalField("salaryRule", employee.salaryRule);
-  setModalField("grade", employee.grade);
-  setModalField("joinDate", formatDateForDisplay(employee.joinDate));
-  setModalField("status", employee.status);
-  setModalField("closeDate", formatDateForDisplay(employee.closeDate));
-  setModalField("closeReason", employee.closeReason);
-  setModalField("weekend", employee.weekend);
-  setModalField("proximityNo", employee.proximityNo);
-  setModalField("gross", employee.gross);
-  setModalField("basic", employee.basic);
-  setModalField("accountNo", employee.accountNo);
-  setModalField("payType", employee.payType);
-  setModalField("elSegment", employee.elSegment);
-  setModalField("transport", employee.transport ? "Yes" : "No");
-  setModalField("contractual", employee.contractual ? "Yes" : "No");
-  setModalField("otHolder", employee.otHolder ? "Yes" : "No");
-  setModalField("elHolder", employee.elHolder ? "Yes" : "No");
-  setModalField("quarterHolder", employee.quarterHolder ? "Yes" : "No");
-  setModalField("taxHolder", employee.taxHolder ? "Yes" : "No");
-  setModalField("resignGiven", employee.resignGiven ? "Yes" : "No");
-  setModalField("remarks", employee.remarks);
-
-  const resolvedUnit = unit || employeeForm?.unit?.value || "";
-  if (employeePhoto) {
-    if (resolvedUnit && employee.empCode) {
-      setModalField("photoBlob", "No Photo");
-      loadEmployeeImage(
-        employeePhoto,
-        `/employee/photo?unit=${encodeURIComponent(resolvedUnit)}&code=${encodeURIComponent(employee.empCode)}&format=base64`
-      ).then((data) => {
-        if (data?.base64) {
-          setModalField("photoBlob", data.base64);
-          return;
-        }
-        setModalField("photoBlob", "No Photo");
-      });
-    } else {
-      employeePhoto.removeAttribute("src");
-      employeePhoto.classList.add("is-empty");
-      setModalField("photoBlob", "No Photo");
-    }
-  }
-
-  if (employeeSignature) {
-    if (resolvedUnit && employee.empCode) {
-      loadEmployeeImage(employeeSignature, `/employee/signature?unit=${encodeURIComponent(resolvedUnit)}&code=${encodeURIComponent(employee.empCode)}&format=base64`);
-    } else {
-      employeeSignature.removeAttribute("src");
-      employeeSignature.classList.add("is-empty");
-    }
-  }
-
-  employeeModal.classList.add("is-open");
-  employeeModal.setAttribute("aria-hidden", "false");
-};
-
-const closeEmployeeModal = () => {
-  if (!employeeModal) {
-    return;
-  }
-  employeeModal.classList.remove("is-open");
-  employeeModal.setAttribute("aria-hidden", "true");
-};
-
-const loadEmployeeForModal = async (code) => {
-  const trimmedCode = normalizeCode(code || "");
-  if (!trimmedCode) {
-    return;
-  }
-  const resolvedUnit = unit || employeeForm?.unit?.value || "";
-  if (!resolvedUnit) {
-    alert("Unit is required.");
-    return;
-  }
-  try {
-    const response = await fetch(`/employee/by-code?unit=${encodeURIComponent(resolvedUnit)}&code=${encodeURIComponent(trimmedCode)}`);
-    if (response.status === 404) {
-      alert("This employee is not exist");
-      return;
-    }
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok || !data?.employee) {
-      throw new Error(data.message || "Failed to load employee.");
-    }
-    const employee = { ...data.employee, empCode: trimmedCode };
-    if (employee.birthDate && !employee.age) {
-      const birth = new Date(employee.birthDate);
-      if (!Number.isNaN(birth.getTime())) {
-        const now = new Date();
-        let age = now.getFullYear() - birth.getFullYear();
-        const monthDelta = now.getMonth() - birth.getMonth();
-        if (monthDelta < 0 || (monthDelta === 0 && now.getDate() < birth.getDate())) {
-          age -= 1;
-        }
-        employee.age = age.toString();
-      }
-    }
-    openEmployeeModal(employee);
-  } catch (error) {
-    alert(error?.message || "Failed to load employee.");
-  }
-};
-
 if (employeeForm) {
   employees = getStoredEmployees();
   loadLookups();
@@ -815,6 +737,16 @@ if (employeeForm) {
         event.preventDefault();
         loadEmployeeByCode(employeeForm.empCode.value);
       }
+    });
+  }
+
+  if (employeeForm.joinDate) {
+    employeeForm.joinDate.addEventListener("input", () => {
+      updateLengthOfService(
+        employeeForm.joinDate.value,
+        employeeForm.status?.value || "",
+        employeeForm.closeDate?.value || ""
+      );
     });
   }
 
@@ -853,32 +785,6 @@ if (employeeForm) {
         }
       };
       reader.readAsDataURL(file);
-    });
-  }
-
-  if (employeeSearchBtn && empSearchCode) {
-    employeeSearchBtn.addEventListener("click", () => {
-      loadEmployeeForModal(empSearchCode.value);
-    });
-    empSearchCode.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        loadEmployeeForModal(empSearchCode.value);
-      }
-    });
-  }
-
-  if (employeeModal) {
-    employeeModal.addEventListener("click", (event) => {
-      const target = event.target;
-      if (target && target.closest("[data-close-modal]")) {
-        closeEmployeeModal();
-      }
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && employeeModal.classList.contains("is-open")) {
-        closeEmployeeModal();
-      }
     });
   }
 

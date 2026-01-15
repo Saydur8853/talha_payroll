@@ -196,13 +196,10 @@
                       <p class="eyebrow">Employee</p>
                       <h3>Employee Entry</h3>
                     </div>
-                  </div>
-                  <div class="employee-search">
-                    <div class="field">
-                      <label for="empSearchCode">Search Employee Code</label>
-                      <input id="empSearchCode" name="empSearchCode" type="text" placeholder="EMP-0001" />
+                    <div class="employee-header-meta">
+                      <p class="service-hint" id="lengthOfService"></p>
+                      <p class="leave-hint" id="leaveBalance"></p>
                     </div>
-                    <button class="btn-outline" type="button" id="employeeSearchBtn">Search</button>
                   </div>
                   <form class="employee-form" id="employeeForm">
                     <input type="hidden" id="employeeRowId" value="" />
@@ -466,7 +463,7 @@
                     </div>
                     <div class="field">
                       <label for="nomineeBangla">Nominee Bangla</label>
-                      <input id="nomineeBangla" name="nomineeBangla" type="text" placeholder="Nominee (Bangla)" />
+                      <input id="nomineeBangla" name="nomineeBangla" type="text" placeholder="নমিনির নাম" />
                     </div>
 
                     <div class="section-title">Employment</div>
@@ -633,128 +630,6 @@
 
       </section>
     </main>
-  </div>
-
-  <div class="modal" id="employeeModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="employeeModalTitle">
-    <div class="modal-overlay" data-close-modal></div>
-    <div class="modal-card">
-      <header class="modal-header">
-        <h3 id="employeeModalTitle">Employee Information</h3>
-        <button class="ghost" type="button" data-close-modal>Close</button>
-      </header>
-      <div class="modal-body">
-        <div class="modal-grid" id="employeeModalBody">
-          <div class="modal-section-title">Identity</div>
-          <div class="modal-identity-grid">
-            <div class="modal-col">
-              <div class="modal-row"><span>Employee Code</span><strong data-field="empCode">--</strong></div>
-              <div class="modal-row"><span>ERP Code</span><strong data-field="erpCode">--</strong></div>
-              <div class="modal-row"><span>Employee Name</span><strong data-field="empName">--</strong></div>
-              <div class="modal-row"><span>Employee Name (Bangla)</span><strong class="bijoy-text" data-field="empNameBang">--</strong></div>
-              <div class="modal-row"><span>Father Name</span><strong data-field="fatherName">--</strong></div>
-              <div class="modal-row"><span>Father Name (Bangla)</span><strong class="bijoy-text" data-field="fatherNameBang">--</strong></div>
-              <div class="modal-row"><span>Mother Name</span><strong data-field="motherName">--</strong></div>
-              <div class="modal-row"><span>Mother Name (Bangla)</span><strong class="bijoy-text" data-field="motherNameBang">--</strong></div>
-            </div>
-            <div class="modal-col">
-              <div class="modal-row"><span>Husband/Wife</span><strong data-field="spouseName">--</strong></div>
-              <div class="modal-row"><span>Gender</span><strong data-field="gender">--</strong></div>
-              <div class="modal-row"><span>Religion</span><strong data-field="religion">--</strong></div>
-              <div class="modal-row"><span>Marital Status</span><strong data-field="maritalStatus">--</strong></div>
-              <div class="modal-row"><span>Blood Group</span><strong data-field="bloodGroup">--</strong></div>
-              <div class="modal-row"><span>Date of Birth</span><strong data-field="birthDate">--</strong></div>
-            </div>
-            <div class="modal-col">
-              <div class="modal-row"><span>Age</span><strong data-field="age">--</strong></div>
-              <div class="modal-row"><span>Education</span><strong data-field="education">--</strong></div>
-              <div class="modal-row"><span>Experience</span><strong data-field="experience">--</strong></div>
-              <div class="modal-row"><span>National ID</span><strong data-field="nationalId">--</strong></div>
-              <div class="modal-row"><span>License No</span><strong data-field="licenseNo">--</strong></div>
-            </div>
-            <div class="modal-media">
-              <div class="media-card">
-                <span>Photo</span>
-                <div class="media-preview">
-                  <img id="employeePhoto" alt="Employee photo" class="is-empty" />
-                  <span class="media-placeholder">No Photo</span>
-                </div>
-              </div>
-              <div class="media-card signature-card">
-                <span>Signature</span>
-                <div class="media-preview">
-                  <img id="employeeSignature" alt="Employee signature" class="is-empty" />
-                  <span class="media-placeholder">No Signature</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="modal-section-title">Contact</div>
-          <div class="modal-row"><span>Cell No</span><strong data-field="cellNo">--</strong></div>
-          <div class="modal-row"><span>Emergency Cell</span><strong data-field="emergencyCell">--</strong></div>
-          <div class="modal-row"><span>Email</span><strong data-field="email">--</strong></div>
-
-          <div class="modal-section-title">Address</div>
-          <div class="modal-row"><span>Present Village</span><strong data-field="presentVill">--</strong></div>
-          <div class="modal-row"><span>Present Post Office</span><strong data-field="presentPo">--</strong></div>
-          <div class="modal-row"><span>Present Police Station</span><strong data-field="presentPs">--</strong></div>
-          <div class="modal-row"><span>Present District</span><strong data-field="presentDist">--</strong></div>
-          <div class="modal-row"><span>Permanent Village</span><strong data-field="permanentVill">--</strong></div>
-          <div class="modal-row"><span>Permanent Post Office</span><strong data-field="permanentPo">--</strong></div>
-          <div class="modal-row"><span>Permanent Police Station</span><strong data-field="permanentPs">--</strong></div>
-          <div class="modal-row"><span>Permanent District</span><strong data-field="permanentDist">--</strong></div>
-          <div class="modal-section-title">Address (Bangla)</div>
-          <div class="modal-row"><span>Present Village</span><strong class="bijoy-text" data-field="presentVillBang">--</strong></div>
-          <div class="modal-row"><span>Present Post Office</span><strong class="bijoy-text" data-field="presentPoBang">--</strong></div>
-          <div class="modal-row"><span>Present Police Station</span><strong class="bijoy-text" data-field="presentPsBang">--</strong></div>
-          <div class="modal-row"><span>Present District</span><strong class="bijoy-text" data-field="presentDistBang">--</strong></div>
-          <div class="modal-row"><span>Permanent Village</span><strong class="bijoy-text" data-field="permanentVillBang">--</strong></div>
-          <div class="modal-row"><span>Permanent Post Office</span><strong class="bijoy-text" data-field="permanentPoBang">--</strong></div>
-          <div class="modal-row"><span>Permanent Police Station</span><strong class="bijoy-text" data-field="permanentPsBang">--</strong></div>
-          <div class="modal-row"><span>Permanent District</span><strong class="bijoy-text" data-field="permanentDistBang">--</strong></div>
-
-          <div class="modal-section-title">Nominee</div>
-          <div class="modal-row"><span>Nominee</span><strong data-field="nomineeName">--</strong></div>
-          <div class="modal-row"><span>Nominee Relation</span><strong data-field="nomineeRelation">--</strong></div>
-          <div class="modal-row"><span>Nominee Cell</span><strong data-field="nomineeCell">--</strong></div>
-
-          <div class="modal-section-title">Employment</div>
-          <div class="modal-row"><span>Unit</span><strong data-field="unit">--</strong></div>
-          <div class="modal-row"><span>Category</span><strong data-field="category">--</strong></div>
-          <div class="modal-row"><span>Department</span><strong data-field="department">--</strong></div>
-          <div class="modal-row"><span>Section</span><strong data-field="section">--</strong></div>
-          <div class="modal-row"><span>Group</span><strong data-field="group">--</strong></div>
-          <div class="modal-row"><span>Designation</span><strong data-field="designation">--</strong></div>
-          <div class="modal-row"><span>Floor</span><strong data-field="floor">--</strong></div>
-          <div class="modal-row"><span>Working Time</span><strong data-field="workingTime">--</strong></div>
-          <div class="modal-row"><span>Salary Rule</span><strong data-field="salaryRule">--</strong></div>
-          <div class="modal-row"><span>Grade</span><strong data-field="grade">--</strong></div>
-          <div class="modal-row"><span>Joining Date</span><strong data-field="joinDate">--</strong></div>
-          <div class="modal-row"><span>Status</span><strong data-field="status">--</strong></div>
-          <div class="modal-row"><span>Close Date</span><strong data-field="closeDate">--</strong></div>
-          <div class="modal-row"><span>Close Reason</span><strong data-field="closeReason">--</strong></div>
-          <div class="modal-row"><span>Weekend</span><strong data-field="weekend">--</strong></div>
-          <div class="modal-row"><span>Proximity No</span><strong data-field="proximityNo">--</strong></div>
-
-          <div class="modal-section-title">Payroll</div>
-          <div class="modal-row"><span>Gross</span><strong data-field="gross">--</strong></div>
-          <div class="modal-row"><span>Basic</span><strong data-field="basic">--</strong></div>
-          <div class="modal-row"><span>Account No</span><strong data-field="accountNo">--</strong></div>
-          <div class="modal-row"><span>Pay Type</span><strong data-field="payType">--</strong></div>
-          <div class="modal-row"><span>EL Segment</span><strong data-field="elSegment">--</strong></div>
-          <div class="modal-row"><span>Transport</span><strong data-field="transport">--</strong></div>
-          <div class="modal-row"><span>Contractual</span><strong data-field="contractual">--</strong></div>
-          <div class="modal-row"><span>OT Holder</span><strong data-field="otHolder">--</strong></div>
-          <div class="modal-row"><span>EL Holder</span><strong data-field="elHolder">--</strong></div>
-          <div class="modal-row"><span>Quarter</span><strong data-field="quarterHolder">--</strong></div>
-          <div class="modal-row"><span>Tax</span><strong data-field="taxHolder">--</strong></div>
-          <div class="modal-row"><span>Resign Given</span><strong data-field="resignGiven">--</strong></div>
-
-          <div class="modal-section-title">Remarks</div>
-          <div class="modal-row"><span>Remarks</span><strong data-field="remarks">--</strong></div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <script src="vendor/unicode2ascii.umd.js"></script>

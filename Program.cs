@@ -210,6 +210,7 @@ app.MapGet("/employee/by-code", async (string unit, string code, IConfiguration 
             ok = true,
             employee = new
             {
+                empId = reader["EMP_ID"] == DBNull.Value ? "" : reader["EMP_ID"].ToString(),
                 empCode = reader["EMP_CODE"]?.ToString(),
                 erpCode = reader["ERP_CODE"]?.ToString(),
                 empName = reader["EMP_NAME"]?.ToString(),
@@ -282,6 +283,147 @@ app.MapGet("/employee/by-code", async (string unit, string code, IConfiguration 
                 licenseNo = reader["LICENSE_NO"]?.ToString()
             }
         });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { ok = false, message = ex.Message }, statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+app.MapGet("/employee/leave-balance", async (string unit, string? code, string? empId, string? asOf, IConfiguration configuration) =>
+{
+    if (string.IsNullOrWhiteSpace(unit) || (string.IsNullOrWhiteSpace(code) && string.IsNullOrWhiteSpace(empId)))
+    {
+        return Results.BadRequest(new { ok = false, message = "Unit and employee code or ID are required." });
+    }
+
+    var unitKey = unit.Trim().ToUpperInvariant();
+    var connectionString = configuration.GetSection("UnitConnections")[unitKey];
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return Results.BadRequest(new { ok = false, message = $"Unknown unit: {unitKey}." });
+    }
+
+    var asOfDate = DateTime.Today;
+    if (!string.IsNullOrWhiteSpace(asOf) && DateTime.TryParse(asOf, out var parsedAsOf))
+    {
+        asOfDate = parsedAsOf.Date;
+    }
+
+    var currentYearStart = new DateTime(asOfDate.Year, 1, 1);
+    var previousYearStart = currentYearStart.AddYears(-1);
+    var previousYearMid = new DateTime(asOfDate.Year - 1, 7, 1);
+
+    try
+    {
+        await using var connection = new Oracle.ManagedDataAccess.Client.OracleConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var command = connection.CreateCommand();
+        command.BindByName = true;
+        var hasEmpId = !string.IsNullOrWhiteSpace(empId);
+        command.CommandText = @"
+            SELECT
+                14 - NVL(GRANT_SL, 0) SL,
+                NVL(
+                    CASE
+                        WHEN E_O.DATE_OF_JOINING < :currentYearStart
+                            THEN 10
+                        ELSE ROUND(10 / 365 * (365 - ROUND(MONTHS_BETWEEN(E_O.DATE_OF_JOINING, :currentYearStart2) / 12 * 365 + 1)))
+                    END,
+                    0
+                ) - NVL(GRANT_CL, 0) CL,
+                DECODE(
+                    NVL(E_O.EL_HOLDER, 'N'),
+                    'Y',
+                    (
+                        CASE
+                            WHEN TRUNC(MONTHS_BETWEEN(:asOfDate, E_O.DATE_OF_JOINING) / 12) < 1
+                                THEN 0
+                            ELSE NVL(ROUND(PRESENT / 18, 0), 0)
+                        END
+                    ) - NVL(GRANT_EL, 0),
+                    0
+                ) EL
+            FROM EMP_OFFICIAL E_O
+            LEFT JOIN (
+                SELECT A.EMP_ID, COUNT(A.EMP_ID) PRESENT
+                FROM ATTENDANCE_DETAILS A
+                JOIN EMP_OFFICIAL O ON O.EMP_ID = A.EMP_ID
+                LEFT JOIN (
+                    SELECT E.EMP_ID, MAX(E.LAST_COUNTING_DATE + 1) LAST_DATE
+                    FROM EARN_LEAVE_PROCESS E
+                    WHERE E.LAST_COUNTING_DATE < :currentYearStart3
+                    GROUP BY E.EMP_ID
+                ) E ON O.EMP_ID = E.EMP_ID
+                WHERE A.ATTD_DATE BETWEEN NVL(E.LAST_DATE, O.DATE_OF_JOINING) AND :asOfDate2
+                    AND A.STATUS = 'P'
+                GROUP BY A.EMP_ID
+            ) P ON E_O.EMP_ID = P.EMP_ID
+            LEFT JOIN (
+                SELECT EMP_ID,
+                    SUM(NVL(CL, 0)) GRANT_CL,
+                    SUM(NVL(SL, 0)) GRANT_SL,
+                    SUM(NVL(EL, 0)) GRANT_EL
+                FROM (
+                    SELECT EMP_ID,
+                        DECODE(TYPE, 'CL', SUM(GRANT_DAYS)) CL,
+                        DECODE(UPPER(TYPE), 'ML', SUM(GRANT_DAYS), 'SL', SUM(GRANT_DAYS)) SL,
+                        0 EL
+                    FROM LEAVE
+                    WHERE FROM_DATE >= :currentYearStart4
+                    GROUP BY EMP_ID, TYPE
+                    UNION ALL
+                    SELECT L.EMP_ID,
+                        0 CL,
+                        0 SL,
+                        NVL(DECODE(L.TYPE, 'EL', SUM(L.GRANT_DAYS)), 0) EL
+                    FROM LEAVE L
+                    JOIN EMP_OFFICIAL E_O2 ON E_O2.EMP_ID = L.EMP_ID
+                    WHERE E_O2.EL_SEGMENT = 'July' AND L.FROM_DATE >= :previousYearStart
+                    GROUP BY L.EMP_ID, L.TYPE
+                    UNION ALL
+                    SELECT L.EMP_ID,
+                        0 CL,
+                        0 SL,
+                        NVL(DECODE(L.TYPE, 'EL', SUM(L.GRANT_DAYS)), 0) EL
+                    FROM LEAVE L
+                    JOIN EMP_OFFICIAL E_O3 ON E_O3.EMP_ID = L.EMP_ID
+                    WHERE E_O3.EL_SEGMENT = 'January' AND L.FROM_DATE >= :previousYearMid
+                    GROUP BY L.EMP_ID, L.TYPE
+                )
+                GROUP BY EMP_ID
+            ) LV ON E_O.EMP_ID = LV.EMP_ID
+            WHERE " + (hasEmpId ? "E_O.EMP_ID = :empId" : "E_O.EMP_CODE = :empCode");
+
+        command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("currentYearStart", currentYearStart));
+        command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("currentYearStart2", currentYearStart));
+        command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("currentYearStart3", currentYearStart));
+        command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("currentYearStart4", currentYearStart));
+        command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("asOfDate", asOfDate));
+        command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("asOfDate2", asOfDate));
+        command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("previousYearStart", previousYearStart));
+        command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("previousYearMid", previousYearMid));
+        if (hasEmpId)
+        {
+            command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("empId", empId.Trim()));
+        }
+        else
+        {
+            command.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("empCode", code!.Trim()));
+        }
+
+        await using var reader = await command.ExecuteReaderAsync();
+        if (!await reader.ReadAsync())
+        {
+            return Results.Ok(new { ok = true, cl = 0, sl = 0, el = 0 });
+        }
+
+        int cl = reader["CL"] == DBNull.Value ? 0 : Convert.ToInt32(reader["CL"]);
+        int sl = reader["SL"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SL"]);
+        int el = reader["EL"] == DBNull.Value ? 0 : Convert.ToInt32(reader["EL"]);
+
+        return Results.Ok(new { ok = true, cl, sl, el });
     }
     catch (Exception ex)
     {

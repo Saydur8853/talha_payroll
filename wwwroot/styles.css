@@ -760,7 +760,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--accent);
 }
 
 .employee-form .option-group {
@@ -780,16 +780,6 @@ body {
   grid-column: 1 / -1;
 }
 
-.employee-search {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: minmax(220px, 1fr) auto;
-  align-items: end;
-}
-
-.employee-search .btn-outline {
-  height: 48px;
-}
 
 .identity-media .media-card {
   background: rgba(255, 255, 255, 0.9);
@@ -883,6 +873,38 @@ body {
   color: var(--muted);
   min-height: 18px;
   grid-column: 1 / -1;
+}
+
+.service-hint {
+  font-style: normal;
+  color: var(--ink);
+}
+
+.leave-hint {
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.employee-header-meta {
+  text-align: right;
+  display: grid;
+  gap: 2px;
+}
+
+.employee-header-meta p {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.employee-header-meta .service-hint,
+.employee-header-meta .leave-hint {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(30, 102, 208, 0.2);
+  background: rgba(30, 102, 208, 0.08);
+  font-size: 0.86rem;
+  font-weight: 600;
 }
 
 .overview-card strong {
@@ -980,7 +1002,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--accent);
 }
 
 .modal-identity-grid {
@@ -1112,6 +1134,23 @@ body {
   letter-spacing: 0.02em;
 }
 
+.employee-form input[name$="Bang"],
+.employee-form input[name$="Bangla"],
+.employee-form textarea[name$="Bang"],
+.employee-form textarea[name$="Bangla"] {
+  font-family: "SutonnyMJ", "Space Grotesk", "Segoe UI", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.employee-form input[name$="Bang"]::placeholder,
+.employee-form input[name$="Bangla"]::placeholder,
+.employee-form textarea[name$="Bang"]::placeholder,
+.employee-form textarea[name$="Bangla"]::placeholder {
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+
 @keyframes floatIn {
   from {
     opacity: 0;
@@ -1199,10 +1238,6 @@ body {
 
   .employee-card-header {
     align-items: flex-start;
-  }
-
-  .employee-search {
-    grid-template-columns: 1fr;
   }
 
   .identity-grid {
