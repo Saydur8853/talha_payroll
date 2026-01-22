@@ -46,6 +46,85 @@ const employeeSignatureInput = document.getElementById("employeeSignatureInput")
 const employeePhotoUpload = document.getElementById("employeePhotoUpload");
 const employeeSignatureUpload = document.getElementById("employeeSignatureUpload");
 const logoutLink = document.getElementById("logoutLink");
+const departmentNotice = document.getElementById("departmentNotice");
+const departmentAdd = document.getElementById("departmentAdd");
+const departmentRefresh = document.getElementById("departmentRefresh");
+const departmentSearch = document.getElementById("departmentSearch");
+const departmentTable = document.getElementById("departmentTable");
+const departmentModal = document.getElementById("departmentModal");
+const departmentModalClose = document.getElementById("departmentModalClose");
+const departmentModalForm = document.getElementById("departmentModalForm");
+const departmentModalId = document.getElementById("departmentModalId");
+const departmentModalNotice = document.getElementById("departmentModalNotice");
+const departmentModalOverlay = document.querySelector("[data-close='department-modal']");
+const departmentModalSubmit = document.getElementById("departmentModalSubmit");
+const shiftAdd = document.getElementById("shiftAdd");
+const shiftRefresh = document.getElementById("shiftRefresh");
+const shiftSearch = document.getElementById("shiftSearch");
+const shiftTable = document.getElementById("shiftTable");
+const shiftNotice = document.getElementById("shiftNotice");
+const shiftModal = document.getElementById("shiftModal");
+const shiftModalClose = document.getElementById("shiftModalClose");
+const shiftModalForm = document.getElementById("shiftModalForm");
+const shiftModalId = document.getElementById("shiftModalId");
+const shiftModalNotice = document.getElementById("shiftModalNotice");
+const shiftModalOverlay = document.querySelector("[data-close='shift-modal']");
+const shiftModalSubmit = document.getElementById("shiftModalSubmit");
+const sectionAdd = document.getElementById("sectionAdd");
+const sectionRefresh = document.getElementById("sectionRefresh");
+const sectionSearch = document.getElementById("sectionSearch");
+const sectionTable = document.getElementById("sectionTable");
+const sectionNotice = document.getElementById("sectionNotice");
+const sectionModal = document.getElementById("sectionModal");
+const sectionModalClose = document.getElementById("sectionModalClose");
+const sectionModalForm = document.getElementById("sectionModalForm");
+const sectionModalId = document.getElementById("sectionModalId");
+const sectionModalNotice = document.getElementById("sectionModalNotice");
+const sectionModalOverlay = document.querySelector("[data-close='section-modal']");
+const sectionModalSubmit = document.getElementById("sectionModalSubmit");
+const empTypeAdd = document.getElementById("empTypeAdd");
+const empTypeRefresh = document.getElementById("empTypeRefresh");
+const empTypeSearch = document.getElementById("empTypeSearch");
+const empTypeTable = document.getElementById("empTypeTable");
+const empTypeNotice = document.getElementById("empTypeNotice");
+const empTypeModal = document.getElementById("empTypeModal");
+const empTypeModalClose = document.getElementById("empTypeModalClose");
+const empTypeModalForm = document.getElementById("empTypeModalForm");
+const empTypeModalId = document.getElementById("empTypeModalId");
+const empTypeModalNotice = document.getElementById("empTypeModalNotice");
+const empTypeModalOverlay = document.querySelector("[data-close='emp-type-modal']");
+const empTypeModalSubmit = document.getElementById("empTypeModalSubmit");
+const designationAdd = document.getElementById("designationAdd");
+const designationRefresh = document.getElementById("designationRefresh");
+const designationSearch = document.getElementById("designationSearch");
+const designationTable = document.getElementById("designationTable");
+const designationNotice = document.getElementById("designationNotice");
+const designationModal = document.getElementById("designationModal");
+const designationModalClose = document.getElementById("designationModalClose");
+const designationModalForm = document.getElementById("designationModalForm");
+const designationModalId = document.getElementById("designationModalId");
+const designationModalNotice = document.getElementById("designationModalNotice");
+const designationModalOverlay = document.querySelector("[data-close='designation-modal']");
+const designationModalSubmit = document.getElementById("designationModalSubmit");
+const salaryRuleAdd = document.getElementById("salaryRuleAdd");
+const salaryRuleRefresh = document.getElementById("salaryRuleRefresh");
+const salaryRuleSearch = document.getElementById("salaryRuleSearch");
+const salaryRuleTable = document.getElementById("salaryRuleTable");
+const salaryRuleNotice = document.getElementById("salaryRuleNotice");
+const salaryRuleModal = document.getElementById("salaryRuleModal");
+const salaryRuleModalClose = document.getElementById("salaryRuleModalClose");
+const salaryRuleModalForm = document.getElementById("salaryRuleModalForm");
+const salaryRuleModalId = document.getElementById("salaryRuleModalId");
+const salaryRuleModalNotice = document.getElementById("salaryRuleModalNotice");
+const salaryRuleModalOverlay = document.querySelector("[data-close='salary-rule-modal']");
+const salaryRuleModalSubmit = document.getElementById("salaryRuleModalSubmit");
+const attendanceRefresh = document.getElementById("attendanceRefresh");
+const attendanceFrom = document.getElementById("attendanceFrom");
+const attendanceTo = document.getElementById("attendanceTo");
+const attendanceEmpCode = document.getElementById("attendanceEmpCode");
+const attendanceStatus = document.getElementById("attendanceStatus");
+const attendanceShift = document.getElementById("attendanceShift");
+const attendanceTable = document.getElementById("attendanceTable");
 
 const EMPLOYEE_STORAGE_KEY = "visorhr.employees";
 const ACTIVE_VIEW_KEY = "visorhr.activeView";
@@ -106,6 +185,55 @@ const updateHeaderForView = (viewId) => {
     title.textContent = "Employees";
     if (sectionLabel) {
       sectionLabel.textContent = "HR";
+    }
+    return;
+  }
+  if (viewId === "departments") {
+    title.textContent = "Departments";
+    if (sectionLabel) {
+      sectionLabel.textContent = "Setup";
+    }
+    return;
+  }
+  if (viewId === "shifts") {
+    title.textContent = "Shift Planner";
+    if (sectionLabel) {
+      sectionLabel.textContent = "Setup";
+    }
+    return;
+  }
+  if (viewId === "sections") {
+    title.textContent = "Sections";
+    if (sectionLabel) {
+      sectionLabel.textContent = "Setup";
+    }
+    return;
+  }
+  if (viewId === "employee-types") {
+    title.textContent = "Employee Types";
+    if (sectionLabel) {
+      sectionLabel.textContent = "Setup";
+    }
+    return;
+  }
+  if (viewId === "designations") {
+    title.textContent = "Designations";
+    if (sectionLabel) {
+      sectionLabel.textContent = "Setup";
+    }
+    return;
+  }
+  if (viewId === "salary-rules") {
+    title.textContent = "Salary Rules";
+    if (sectionLabel) {
+      sectionLabel.textContent = "Payroll";
+    }
+    return;
+  }
+  if (viewId === "attendance") {
+    title.textContent = "Attendance";
+    if (sectionLabel) {
+      sectionLabel.textContent = "Time";
     }
     return;
   }
@@ -866,8 +994,1773 @@ if (employeeForm) {
     if (employeeNotice) {
       employeeNotice.textContent = "Employee deleted.";
     }
-    });
+  });
+}
+
+let departments = [];
+let departmentUnits = [];
+
+const setDepartmentNotice = (message) => {
+  if (departmentNotice) {
+    departmentNotice.textContent = message || "";
   }
+};
+
+const setDepartmentModalNotice = (message) => {
+  if (departmentModalNotice) {
+    departmentModalNotice.textContent = message || "";
+  }
+};
+
+const fillUnitSelect = (select, units, selectedId) => {
+  if (!select) {
+    return;
+  }
+  select.innerHTML = "";
+  units.forEach((item) => {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = item.name;
+    select.appendChild(option);
+  });
+  if (selectedId != null) {
+    select.value = String(selectedId);
+  }
+};
+
+const resetDepartmentModalForm = () => {
+  if (!departmentModalForm) {
+    return;
+  }
+  departmentModalForm.reset();
+  if (departmentModalId) {
+    departmentModalId.value = "";
+  }
+  setDepartmentModalNotice("");
+};
+
+const openDepartmentModal = async (mode, department) => {
+  if (!departmentModal || !departmentModalForm) {
+    return;
+  }
+  if (departmentUnits.length === 0) {
+    await loadDepartmentUnits();
+  }
+  resetDepartmentModalForm();
+  departmentModalForm.dataset.mode = mode;
+  const title = mode === "create" ? "Add Department" : "Edit Department";
+  if (departmentModalSubmit) {
+    departmentModalSubmit.textContent = mode === "create" ? "Create Department" : "Save Changes";
+  }
+  const titleEl = document.getElementById("departmentModalTitle");
+  if (titleEl) {
+    titleEl.textContent = title;
+  }
+  if (mode === "edit" && department) {
+    fillUnitSelect(departmentModalForm.departmentModalUnit, departmentUnits, department.unitId);
+    departmentModalForm.departmentModalName.value = department.departmentName ?? "";
+    departmentModalForm.departmentModalShortName.value = department.shortName ?? "";
+    departmentModalForm.departmentModalPriority.value = department.showPriority ?? "";
+    departmentModalForm.departmentModalBangla.value = department.bangDeptName ?? "";
+    departmentModalForm.departmentModalRemarks.value = department.remarks ?? "";
+    if (departmentModalId) {
+      departmentModalId.value = department.departmentId ?? "";
+    }
+  } else {
+    fillUnitSelect(departmentModalForm.departmentModalUnit, departmentUnits);
+  }
+  departmentModal.classList.add("is-open");
+  departmentModal.setAttribute("aria-hidden", "false");
+};
+
+const closeDepartmentModal = () => {
+  if (!departmentModal) {
+    return;
+  }
+  departmentModal.classList.remove("is-open");
+  departmentModal.setAttribute("aria-hidden", "true");
+  resetDepartmentModalForm();
+};
+
+const clearDepartmentSelection = () => {
+  const selectedRow = departmentTable?.querySelector("tbody tr.is-selected");
+  if (selectedRow) {
+    selectedRow.classList.remove("is-selected");
+  }
+};
+
+const deleteDepartmentById = async (deptId) => {
+  if (!deptId) {
+    return;
+  }
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    setDepartmentNotice("Unit is required.");
+    return;
+  }
+  try {
+    const response = await fetch(
+      `/departments/${encodeURIComponent(deptId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+      { method: "DELETE" }
+    );
+    const data = await response.json();
+    if (!response.ok || !data?.ok) {
+      throw new Error(data?.message || "Failed to delete department.");
+    }
+    setDepartmentNotice("Department deleted.");
+    clearDepartmentSelection();
+    await loadDepartments();
+  } catch (error) {
+    setDepartmentNotice(error?.message || "Failed to delete department.");
+  }
+};
+
+const loadDepartmentUnits = async () => {
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    return;
+  }
+  try {
+    const response = await fetch(`/lookup/units?unit=${encodeURIComponent(resolvedUnit)}`);
+    const data = await response.json();
+    if (!response.ok || !data?.items) {
+      throw new Error(data?.message || "Failed to load units.");
+    }
+    departmentUnits = data.items;
+    if (departmentModalForm?.departmentModalUnit) {
+      fillUnitSelect(departmentModalForm.departmentModalUnit, data.items);
+    }
+  } catch (error) {
+    setDepartmentNotice("Failed to load units.");
+  }
+};
+
+const getDepartmentModalFormData = () => {
+  if (!departmentModalForm) {
+    return null;
+  }
+  return {
+    departmentName: departmentModalForm.departmentModalName.value.trim(),
+    unitId: departmentModalForm.departmentModalUnit.value ? Number(departmentModalForm.departmentModalUnit.value) : null,
+    shortName: departmentModalForm.departmentModalShortName.value.trim(),
+    showPriority: departmentModalForm.departmentModalPriority.value ? Number(departmentModalForm.departmentModalPriority.value) : 0,
+    bangDeptName: departmentModalForm.departmentModalBangla.value.trim(),
+    remarks: departmentModalForm.departmentModalRemarks.value.trim()
+  };
+};
+
+const getUnitNameById = (unitId) => {
+  const match = departmentUnits.find((item) => String(item.id) === String(unitId));
+  return match?.name || "";
+};
+
+const renderDepartmentTable = (items) => {
+  if (!departmentTable) {
+    return;
+  }
+  const tbody = departmentTable.querySelector("tbody");
+  if (!tbody) {
+    return;
+  }
+  tbody.innerHTML = "";
+  if (!items.length) {
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = 6;
+    cell.textContent = "No departments found.";
+    row.appendChild(cell);
+    tbody.appendChild(row);
+    return;
+  }
+  items.forEach((department) => {
+    const row = document.createElement("tr");
+    row.dataset.id = department.departmentId;
+    row.innerHTML = `
+      <td>${department.departmentId ?? ""}</td>
+      <td>${department.departmentName ?? ""}</td>
+      <td>${getUnitNameById(department.unitId)}</td>
+      <td>${department.shortName ?? ""}</td>
+      <td>${department.showPriority ?? 0}</td>
+      <td class="table-actions">
+        <button class="btn-outline btn-small" type="button" data-action="edit">Edit</button>
+        <button class="btn-danger btn-small" type="button" data-action="delete">Delete</button>
+      </td>
+    `;
+    row.addEventListener("click", (event) => {
+      const action = event.target?.dataset?.action;
+      if (action === "edit") {
+        const selectedRow = departmentTable.querySelector("tbody tr.is-selected");
+        if (selectedRow) {
+          selectedRow.classList.remove("is-selected");
+        }
+        row.classList.add("is-selected");
+        openDepartmentModal("edit", department);
+        return;
+      }
+      if (action === "delete") {
+        deleteDepartmentById(department.departmentId);
+        return;
+      }
+      const selectedRow = departmentTable.querySelector("tbody tr.is-selected");
+      if (selectedRow) {
+        selectedRow.classList.remove("is-selected");
+      }
+      row.classList.add("is-selected");
+    });
+    tbody.appendChild(row);
+  });
+};
+
+const filterDepartments = () => {
+  const query = (departmentSearch?.value || "").trim().toLowerCase();
+  const filtered = query
+    ? departments.filter((item) =>
+        `${item.departmentName ?? ""} ${item.shortName ?? ""}`.toLowerCase().includes(query)
+      )
+    : departments;
+  renderDepartmentTable(filtered);
+};
+
+const loadDepartments = async () => {
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    return;
+  }
+  try {
+    const response = await fetch(`/departments?unit=${encodeURIComponent(resolvedUnit)}`);
+    const data = await response.json();
+    if (!response.ok || !data?.items) {
+      throw new Error(data?.message || "Failed to load departments.");
+    }
+    departments = data.items;
+    filterDepartments();
+  } catch (error) {
+    setDepartmentNotice(error?.message || "Failed to load departments.");
+  }
+};
+
+if (departmentAdd) {
+  departmentAdd.addEventListener("click", () => openDepartmentModal("create"));
+}
+
+(async () => {
+  await loadDepartmentUnits();
+  await loadDepartments();
+})();
+
+if (departmentRefresh) {
+  departmentRefresh.addEventListener("click", loadDepartments);
+}
+
+if (departmentSearch) {
+  departmentSearch.addEventListener("input", filterDepartments);
+}
+
+if (departmentModalForm) {
+  departmentModalForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = getDepartmentModalFormData();
+    if (!formData || !formData.departmentName || !formData.unitId) {
+      setDepartmentModalNotice("Department name and unit are required.");
+      return;
+    }
+    const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+    if (!resolvedUnit) {
+      setDepartmentModalNotice("Unit is required.");
+      return;
+    }
+    const mode = departmentModalForm.dataset.mode || "edit";
+    const currentId = departmentModalId?.value || "";
+    if (mode === "edit" && !currentId) {
+      setDepartmentModalNotice("Department ID is missing.");
+      return;
+    }
+    try {
+      const response = await fetch(
+        mode === "create"
+          ? `/departments?unit=${encodeURIComponent(resolvedUnit)}`
+          : `/departments/${encodeURIComponent(currentId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+        {
+          method: mode === "create" ? "POST" : "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        }
+      );
+      const data = await response.json();
+      if (!response.ok || !data?.ok) {
+        throw new Error(data?.message || "Failed to save department.");
+      }
+      setDepartmentNotice(mode === "create" ? "Department created." : "Department updated.");
+      closeDepartmentModal();
+      await loadDepartments();
+    } catch (error) {
+      setDepartmentModalNotice(error?.message || "Failed to save department.");
+    }
+  });
+}
+
+if (departmentModalClose) {
+  departmentModalClose.addEventListener("click", closeDepartmentModal);
+}
+
+if (departmentModalOverlay) {
+  departmentModalOverlay.addEventListener("click", closeDepartmentModal);
+}
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && departmentModal?.classList.contains("is-open")) {
+    closeDepartmentModal();
+  }
+});
+
+let shifts = [];
+
+const setShiftNotice = (message) => {
+  if (shiftNotice) {
+    shiftNotice.textContent = message || "";
+  }
+};
+
+const setShiftModalNotice = (message) => {
+  if (shiftModalNotice) {
+    shiftModalNotice.textContent = message || "";
+  }
+};
+
+const resetShiftModalForm = () => {
+  if (!shiftModalForm) {
+    return;
+  }
+  shiftModalForm.reset();
+  if (shiftModalId) {
+    shiftModalId.value = "";
+  }
+  setShiftModalNotice("");
+};
+
+const openShiftModal = (mode, shift) => {
+  if (!shiftModal || !shiftModalForm) {
+    return;
+  }
+  resetShiftModalForm();
+  shiftModalForm.dataset.mode = mode;
+  const title = mode === "create" ? "Add Shift" : "Edit Shift";
+  if (shiftModalSubmit) {
+    shiftModalSubmit.textContent = mode === "create" ? "Create Shift" : "Save Shift";
+  }
+  const titleEl = document.getElementById("shiftModalTitle");
+  if (titleEl) {
+    titleEl.textContent = title;
+  }
+  if (mode === "edit" && shift) {
+    shiftModalForm.shiftModalName.value = shift.shiftName ?? "";
+    shiftModalForm.shiftModalInTime.value = shift.inTime ?? "";
+    shiftModalForm.shiftModalOutTime.value = shift.outTime ?? "";
+    shiftModalForm.shiftModalInFrom.value = shift.inTimeFrom ?? "";
+    shiftModalForm.shiftModalOutFrom.value = shift.outTimeFrom ?? "";
+    shiftModalForm.shiftModalGrace.value = shift.grace ?? "";
+    shiftModalForm.shiftModalGraceOut.value = shift.graceOut ?? "";
+    shiftModalForm.shiftModalLunchStart.value = shift.lunchStart ?? "";
+    shiftModalForm.shiftModalLunchEnd.value = shift.lunchEnd ?? "";
+    shiftModalForm.shiftModalInStart.value = shift.inTimeStart ?? "";
+    shiftModalForm.shiftModalOutEnd.value = shift.outTimeEnd ?? "";
+    shiftModalForm.shiftModalDinerStart.value = shift.dinerStart ?? "";
+    shiftModalForm.shiftModalDinerEnd.value = shift.dinerEnd ?? "";
+    shiftModalForm.shiftModalDefaultStatus.value = shift.defaultStatus ?? "";
+    shiftModalForm.shiftModalRemarks.value = shift.remarks ?? "";
+    if (shiftModalId) {
+      shiftModalId.value = shift.shiftId ?? "";
+    }
+  }
+  shiftModal.classList.add("is-open");
+  shiftModal.setAttribute("aria-hidden", "false");
+};
+
+const closeShiftModal = () => {
+  if (!shiftModal) {
+    return;
+  }
+  shiftModal.classList.remove("is-open");
+  shiftModal.setAttribute("aria-hidden", "true");
+  resetShiftModalForm();
+};
+
+const getShiftModalFormData = () => {
+  if (!shiftModalForm) {
+    return null;
+  }
+  return {
+    shiftName: shiftModalForm.shiftModalName.value.trim(),
+    inTime: shiftModalForm.shiftModalInTime.value.trim(),
+    outTime: shiftModalForm.shiftModalOutTime.value.trim(),
+    inTimeFrom: shiftModalForm.shiftModalInFrom.value.trim(),
+    outTimeFrom: shiftModalForm.shiftModalOutFrom.value.trim(),
+    grace: shiftModalForm.shiftModalGrace.value.trim(),
+    graceOut: shiftModalForm.shiftModalGraceOut.value.trim(),
+    lunchStart: shiftModalForm.shiftModalLunchStart.value.trim(),
+    lunchEnd: shiftModalForm.shiftModalLunchEnd.value.trim(),
+    inTimeStart: shiftModalForm.shiftModalInStart.value.trim(),
+    outTimeEnd: shiftModalForm.shiftModalOutEnd.value.trim(),
+    dinerStart: shiftModalForm.shiftModalDinerStart.value.trim(),
+    dinerEnd: shiftModalForm.shiftModalDinerEnd.value.trim(),
+    defaultStatus: shiftModalForm.shiftModalDefaultStatus.value.trim(),
+    remarks: shiftModalForm.shiftModalRemarks.value.trim()
+  };
+};
+
+const deleteShiftById = async (shiftId) => {
+  if (!shiftId) {
+    return;
+  }
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    setShiftNotice("Unit is required.");
+    return;
+  }
+  try {
+    const response = await fetch(
+      `/shifts/${encodeURIComponent(shiftId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+      { method: "DELETE" }
+    );
+    const data = await response.json();
+    if (!response.ok || !data?.ok) {
+      throw new Error(data?.message || "Failed to delete shift.");
+    }
+    setShiftNotice("Shift deleted.");
+    await loadShifts();
+  } catch (error) {
+    setShiftNotice(error?.message || "Failed to delete shift.");
+  }
+};
+
+const renderShiftTable = (items) => {
+  if (!shiftTable) {
+    return;
+  }
+  const tbody = shiftTable.querySelector("tbody");
+  if (!tbody) {
+    return;
+  }
+  tbody.innerHTML = "";
+  if (!items.length) {
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = 7;
+    cell.textContent = "No shifts found.";
+    row.appendChild(cell);
+    tbody.appendChild(row);
+    return;
+  }
+  items.forEach((shift) => {
+    const row = document.createElement("tr");
+    row.dataset.id = shift.shiftId;
+    row.innerHTML = `
+      <td>${shift.shiftId ?? ""}</td>
+      <td>${shift.shiftName ?? ""}</td>
+      <td>${shift.inTime ?? ""}</td>
+      <td>${shift.outTime ?? ""}</td>
+      <td>${shift.grace ?? ""}</td>
+      <td>${shift.lunchStart ?? ""}-${shift.lunchEnd ?? ""}</td>
+      <td class="table-actions">
+        <button class="btn-outline btn-small" type="button" data-action="edit">Edit</button>
+        <button class="btn-danger btn-small" type="button" data-action="delete">Delete</button>
+      </td>
+    `;
+    row.addEventListener("click", (event) => {
+      const action = event.target?.dataset?.action;
+      if (action === "edit") {
+        openShiftModal("edit", shift);
+        return;
+      }
+      if (action === "delete") {
+        deleteShiftById(shift.shiftId);
+      }
+    });
+    tbody.appendChild(row);
+  });
+};
+
+const filterShifts = () => {
+  const query = (shiftSearch?.value || "").trim().toLowerCase();
+  const filtered = query
+    ? shifts.filter((item) => `${item.shiftName ?? ""}`.toLowerCase().includes(query))
+    : shifts;
+  renderShiftTable(filtered);
+};
+
+const loadShifts = async () => {
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    return;
+  }
+  try {
+    const response = await fetch(`/shifts?unit=${encodeURIComponent(resolvedUnit)}`);
+    const data = await response.json();
+    if (!response.ok || !data?.items) {
+      throw new Error(data?.message || "Failed to load shifts.");
+    }
+    shifts = data.items;
+    filterShifts();
+    fillAttendanceShiftOptions();
+  } catch (error) {
+    setShiftNotice(error?.message || "Failed to load shifts.");
+  }
+};
+
+if (shiftAdd) {
+  shiftAdd.addEventListener("click", () => openShiftModal("create"));
+}
+
+if (shiftRefresh) {
+  shiftRefresh.addEventListener("click", loadShifts);
+}
+
+if (shiftSearch) {
+  shiftSearch.addEventListener("input", filterShifts);
+}
+
+(async () => {
+  await loadShifts();
+})();
+
+if (shiftModalForm) {
+  shiftModalForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = getShiftModalFormData();
+    if (
+      !formData ||
+      !formData.shiftName ||
+      !formData.inTime ||
+      !formData.outTime ||
+      !formData.inTimeFrom ||
+      !formData.outTimeFrom ||
+      !formData.grace ||
+      !formData.graceOut ||
+      !formData.lunchStart ||
+      !formData.lunchEnd
+    ) {
+      setShiftModalNotice("Please fill all required fields.");
+      return;
+    }
+    const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+    if (!resolvedUnit) {
+      setShiftModalNotice("Unit is required.");
+      return;
+    }
+    const mode = shiftModalForm.dataset.mode || "edit";
+    const currentId = shiftModalId?.value || "";
+    if (mode === "edit" && !currentId) {
+      setShiftModalNotice("Shift ID is missing.");
+      return;
+    }
+    try {
+      const response = await fetch(
+        mode === "create"
+          ? `/shifts?unit=${encodeURIComponent(resolvedUnit)}`
+          : `/shifts/${encodeURIComponent(currentId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+        {
+          method: mode === "create" ? "POST" : "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        }
+      );
+      const data = await response.json();
+      if (!response.ok || !data?.ok) {
+        throw new Error(data?.message || "Failed to save shift.");
+      }
+      setShiftNotice(mode === "create" ? "Shift created." : "Shift updated.");
+      closeShiftModal();
+      await loadShifts();
+    } catch (error) {
+      setShiftModalNotice(error?.message || "Failed to save shift.");
+    }
+  });
+}
+
+if (shiftModalClose) {
+  shiftModalClose.addEventListener("click", closeShiftModal);
+}
+
+if (shiftModalOverlay) {
+  shiftModalOverlay.addEventListener("click", closeShiftModal);
+}
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && shiftModal?.classList.contains("is-open")) {
+    closeShiftModal();
+  }
+});
+
+let sections = [];
+
+const setSectionNotice = (message) => {
+  if (sectionNotice) {
+    sectionNotice.textContent = message || "";
+  }
+};
+
+const setSectionModalNotice = (message) => {
+  if (sectionModalNotice) {
+    sectionModalNotice.textContent = message || "";
+  }
+};
+
+const resetSectionModalForm = () => {
+  if (!sectionModalForm) {
+    return;
+  }
+  sectionModalForm.reset();
+  if (sectionModalId) {
+    sectionModalId.value = "";
+  }
+  setSectionModalNotice("");
+};
+
+const openSectionModal = async (mode, section) => {
+  if (!sectionModal || !sectionModalForm) {
+    return;
+  }
+  if (departmentUnits.length === 0) {
+    await loadDepartmentUnits();
+  }
+  resetSectionModalForm();
+  sectionModalForm.dataset.mode = mode;
+  const title = mode === "create" ? "Add Section" : "Edit Section";
+  if (sectionModalSubmit) {
+    sectionModalSubmit.textContent = mode === "create" ? "Create Section" : "Save Section";
+  }
+  const titleEl = document.getElementById("sectionModalTitle");
+  if (titleEl) {
+    titleEl.textContent = title;
+  }
+  if (mode === "edit" && section) {
+    fillUnitSelect(sectionModalForm.sectionModalUnit, departmentUnits, section.unitId);
+    sectionModalForm.sectionModalName.value = section.sectionName ?? "";
+    sectionModalForm.sectionModalShowTogether.value = section.showTogether ?? "";
+    sectionModalForm.sectionModalBangla.value = section.bangSecName ?? "";
+    sectionModalForm.sectionModalRemarks.value = section.remarks ?? "";
+    if (sectionModalId) {
+      sectionModalId.value = section.sectionId ?? "";
+    }
+  } else {
+    fillUnitSelect(sectionModalForm.sectionModalUnit, departmentUnits);
+  }
+  sectionModal.classList.add("is-open");
+  sectionModal.setAttribute("aria-hidden", "false");
+};
+
+const closeSectionModal = () => {
+  if (!sectionModal) {
+    return;
+  }
+  sectionModal.classList.remove("is-open");
+  sectionModal.setAttribute("aria-hidden", "true");
+  resetSectionModalForm();
+};
+
+const getSectionModalFormData = () => {
+  if (!sectionModalForm) {
+    return null;
+  }
+  return {
+    sectionName: sectionModalForm.sectionModalName.value.trim(),
+    unitId: sectionModalForm.sectionModalUnit.value ? Number(sectionModalForm.sectionModalUnit.value) : null,
+    showTogether: sectionModalForm.sectionModalShowTogether.value
+      ? Number(sectionModalForm.sectionModalShowTogether.value)
+      : 0,
+    bangSecName: sectionModalForm.sectionModalBangla.value.trim(),
+    remarks: sectionModalForm.sectionModalRemarks.value.trim()
+  };
+};
+
+const deleteSectionById = async (sectionId) => {
+  if (!sectionId) {
+    return;
+  }
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    setSectionNotice("Unit is required.");
+    return;
+  }
+  try {
+    const response = await fetch(
+      `/sections/${encodeURIComponent(sectionId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+      { method: "DELETE" }
+    );
+    const data = await response.json();
+    if (!response.ok || !data?.ok) {
+      throw new Error(data?.message || "Failed to delete section.");
+    }
+    setSectionNotice("Section deleted.");
+    await loadSections();
+  } catch (error) {
+    setSectionNotice(error?.message || "Failed to delete section.");
+  }
+};
+
+const renderSectionTable = (items) => {
+  if (!sectionTable) {
+    return;
+  }
+  const tbody = sectionTable.querySelector("tbody");
+  if (!tbody) {
+    return;
+  }
+  tbody.innerHTML = "";
+  if (!items.length) {
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = 5;
+    cell.textContent = "No sections found.";
+    row.appendChild(cell);
+    tbody.appendChild(row);
+    return;
+  }
+  items.forEach((section) => {
+    const row = document.createElement("tr");
+    row.dataset.id = section.sectionId;
+    row.innerHTML = `
+      <td>${section.sectionId ?? ""}</td>
+      <td>${section.sectionName ?? ""}</td>
+      <td>${getUnitNameById(section.unitId)}</td>
+      <td>${section.showTogether ?? 0}</td>
+      <td class="table-actions">
+        <button class="btn-outline btn-small" type="button" data-action="edit">Edit</button>
+        <button class="btn-danger btn-small" type="button" data-action="delete">Delete</button>
+      </td>
+    `;
+    row.addEventListener("click", (event) => {
+      const action = event.target?.dataset?.action;
+      if (action === "edit") {
+        openSectionModal("edit", section);
+        return;
+      }
+      if (action === "delete") {
+        deleteSectionById(section.sectionId);
+      }
+    });
+    tbody.appendChild(row);
+  });
+};
+
+const filterSections = () => {
+  const query = (sectionSearch?.value || "").trim().toLowerCase();
+  const filtered = query
+    ? sections.filter((item) => `${item.sectionName ?? ""}`.toLowerCase().includes(query))
+    : sections;
+  renderSectionTable(filtered);
+};
+
+const loadSections = async () => {
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    return;
+  }
+  try {
+    const response = await fetch(`/sections?unit=${encodeURIComponent(resolvedUnit)}`);
+    const data = await response.json();
+    if (!response.ok || !data?.items) {
+      throw new Error(data?.message || "Failed to load sections.");
+    }
+    sections = data.items;
+    filterSections();
+  } catch (error) {
+    setSectionNotice(error?.message || "Failed to load sections.");
+  }
+};
+
+if (sectionAdd) {
+  sectionAdd.addEventListener("click", () => openSectionModal("create"));
+}
+
+if (sectionRefresh) {
+  sectionRefresh.addEventListener("click", loadSections);
+}
+
+if (sectionSearch) {
+  sectionSearch.addEventListener("input", filterSections);
+}
+
+(async () => {
+  await loadSections();
+})();
+
+if (sectionModalForm) {
+  sectionModalForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = getSectionModalFormData();
+    if (!formData || !formData.sectionName || !formData.unitId) {
+      setSectionModalNotice("Section name and unit are required.");
+      return;
+    }
+    const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+    if (!resolvedUnit) {
+      setSectionModalNotice("Unit is required.");
+      return;
+    }
+    const mode = sectionModalForm.dataset.mode || "edit";
+    const currentId = sectionModalId?.value || "";
+    if (mode === "edit" && !currentId) {
+      setSectionModalNotice("Section ID is missing.");
+      return;
+    }
+    try {
+      const response = await fetch(
+        mode === "create"
+          ? `/sections?unit=${encodeURIComponent(resolvedUnit)}`
+          : `/sections/${encodeURIComponent(currentId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+        {
+          method: mode === "create" ? "POST" : "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        }
+      );
+      const data = await response.json();
+      if (!response.ok || !data?.ok) {
+        throw new Error(data?.message || "Failed to save section.");
+      }
+      setSectionNotice(mode === "create" ? "Section created." : "Section updated.");
+      closeSectionModal();
+      await loadSections();
+    } catch (error) {
+      setSectionModalNotice(error?.message || "Failed to save section.");
+    }
+  });
+}
+
+if (sectionModalClose) {
+  sectionModalClose.addEventListener("click", closeSectionModal);
+}
+
+if (sectionModalOverlay) {
+  sectionModalOverlay.addEventListener("click", closeSectionModal);
+}
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && sectionModal?.classList.contains("is-open")) {
+    closeSectionModal();
+  }
+});
+
+let empTypes = [];
+
+const setEmpTypeNotice = (message) => {
+  if (empTypeNotice) {
+    empTypeNotice.textContent = message || "";
+  }
+};
+
+const setEmpTypeModalNotice = (message) => {
+  if (empTypeModalNotice) {
+    empTypeModalNotice.textContent = message || "";
+  }
+};
+
+const resetEmpTypeModalForm = () => {
+  if (!empTypeModalForm) {
+    return;
+  }
+  empTypeModalForm.reset();
+  if (empTypeModalId) {
+    empTypeModalId.value = "";
+  }
+  setEmpTypeModalNotice("");
+};
+
+const openEmpTypeModal = (mode, empType) => {
+  if (!empTypeModal || !empTypeModalForm) {
+    return;
+  }
+  resetEmpTypeModalForm();
+  empTypeModalForm.dataset.mode = mode;
+  const title = mode === "create" ? "Add Employee Type" : "Edit Employee Type";
+  if (empTypeModalSubmit) {
+    empTypeModalSubmit.textContent = mode === "create" ? "Create Type" : "Save Type";
+  }
+  const titleEl = document.getElementById("empTypeModalTitle");
+  if (titleEl) {
+    titleEl.textContent = title;
+  }
+  if (mode === "edit" && empType) {
+    empTypeModalForm.empTypeModalName.value = empType.categoryName ?? "";
+    empTypeModalForm.empTypeModalPosition.value = empType.positionLevel ?? "";
+    empTypeModalForm.empTypeModalTiffin.value = empType.tiffinAllowance ?? "";
+    empTypeModalForm.empTypeModalBangla.value = empType.bangTypeName ?? "";
+    empTypeModalForm.empTypeModalRemarks.value = empType.remarks ?? "";
+    if (empTypeModalId) {
+      empTypeModalId.value = empType.categoryId ?? "";
+    }
+  }
+  empTypeModal.classList.add("is-open");
+  empTypeModal.setAttribute("aria-hidden", "false");
+};
+
+const closeEmpTypeModal = () => {
+  if (!empTypeModal) {
+    return;
+  }
+  empTypeModal.classList.remove("is-open");
+  empTypeModal.setAttribute("aria-hidden", "true");
+  resetEmpTypeModalForm();
+};
+
+const getEmpTypeModalFormData = () => {
+  if (!empTypeModalForm) {
+    return null;
+  }
+  return {
+    categoryName: empTypeModalForm.empTypeModalName.value.trim(),
+    positionLevel: empTypeModalForm.empTypeModalPosition.value
+      ? Number(empTypeModalForm.empTypeModalPosition.value)
+      : 0,
+    tiffinAllowance: empTypeModalForm.empTypeModalTiffin.value
+      ? Number(empTypeModalForm.empTypeModalTiffin.value)
+      : 0,
+    bangTypeName: empTypeModalForm.empTypeModalBangla.value.trim(),
+    remarks: empTypeModalForm.empTypeModalRemarks.value.trim()
+  };
+};
+
+const deleteEmpTypeById = async (categoryId) => {
+  if (!categoryId) {
+    return;
+  }
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    setEmpTypeNotice("Unit is required.");
+    return;
+  }
+  try {
+    const response = await fetch(
+      `/employee-types/${encodeURIComponent(categoryId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+      { method: "DELETE" }
+    );
+    const data = await response.json();
+    if (!response.ok || !data?.ok) {
+      throw new Error(data?.message || "Failed to delete employee type.");
+    }
+    setEmpTypeNotice("Employee type deleted.");
+    await loadEmpTypes();
+  } catch (error) {
+    setEmpTypeNotice(error?.message || "Failed to delete employee type.");
+  }
+};
+
+const renderEmpTypeTable = (items) => {
+  if (!empTypeTable) {
+    return;
+  }
+  const tbody = empTypeTable.querySelector("tbody");
+  if (!tbody) {
+    return;
+  }
+  tbody.innerHTML = "";
+  if (!items.length) {
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = 5;
+    cell.textContent = "No employee types found.";
+    row.appendChild(cell);
+    tbody.appendChild(row);
+    return;
+  }
+  items.forEach((empType) => {
+    const row = document.createElement("tr");
+    row.dataset.id = empType.categoryId;
+    row.innerHTML = `
+      <td>${empType.categoryId ?? ""}</td>
+      <td>${empType.categoryName ?? ""}</td>
+      <td>${empType.positionLevel ?? 0}</td>
+      <td>${empType.tiffinAllowance ?? 0}</td>
+      <td class="table-actions">
+        <button class="btn-outline btn-small" type="button" data-action="edit">Edit</button>
+        <button class="btn-danger btn-small" type="button" data-action="delete">Delete</button>
+      </td>
+    `;
+    row.addEventListener("click", (event) => {
+      const action = event.target?.dataset?.action;
+      if (action === "edit") {
+        openEmpTypeModal("edit", empType);
+        return;
+      }
+      if (action === "delete") {
+        deleteEmpTypeById(empType.categoryId);
+      }
+    });
+    tbody.appendChild(row);
+  });
+};
+
+const filterEmpTypes = () => {
+  const query = (empTypeSearch?.value || "").trim().toLowerCase();
+  const filtered = query
+    ? empTypes.filter((item) => `${item.categoryName ?? ""}`.toLowerCase().includes(query))
+    : empTypes;
+  renderEmpTypeTable(filtered);
+};
+
+const loadEmpTypes = async () => {
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    return;
+  }
+  try {
+    const response = await fetch(`/employee-types?unit=${encodeURIComponent(resolvedUnit)}`);
+    const data = await response.json();
+    if (!response.ok || !data?.items) {
+      throw new Error(data?.message || "Failed to load employee types.");
+    }
+    empTypes = data.items;
+    filterEmpTypes();
+  } catch (error) {
+    setEmpTypeNotice(error?.message || "Failed to load employee types.");
+  }
+};
+
+if (empTypeAdd) {
+  empTypeAdd.addEventListener("click", () => openEmpTypeModal("create"));
+}
+
+if (empTypeRefresh) {
+  empTypeRefresh.addEventListener("click", loadEmpTypes);
+}
+
+if (empTypeSearch) {
+  empTypeSearch.addEventListener("input", filterEmpTypes);
+}
+
+(async () => {
+  await loadEmpTypes();
+})();
+
+if (empTypeModalForm) {
+  empTypeModalForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = getEmpTypeModalFormData();
+    if (!formData || !formData.categoryName) {
+      setEmpTypeModalNotice("Type name is required.");
+      return;
+    }
+    const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+    if (!resolvedUnit) {
+      setEmpTypeModalNotice("Unit is required.");
+      return;
+    }
+    const mode = empTypeModalForm.dataset.mode || "edit";
+    const currentId = empTypeModalId?.value || "";
+    if (mode === "edit" && !currentId) {
+      setEmpTypeModalNotice("Type ID is missing.");
+      return;
+    }
+    try {
+      const response = await fetch(
+        mode === "create"
+          ? `/employee-types?unit=${encodeURIComponent(resolvedUnit)}`
+          : `/employee-types/${encodeURIComponent(currentId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+        {
+          method: mode === "create" ? "POST" : "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        }
+      );
+      const data = await response.json();
+      if (!response.ok || !data?.ok) {
+        throw new Error(data?.message || "Failed to save employee type.");
+      }
+      setEmpTypeNotice(mode === "create" ? "Employee type created." : "Employee type updated.");
+      closeEmpTypeModal();
+      await loadEmpTypes();
+    } catch (error) {
+      setEmpTypeModalNotice(error?.message || "Failed to save employee type.");
+    }
+  });
+}
+
+if (empTypeModalClose) {
+  empTypeModalClose.addEventListener("click", closeEmpTypeModal);
+}
+
+if (empTypeModalOverlay) {
+  empTypeModalOverlay.addEventListener("click", closeEmpTypeModal);
+}
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && empTypeModal?.classList.contains("is-open")) {
+    closeEmpTypeModal();
+  }
+});
+
+let designations = [];
+
+const setDesignationNotice = (message) => {
+  if (designationNotice) {
+    designationNotice.textContent = message || "";
+  }
+};
+
+const setDesignationModalNotice = (message) => {
+  if (designationModalNotice) {
+    designationModalNotice.textContent = message || "";
+  }
+};
+
+const resetDesignationModalForm = () => {
+  if (!designationModalForm) {
+    return;
+  }
+  designationModalForm.reset();
+  if (designationModalId) {
+    designationModalId.value = "";
+  }
+  setDesignationModalNotice("");
+};
+
+const openDesignationModal = (mode, designation) => {
+  if (!designationModal || !designationModalForm) {
+    return;
+  }
+  resetDesignationModalForm();
+  designationModalForm.dataset.mode = mode;
+  const title = mode === "create" ? "Add Designation" : "Edit Designation";
+  if (designationModalSubmit) {
+    designationModalSubmit.textContent = mode === "create" ? "Create Designation" : "Save Designation";
+  }
+  const titleEl = document.getElementById("designationModalTitle");
+  if (titleEl) {
+    titleEl.textContent = title;
+  }
+  if (mode === "edit" && designation) {
+    designationModalForm.designationModalName.value = designation.designationName ?? "";
+    designationModalForm.designationModalGrade.value = designation.grade ?? "";
+    designationModalForm.designationModalPositionId.value = designation.positionId ?? "";
+    designationModalForm.designationModalPosition.value = designation.position ?? "";
+    designationModalForm.designationModalPriority.value = designation.positionPriority ?? "";
+    designationModalForm.designationModalBonus.value = designation.apprAttdBonus ?? "";
+    designationModalForm.designationModalOffDay.value = designation.offDayAlw ?? "";
+    designationModalForm.designationModalBangGrade.value = designation.bangGrade ?? "";
+    designationModalForm.designationModalBangName.value = designation.bangDesignationName ?? "";
+    designationModalForm.designationModalDormEntitle.value = designation.dormEntitle ?? "";
+    designationModalForm.designationModalNonDormitory.value = designation.nonDormitory ?? "";
+    designationModalForm.designationModalRemarks.value = designation.remarks ?? "";
+    if (designationModalId) {
+      designationModalId.value = designation.designationId ?? "";
+    }
+  }
+  designationModal.classList.add("is-open");
+  designationModal.setAttribute("aria-hidden", "false");
+};
+
+const closeDesignationModal = () => {
+  if (!designationModal) {
+    return;
+  }
+  designationModal.classList.remove("is-open");
+  designationModal.setAttribute("aria-hidden", "true");
+  resetDesignationModalForm();
+};
+
+const getDesignationModalFormData = () => {
+  if (!designationModalForm) {
+    return null;
+  }
+  return {
+    designationName: designationModalForm.designationModalName.value.trim(),
+    grade: designationModalForm.designationModalGrade.value.trim(),
+    positionId: designationModalForm.designationModalPositionId.value
+      ? Number(designationModalForm.designationModalPositionId.value)
+      : 0,
+    position: designationModalForm.designationModalPosition.value.trim(),
+    positionPriority: designationModalForm.designationModalPriority.value
+      ? Number(designationModalForm.designationModalPriority.value)
+      : 0,
+    apprAttdBonus: designationModalForm.designationModalBonus.value
+      ? Number(designationModalForm.designationModalBonus.value)
+      : 0,
+    offDayAlw: designationModalForm.designationModalOffDay.value
+      ? Number(designationModalForm.designationModalOffDay.value)
+      : 0,
+    bangGrade: designationModalForm.designationModalBangGrade.value.trim(),
+    bangDesignationName: designationModalForm.designationModalBangName.value.trim(),
+    dormEntitle: designationModalForm.designationModalDormEntitle.value
+      ? Number(designationModalForm.designationModalDormEntitle.value)
+      : 0,
+    nonDormitory: designationModalForm.designationModalNonDormitory.value
+      ? Number(designationModalForm.designationModalNonDormitory.value)
+      : 0,
+    remarks: designationModalForm.designationModalRemarks.value.trim()
+  };
+};
+
+const deleteDesignationById = async (designationId) => {
+  if (!designationId) {
+    return;
+  }
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    setDesignationNotice("Unit is required.");
+    return;
+  }
+  try {
+    const response = await fetch(
+      `/designations/${encodeURIComponent(designationId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+      { method: "DELETE" }
+    );
+    const data = await response.json();
+    if (!response.ok || !data?.ok) {
+      throw new Error(data?.message || "Failed to delete designation.");
+    }
+    setDesignationNotice("Designation deleted.");
+    await loadDesignations();
+  } catch (error) {
+    setDesignationNotice(error?.message || "Failed to delete designation.");
+  }
+};
+
+const renderDesignationTable = (items) => {
+  if (!designationTable) {
+    return;
+  }
+  const tbody = designationTable.querySelector("tbody");
+  if (!tbody) {
+    return;
+  }
+  tbody.innerHTML = "";
+  if (!items.length) {
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = 5;
+    cell.textContent = "No designations found.";
+    row.appendChild(cell);
+    tbody.appendChild(row);
+    return;
+  }
+  items.forEach((designation) => {
+    const row = document.createElement("tr");
+    row.dataset.id = designation.designationId;
+    row.innerHTML = `
+      <td>${designation.designationId ?? ""}</td>
+      <td>${designation.designationName ?? ""}</td>
+      <td>${designation.grade ?? ""}</td>
+      <td>${designation.positionPriority ?? 0}</td>
+      <td class="table-actions">
+        <button class="btn-outline btn-small" type="button" data-action="edit">Edit</button>
+        <button class="btn-danger btn-small" type="button" data-action="delete">Delete</button>
+      </td>
+    `;
+    row.addEventListener("click", (event) => {
+      const action = event.target?.dataset?.action;
+      if (action === "edit") {
+        openDesignationModal("edit", designation);
+        return;
+      }
+      if (action === "delete") {
+        deleteDesignationById(designation.designationId);
+      }
+    });
+    tbody.appendChild(row);
+  });
+};
+
+const filterDesignations = () => {
+  const query = (designationSearch?.value || "").trim().toLowerCase();
+  const filtered = query
+    ? designations.filter((item) => `${item.designationName ?? ""}`.toLowerCase().includes(query))
+    : designations;
+  renderDesignationTable(filtered);
+};
+
+const loadDesignations = async () => {
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    return;
+  }
+  try {
+    const response = await fetch(`/designations?unit=${encodeURIComponent(resolvedUnit)}`);
+    const data = await response.json();
+    if (!response.ok || !data?.items) {
+      throw new Error(data?.message || "Failed to load designations.");
+    }
+    designations = data.items;
+    filterDesignations();
+  } catch (error) {
+    setDesignationNotice(error?.message || "Failed to load designations.");
+  }
+};
+
+if (designationAdd) {
+  designationAdd.addEventListener("click", () => openDesignationModal("create"));
+}
+
+if (designationRefresh) {
+  designationRefresh.addEventListener("click", loadDesignations);
+}
+
+if (designationSearch) {
+  designationSearch.addEventListener("input", filterDesignations);
+}
+
+(async () => {
+  await loadDesignations();
+})();
+
+if (designationModalForm) {
+  designationModalForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = getDesignationModalFormData();
+    if (!formData || !formData.designationName) {
+      setDesignationModalNotice("Designation name is required.");
+      return;
+    }
+    const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+    if (!resolvedUnit) {
+      setDesignationModalNotice("Unit is required.");
+      return;
+    }
+    const mode = designationModalForm.dataset.mode || "edit";
+    const currentId = designationModalId?.value || "";
+    if (mode === "edit" && !currentId) {
+      setDesignationModalNotice("Designation ID is missing.");
+      return;
+    }
+    try {
+      const response = await fetch(
+        mode === "create"
+          ? `/designations?unit=${encodeURIComponent(resolvedUnit)}`
+          : `/designations/${encodeURIComponent(currentId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+        {
+          method: mode === "create" ? "POST" : "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        }
+      );
+      const data = await response.json();
+      if (!response.ok || !data?.ok) {
+        throw new Error(data?.message || "Failed to save designation.");
+      }
+      setDesignationNotice(mode === "create" ? "Designation created." : "Designation updated.");
+      closeDesignationModal();
+      await loadDesignations();
+    } catch (error) {
+      setDesignationModalNotice(error?.message || "Failed to save designation.");
+    }
+  });
+}
+
+if (designationModalClose) {
+  designationModalClose.addEventListener("click", closeDesignationModal);
+}
+
+if (designationModalOverlay) {
+  designationModalOverlay.addEventListener("click", closeDesignationModal);
+}
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && designationModal?.classList.contains("is-open")) {
+    closeDesignationModal();
+  }
+});
+
+let salaryRules = [];
+
+const setSalaryRuleNotice = (message) => {
+  if (salaryRuleNotice) {
+    salaryRuleNotice.textContent = message || "";
+  }
+};
+
+const setSalaryRuleModalNotice = (message) => {
+  if (salaryRuleModalNotice) {
+    salaryRuleModalNotice.textContent = message || "";
+  }
+};
+
+const resetSalaryRuleModalForm = () => {
+  if (!salaryRuleModalForm) {
+    return;
+  }
+  salaryRuleModalForm.reset();
+  if (salaryRuleModalId) {
+    salaryRuleModalId.value = "";
+  }
+  setSalaryRuleModalNotice("");
+};
+
+const openSalaryRuleModal = (mode, rule) => {
+  if (!salaryRuleModal || !salaryRuleModalForm) {
+    return;
+  }
+  resetSalaryRuleModalForm();
+  salaryRuleModalForm.dataset.mode = mode;
+  const title = mode === "create" ? "Add Salary Rule" : "Edit Salary Rule";
+  if (salaryRuleModalSubmit) {
+    salaryRuleModalSubmit.textContent = mode === "create" ? "Create Rule" : "Save Rule";
+  }
+  const titleEl = document.getElementById("salaryRuleModalTitle");
+  if (titleEl) {
+    titleEl.textContent = title;
+  }
+  if (mode === "edit" && rule) {
+    salaryRuleModalForm.salaryRuleModalName.value = rule.ruleName ?? "";
+    salaryRuleModalForm.salaryRuleModalBasic.value = rule.ruleBasic ?? 0;
+    salaryRuleModalForm.salaryRuleModalHouse.value = rule.ruleHouseRent ?? 0;
+    salaryRuleModalForm.salaryRuleModalMedical.value = rule.ruleMedical ?? 0;
+    salaryRuleModalForm.salaryRuleModalTransport.value = rule.ruleTransport ?? 0;
+    salaryRuleModalForm.salaryRuleModalFood.value = rule.ruleFood ?? 0;
+    salaryRuleModalForm.salaryRuleModalAttdBonus.value = rule.getAttdBonus ?? 0;
+    salaryRuleModalForm.salaryRuleModalMinBonus.value = rule.minAttdBonus ?? 0;
+    salaryRuleModalForm.salaryRuleModalDearAlw.value = rule.ruleDearAlw ?? 0;
+    salaryRuleModalForm.salaryRuleModalAttdAlw.value = rule.attdAlw ?? 0;
+    salaryRuleModalForm.salaryRuleModalOtAlw.value = rule.otAlw ?? 0;
+    salaryRuleModalForm.salaryRuleModalNightBill.value = rule.nightBill ?? 0;
+    salaryRuleModalForm.salaryRuleModalWashingBill.value = rule.washingBill ?? 0;
+    salaryRuleModalForm.salaryRuleModalDriverAlw.value = rule.driverAlw ?? 0;
+    salaryRuleModalForm.salaryRuleModalExportAlw.value = rule.exportAlw ?? 0;
+    salaryRuleModalForm.salaryRuleModalIsDeduct.value = rule.isDeduct ?? "Y";
+    salaryRuleModalForm.salaryRuleModalStatus.value = rule.ruleStatus ?? "";
+    salaryRuleModalForm.salaryRuleModalRemarks.value = rule.ruleRemarks ?? "";
+    if (salaryRuleModalId) {
+      salaryRuleModalId.value = rule.ruleId ?? "";
+    }
+  }
+  salaryRuleModal.classList.add("is-open");
+  salaryRuleModal.setAttribute("aria-hidden", "false");
+};
+
+const closeSalaryRuleModal = () => {
+  if (!salaryRuleModal) {
+    return;
+  }
+  salaryRuleModal.classList.remove("is-open");
+  salaryRuleModal.setAttribute("aria-hidden", "true");
+  resetSalaryRuleModalForm();
+};
+
+const getSalaryRuleModalFormData = () => {
+  if (!salaryRuleModalForm) {
+    return null;
+  }
+  return {
+    ruleName: salaryRuleModalForm.salaryRuleModalName.value.trim(),
+    ruleBasic: Number(salaryRuleModalForm.salaryRuleModalBasic.value || 0),
+    ruleHouseRent: Number(salaryRuleModalForm.salaryRuleModalHouse.value || 0),
+    ruleMedical: Number(salaryRuleModalForm.salaryRuleModalMedical.value || 0),
+    ruleTransport: Number(salaryRuleModalForm.salaryRuleModalTransport.value || 0),
+    ruleFood: Number(salaryRuleModalForm.salaryRuleModalFood.value || 0),
+    getAttdBonus: Number(salaryRuleModalForm.salaryRuleModalAttdBonus.value || 0),
+    minAttdBonus: Number(salaryRuleModalForm.salaryRuleModalMinBonus.value || 0),
+    ruleDearAlw: Number(salaryRuleModalForm.salaryRuleModalDearAlw.value || 0),
+    attdAlw: Number(salaryRuleModalForm.salaryRuleModalAttdAlw.value || 0),
+    otAlw: Number(salaryRuleModalForm.salaryRuleModalOtAlw.value || 0),
+    nightBill: Number(salaryRuleModalForm.salaryRuleModalNightBill.value || 0),
+    washingBill: Number(salaryRuleModalForm.salaryRuleModalWashingBill.value || 0),
+    driverAlw: Number(salaryRuleModalForm.salaryRuleModalDriverAlw.value || 0),
+    exportAlw: Number(salaryRuleModalForm.salaryRuleModalExportAlw.value || 0),
+    isDeduct: salaryRuleModalForm.salaryRuleModalIsDeduct.value,
+    ruleStatus: salaryRuleModalForm.salaryRuleModalStatus.value.trim(),
+    ruleRemarks: salaryRuleModalForm.salaryRuleModalRemarks.value.trim()
+  };
+};
+
+const deleteSalaryRuleById = async (ruleId) => {
+  if (!ruleId) {
+    return;
+  }
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    setSalaryRuleNotice("Unit is required.");
+    return;
+  }
+  try {
+    const response = await fetch(
+      `/salary-rules/${encodeURIComponent(ruleId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+      { method: "DELETE" }
+    );
+    const data = await response.json();
+    if (!response.ok || !data?.ok) {
+      throw new Error(data?.message || "Failed to delete salary rule.");
+    }
+    setSalaryRuleNotice("Salary rule deleted.");
+    await loadSalaryRules();
+  } catch (error) {
+    setSalaryRuleNotice(error?.message || "Failed to delete salary rule.");
+  }
+};
+
+const renderSalaryRuleTable = (items) => {
+  if (!salaryRuleTable) {
+    return;
+  }
+  const tbody = salaryRuleTable.querySelector("tbody");
+  if (!tbody) {
+    return;
+  }
+  tbody.innerHTML = "";
+  if (!items.length) {
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = 8;
+    cell.textContent = "No salary rules found.";
+    row.appendChild(cell);
+    tbody.appendChild(row);
+    return;
+  }
+  items.forEach((rule) => {
+    const row = document.createElement("tr");
+    row.dataset.id = rule.ruleId;
+    row.innerHTML = `
+      <td>${rule.ruleId ?? ""}</td>
+      <td>${rule.ruleName ?? ""}</td>
+      <td>${rule.ruleBasic ?? 0}</td>
+      <td>${rule.ruleHouseRent ?? 0}</td>
+      <td>${rule.ruleMedical ?? 0}</td>
+      <td>${rule.ruleTransport ?? 0}</td>
+      <td>${rule.ruleFood ?? 0}</td>
+      <td class="table-actions">
+        <button class="btn-outline btn-small" type="button" data-action="edit">Edit</button>
+        <button class="btn-danger btn-small" type="button" data-action="delete">Delete</button>
+      </td>
+    `;
+    row.addEventListener("click", (event) => {
+      const action = event.target?.dataset?.action;
+      if (action === "edit") {
+        openSalaryRuleModal("edit", rule);
+        return;
+      }
+      if (action === "delete") {
+        deleteSalaryRuleById(rule.ruleId);
+      }
+    });
+    tbody.appendChild(row);
+  });
+};
+
+const filterSalaryRules = () => {
+  const query = (salaryRuleSearch?.value || "").trim().toLowerCase();
+  const filtered = query
+    ? salaryRules.filter((item) => `${item.ruleName ?? ""}`.toLowerCase().includes(query))
+    : salaryRules;
+  renderSalaryRuleTable(filtered);
+};
+
+const loadSalaryRules = async () => {
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    return;
+  }
+  try {
+    const response = await fetch(`/salary-rules?unit=${encodeURIComponent(resolvedUnit)}`);
+    const data = await response.json();
+    if (!response.ok || !data?.items) {
+      throw new Error(data?.message || "Failed to load salary rules.");
+    }
+    salaryRules = data.items;
+    filterSalaryRules();
+  } catch (error) {
+    setSalaryRuleNotice(error?.message || "Failed to load salary rules.");
+  }
+};
+
+if (salaryRuleAdd) {
+  salaryRuleAdd.addEventListener("click", () => openSalaryRuleModal("create"));
+}
+
+if (salaryRuleRefresh) {
+  salaryRuleRefresh.addEventListener("click", loadSalaryRules);
+}
+
+if (salaryRuleSearch) {
+  salaryRuleSearch.addEventListener("input", filterSalaryRules);
+}
+
+(async () => {
+  await loadSalaryRules();
+})();
+
+if (salaryRuleModalForm) {
+  salaryRuleModalForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = getSalaryRuleModalFormData();
+    if (!formData || !formData.ruleName) {
+      setSalaryRuleModalNotice("Rule name is required.");
+      return;
+    }
+    const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+    if (!resolvedUnit) {
+      setSalaryRuleModalNotice("Unit is required.");
+      return;
+    }
+    const mode = salaryRuleModalForm.dataset.mode || "edit";
+    const currentId = salaryRuleModalId?.value || "";
+    if (mode === "edit" && !currentId) {
+      setSalaryRuleModalNotice("Rule ID is missing.");
+      return;
+    }
+    try {
+      const response = await fetch(
+        mode === "create"
+          ? `/salary-rules?unit=${encodeURIComponent(resolvedUnit)}`
+          : `/salary-rules/${encodeURIComponent(currentId)}?unit=${encodeURIComponent(resolvedUnit)}`,
+        {
+          method: mode === "create" ? "POST" : "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        }
+      );
+      const data = await response.json();
+      if (!response.ok || !data?.ok) {
+        throw new Error(data?.message || "Failed to save salary rule.");
+      }
+      setSalaryRuleNotice(mode === "create" ? "Salary rule created." : "Salary rule updated.");
+      closeSalaryRuleModal();
+      await loadSalaryRules();
+    } catch (error) {
+      setSalaryRuleModalNotice(error?.message || "Failed to save salary rule.");
+    }
+  });
+}
+
+if (salaryRuleModalClose) {
+  salaryRuleModalClose.addEventListener("click", closeSalaryRuleModal);
+}
+
+if (salaryRuleModalOverlay) {
+  salaryRuleModalOverlay.addEventListener("click", closeSalaryRuleModal);
+}
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && salaryRuleModal?.classList.contains("is-open")) {
+    closeSalaryRuleModal();
+  }
+});
+
+const fillAttendanceShiftOptions = () => {
+  if (!attendanceShift) {
+    return;
+  }
+  attendanceShift.innerHTML = '<option value="">All</option>';
+  shifts.forEach((shift) => {
+    const option = document.createElement("option");
+    option.value = shift.shiftId;
+    option.textContent = shift.shiftName;
+    attendanceShift.appendChild(option);
+  });
+};
+
+const clearAttendanceTable = () => {
+  if (!attendanceTable) {
+    return;
+  }
+  const tbody = attendanceTable.querySelector("tbody");
+  if (!tbody) {
+    return;
+  }
+  tbody.innerHTML = "";
+};
+
+const appendAttendanceRows = (items) => {
+  if (!attendanceTable) {
+    return;
+  }
+  const tbody = attendanceTable.querySelector("tbody");
+  if (!tbody) {
+    return;
+  }
+  if (!items.length) {
+    if (!tbody.children.length) {
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+      cell.colSpan = 10;
+      cell.textContent = "No attendance found.";
+      row.appendChild(cell);
+      tbody.appendChild(row);
+    }
+    return;
+  }
+  items.forEach((item) => {
+    const row = document.createElement("tr");
+    if (item.status === "A") {
+      row.classList.add("is-absent");
+    }
+    row.innerHTML = `
+      <td>${item.attdDate ?? ""}</td>
+      <td>${item.empCode ?? ""}</td>
+      <td>${item.empName ?? ""}</td>
+      <td>${item.status ?? ""}</td>
+      <td>${item.inTime ?? ""}</td>
+      <td>${item.outTime ?? ""}</td>
+      <td>${item.late ?? 0}</td>
+      <td>${item.earlyOut ?? 0}</td>
+      <td>${item.overTime ?? 0}</td>
+      <td>${item.shiftName ?? ""}</td>
+    `;
+    tbody.appendChild(row);
+  });
+};
+
+const loadAttendance = async () => {
+  const resolvedUnit = unit || localStorage.getItem("visorhr.unit") || "";
+  if (!resolvedUnit) {
+    return;
+  }
+  const query = new URLSearchParams({ unit: resolvedUnit });
+  if (attendanceFrom?.value) {
+    query.set("fromDate", attendanceFrom.value);
+  }
+  if (attendanceTo?.value) {
+    query.set("toDate", attendanceTo.value);
+  }
+  if (attendanceEmpCode?.value) {
+    query.set("empCode", attendanceEmpCode.value.trim());
+  }
+  if (attendanceStatus?.value) {
+    query.set("status", attendanceStatus.value);
+  }
+  if (attendanceShift?.value) {
+    query.set("shiftId", attendanceShift.value);
+  }
+  try {
+    clearAttendanceTable();
+    const pageSize = 100;
+    let loaded = 0;
+    let page = 1;
+    let hasMore = true;
+
+    while (hasMore) {
+      const pageQuery = new URLSearchParams(query);
+      pageQuery.set("page", String(page));
+      pageQuery.set("pageSize", String(pageSize));
+      const response = await fetch(`/attendance?${pageQuery.toString()}`);
+      const data = await response.json();
+      if (!response.ok || !data?.items) {
+        throw new Error(data?.message || "Failed to load attendance.");
+      }
+      appendAttendanceRows(data.items);
+      loaded += data.items.length;
+      if (data.items.length < pageSize) {
+        hasMore = false;
+      }
+      page += 1;
+    }
+
+  } catch (error) {
+    console.error(error?.message || "Failed to load attendance.");
+  }
+};
+
+if (attendanceRefresh) {
+  attendanceRefresh.addEventListener("click", loadAttendance);
+}
+
+if (attendanceFrom && attendanceTo) {
+  const today = new Date().toISOString().slice(0, 10);
+  if (!attendanceFrom.value) {
+    attendanceFrom.value = today;
+  }
+  if (!attendanceTo.value) {
+    attendanceTo.value = today;
+  }
+}
+
 }
 
 if (logoutLink) {

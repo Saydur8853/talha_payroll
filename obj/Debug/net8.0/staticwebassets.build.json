@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/FMKdkb8odYSeonr26iaUn41DgmaCi2DNa6qxTcGOdg=",
+  "Hash": "lyLcJPY43zV6LwVFWXRlPCGNQfomVzioGqHw7u3Ko1Y=",
   "Source": "VisorHR",
   "BasePath": "_content/VisorHR",
   "Mode": "Default",
@@ -94,8 +94,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "ghcgo0a0hm",
-      "Integrity": "zKRNmnyz/KPqFhfBHeSyVb+Ah3bpAZdkc7tFAZs+VLQ=",
+      "Fingerprint": "d4xzeexpam",
+      "Integrity": "k1eDxSW25fzfFROukpMY/jPdNb1XcDju1DX5AMVQAzA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\styles.css"
@@ -157,8 +157,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "z0mwhynpf9",
-      "Integrity": "fZ85ApDCQuqM1/SwcA23Qi3GMb+M6zv8+6tM+Fe/Y9M=",
+      "Fingerprint": "1dswfq9l0g",
+      "Integrity": "a8EAbW2ePnioyeSU9fzZ7DwdI+/MQgIHyFpOYFUPJvo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\welcome.html"
@@ -178,8 +178,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "5en84bns8c",
-      "Integrity": "k9cssl4ExtLE80Wwe3poVbnaF5ZGVWpyUJyfUOfKiFE=",
+      "Fingerprint": "fk5r75tod3",
+      "Integrity": "77/feEXF93Zg+Qh5EbffhBvENYH3cLpRfM6yg9LDyNI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\welcome.js"
@@ -443,7 +443,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "22575"
+          "Value": "24856"
         },
         {
           "Name": "Content-Type",
@@ -451,11 +451,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zKRNmnyz/KPqFhfBHeSyVb+Ah3bpAZdkc7tFAZs+VLQ=\""
+          "Value": "\"k1eDxSW25fzfFROukpMY/jPdNb1XcDju1DX5AMVQAzA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 15 Jan 2026 10:50:46 GMT"
+          "Value": "Thu, 22 Jan 2026 11:51:34 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -465,12 +465,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-zKRNmnyz/KPqFhfBHeSyVb+Ah3bpAZdkc7tFAZs+VLQ="
+          "Value": "sha256-k1eDxSW25fzfFROukpMY/jPdNb1XcDju1DX5AMVQAzA="
         }
       ]
     },
     {
-      "Route": "styles.ghcgo0a0hm.css",
+      "Route": "styles.d4xzeexpam.css",
       "AssetFile": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\styles.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -480,7 +480,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "22575"
+          "Value": "24856"
         },
         {
           "Name": "Content-Type",
@@ -488,11 +488,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zKRNmnyz/KPqFhfBHeSyVb+Ah3bpAZdkc7tFAZs+VLQ=\""
+          "Value": "\"k1eDxSW25fzfFROukpMY/jPdNb1XcDju1DX5AMVQAzA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 15 Jan 2026 10:50:46 GMT"
+          "Value": "Thu, 22 Jan 2026 11:51:34 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -502,7 +502,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ghcgo0a0hm"
+          "Value": "d4xzeexpam"
         },
         {
           "Name": "label",
@@ -510,7 +510,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-zKRNmnyz/KPqFhfBHeSyVb+Ah3bpAZdkc7tFAZs+VLQ="
+          "Value": "sha256-k1eDxSW25fzfFROukpMY/jPdNb1XcDju1DX5AMVQAzA="
         }
       ]
     },
@@ -679,8 +679,8 @@
       ]
     },
     {
-      "Route": "welcome.5en84bns8c.js",
-      "AssetFile": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\welcome.js",
+      "Route": "welcome.1dswfq9l0g.html",
+      "AssetFile": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\welcome.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -689,19 +689,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "34225"
+          "Value": "66979"
         },
         {
           "Name": "Content-Type",
-          "Value": "text/javascript"
+          "Value": "text/html"
         },
         {
           "Name": "ETag",
-          "Value": "\"k9cssl4ExtLE80Wwe3poVbnaF5ZGVWpyUJyfUOfKiFE=\""
+          "Value": "\"a8EAbW2ePnioyeSU9fzZ7DwdI+/MQgIHyFpOYFUPJvo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 15 Jan 2026 11:30:43 GMT"
+          "Value": "Thu, 22 Jan 2026 11:50:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -711,7 +711,52 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "5en84bns8c"
+          "Value": "1dswfq9l0g"
+        },
+        {
+          "Name": "label",
+          "Value": "welcome.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-a8EAbW2ePnioyeSU9fzZ7DwdI+/MQgIHyFpOYFUPJvo="
+        }
+      ]
+    },
+    {
+      "Route": "welcome.fk5r75tod3.js",
+      "AssetFile": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\welcome.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "97552"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"77/feEXF93Zg+Qh5EbffhBvENYH3cLpRfM6yg9LDyNI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 22 Jan 2026 11:50:18 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "fk5r75tod3"
         },
         {
           "Name": "label",
@@ -719,7 +764,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-k9cssl4ExtLE80Wwe3poVbnaF5ZGVWpyUJyfUOfKiFE="
+          "Value": "sha256-77/feEXF93Zg+Qh5EbffhBvENYH3cLpRfM6yg9LDyNI="
         }
       ]
     },
@@ -734,7 +779,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "33736"
+          "Value": "66979"
         },
         {
           "Name": "Content-Type",
@@ -742,11 +787,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"fZ85ApDCQuqM1/SwcA23Qi3GMb+M6zv8+6tM+Fe/Y9M=\""
+          "Value": "\"a8EAbW2ePnioyeSU9fzZ7DwdI+/MQgIHyFpOYFUPJvo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 15 Jan 2026 10:50:39 GMT"
+          "Value": "Thu, 22 Jan 2026 11:50:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -756,7 +801,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-fZ85ApDCQuqM1/SwcA23Qi3GMb+M6zv8+6tM+Fe/Y9M="
+          "Value": "sha256-a8EAbW2ePnioyeSU9fzZ7DwdI+/MQgIHyFpOYFUPJvo="
         }
       ]
     },
@@ -771,7 +816,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "34225"
+          "Value": "97552"
         },
         {
           "Name": "Content-Type",
@@ -779,11 +824,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"k9cssl4ExtLE80Wwe3poVbnaF5ZGVWpyUJyfUOfKiFE=\""
+          "Value": "\"77/feEXF93Zg+Qh5EbffhBvENYH3cLpRfM6yg9LDyNI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 15 Jan 2026 11:30:43 GMT"
+          "Value": "Thu, 22 Jan 2026 11:50:18 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -793,52 +838,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-k9cssl4ExtLE80Wwe3poVbnaF5ZGVWpyUJyfUOfKiFE="
-        }
-      ]
-    },
-    {
-      "Route": "welcome.z0mwhynpf9.html",
-      "AssetFile": "D:\\SOURCE_CODE\\VisorHR\\wwwroot\\welcome.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "33736"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"fZ85ApDCQuqM1/SwcA23Qi3GMb+M6zv8+6tM+Fe/Y9M=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 15 Jan 2026 10:50:39 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "z0mwhynpf9"
-        },
-        {
-          "Name": "label",
-          "Value": "welcome.html"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-fZ85ApDCQuqM1/SwcA23Qi3GMb+M6zv8+6tM+Fe/Y9M="
+          "Value": "sha256-77/feEXF93Zg+Qh5EbffhBvENYH3cLpRfM6yg9LDyNI="
         }
       ]
     }

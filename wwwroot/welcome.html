@@ -50,12 +50,15 @@
         <nav class="menu">
           <a class="menu-item is-active" href="#" data-view="overview">Dashboard</a>
           <a class="menu-item" href="#" data-view="employees">Employees</a>
-          <a class="menu-item" href="#">Attendance</a>
+          <a class="menu-item" href="#" data-view="employee-types">Employee Types</a>
+          <a class="menu-item" href="#" data-view="designations">Designations</a>
+          <a class="menu-item" href="#" data-view="attendance">Attendance</a>
           <a class="menu-item" href="#">Payroll</a>
+          <a class="menu-item" href="#" data-view="salary-rules">Salary Rule</a>
           <a class="menu-item" href="#">Reports</a>
-          <a class="menu-item" href="#">Settings</a>
-          <a class="menu-item" href="#">Departments</a>
-          <a class="menu-item" href="#">Shift Planner</a>
+          <a class="menu-item" href="#" data-view="departments">Departments</a>
+          <a class="menu-item" href="#" data-view="sections">Sections</a>
+          <a class="menu-item" href="#" data-view="shifts">Shift Planner</a>
           <a class="menu-item" href="#">Leave Requests</a>
           <a class="menu-item" href="#">Compliance</a>
           <a class="menu-item" href="#">Training</a>
@@ -64,6 +67,7 @@
           <a class="menu-item" href="#">Assets</a>
           <a class="menu-item" href="#">Help Desk</a>
           <a class="menu-item" href="#">System Logs</a>
+          <a class="menu-item" href="#">Settings</a>
         </nav>
         <div class="side-footer">
           <div class="user-card">
@@ -190,7 +194,7 @@
           <div class="view" data-view="employees">
             <section class="employee-shell" aria-label="Employee management">
               <div class="employee-grid is-single">
-                <div class="employee-card">
+                <div class="employee-card department-list-card">
                   <div class="employee-card-header">
                     <div>
                       <p class="eyebrow">Employee</p>
@@ -626,10 +630,682 @@
               </div>
             </section>
           </div>
+          <div class="view" data-view="employee-types">
+            <section class="employee-shell" aria-label="Employee type management">
+              <div class="employee-grid is-stack">
+                <div class="employee-card emp-type-list-card">
+                  <div class="employee-card-header">
+                    <div>
+                      <p class="eyebrow">Directory</p>
+                      <h3>Employee Types</h3>
+                    </div>
+                    <div class="employee-actions">
+                      <button class="btn-outline" type="button" id="empTypeAdd">+ Add Type</button>
+                      <button class="btn-outline" type="button" id="empTypeRefresh">Refresh</button>
+                    </div>
+                  </div>
+                  <p class="form-hint" id="empTypeNotice"></p>
+                  <div class="field">
+                    <label for="empTypeSearch">Search</label>
+                    <input id="empTypeSearch" name="empTypeSearch" type="text" placeholder="Search type" />
+                  </div>
+                  <div class="table-wrap">
+                    <table class="data-table" id="empTypeTable">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Type</th>
+                          <th>Position Level</th>
+                          <th>Tiffin Allowance</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="view" data-view="attendance">
+            <section class="employee-shell" aria-label="Attendance management">
+              <div class="employee-grid is-stack">
+                <div class="employee-card attendance-list-card">
+                  <div class="employee-card-header">
+                    <div>
+                      <p class="eyebrow">Attendance</p>
+                      <h3>Attendance Details</h3>
+                    </div>
+                    <div class="employee-actions">
+                      <button class="btn-outline" type="button" id="attendanceRefresh">Search</button>
+                    </div>
+                  </div>
+                  <div class="employee-form">
+                    <div class="field">
+                      <label for="attendanceFrom">From Date</label>
+                      <input id="attendanceFrom" name="attendanceFrom" type="date" />
+                    </div>
+                    <div class="field">
+                      <label for="attendanceTo">To Date</label>
+                      <input id="attendanceTo" name="attendanceTo" type="date" />
+                    </div>
+                    <div class="field">
+                      <label for="attendanceEmpCode">Employee Code</label>
+                      <input id="attendanceEmpCode" name="attendanceEmpCode" type="text" placeholder="EMP-0001" />
+                    </div>
+                    <div class="field">
+                      <label for="attendanceStatus">Status</label>
+                      <select id="attendanceStatus" name="attendanceStatus">
+                        <option value="">All</option>
+                        <option value="P">Present</option>
+                        <option value="A">Absent</option>
+                        <option value="L">Leave</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label for="attendanceShift">Shift</label>
+                      <select id="attendanceShift" name="attendanceShift">
+                        <option value="">All</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="table-wrap">
+                    <table class="data-table" id="attendanceTable">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Emp Code</th>
+                          <th>Emp Name</th>
+                          <th>Status</th>
+                          <th>In</th>
+                          <th>Out</th>
+                          <th>Late</th>
+                          <th>Early</th>
+                          <th>OT</th>
+                          <th>Shift</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="view" data-view="designations">
+            <section class="employee-shell" aria-label="Designation management">
+              <div class="employee-grid is-stack">
+                <div class="employee-card designation-list-card">
+                  <div class="employee-card-header">
+                    <div>
+                      <p class="eyebrow">Directory</p>
+                      <h3>Designations</h3>
+                    </div>
+                    <div class="employee-actions">
+                      <button class="btn-outline" type="button" id="designationAdd">+ Add Designation</button>
+                      <button class="btn-outline" type="button" id="designationRefresh">Refresh</button>
+                    </div>
+                  </div>
+                  <p class="form-hint" id="designationNotice"></p>
+                  <div class="field">
+                    <label for="designationSearch">Search</label>
+                    <input id="designationSearch" name="designationSearch" type="text" placeholder="Search designation" />
+                  </div>
+                  <div class="table-wrap">
+                    <table class="data-table" id="designationTable">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Designation</th>
+                          <th>Grade</th>
+                          <th>Priority</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="view" data-view="salary-rules">
+            <section class="employee-shell" aria-label="Salary rule management">
+              <div class="employee-grid is-stack">
+                <div class="employee-card salary-rule-list-card">
+                  <div class="employee-card-header">
+                    <div>
+                      <p class="eyebrow">Directory</p>
+                      <h3>Salary Rules</h3>
+                    </div>
+                    <div class="employee-actions">
+                      <button class="btn-outline" type="button" id="salaryRuleAdd">+ Add Rule</button>
+                      <button class="btn-outline" type="button" id="salaryRuleRefresh">Refresh</button>
+                    </div>
+                  </div>
+                  <p class="form-hint" id="salaryRuleNotice"></p>
+                  <div class="field">
+                    <label for="salaryRuleSearch">Search</label>
+                    <input id="salaryRuleSearch" name="salaryRuleSearch" type="text" placeholder="Search rule" />
+                  </div>
+                  <div class="table-wrap">
+                    <table class="data-table" id="salaryRuleTable">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Rule</th>
+                          <th>Basic</th>
+                          <th>House</th>
+                          <th>Medical</th>
+                          <th>Transport</th>
+                          <th>Food</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="view" data-view="departments">
+            <section class="employee-shell" aria-label="Department management">
+              <div class="employee-grid is-stack">
+                <div class="employee-card">
+                  <div class="employee-card-header">
+                    <div>
+                      <p class="eyebrow">Directory</p>
+                      <h3>Department List</h3>
+                    </div>
+                    <div class="employee-actions">
+                      <button class="btn-outline" type="button" id="departmentAdd">+ Add Department</button>
+                      <button class="btn-outline" type="button" id="departmentRefresh">Refresh</button>
+                    </div>
+                  </div>
+                  <p class="form-hint" id="departmentNotice"></p>
+                  <div class="field">
+                    <label for="departmentSearch">Search</label>
+                    <input id="departmentSearch" name="departmentSearch" type="text" placeholder="Search department" />
+                  </div>
+                  <div class="table-wrap">
+                    <table class="data-table" id="departmentTable">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Department</th>
+                          <th>Unit</th>
+                          <th>Short</th>
+                          <th>Priority</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="view" data-view="sections">
+            <section class="employee-shell" aria-label="Section management">
+              <div class="employee-grid is-stack">
+                <div class="employee-card section-list-card">
+                  <div class="employee-card-header">
+                    <div>
+                      <p class="eyebrow">Directory</p>
+                      <h3>Section List</h3>
+                    </div>
+                    <div class="employee-actions">
+                      <button class="btn-outline" type="button" id="sectionAdd">+ Add Section</button>
+                      <button class="btn-outline" type="button" id="sectionRefresh">Refresh</button>
+                    </div>
+                  </div>
+                  <p class="form-hint" id="sectionNotice"></p>
+                  <div class="field">
+                    <label for="sectionSearch">Search</label>
+                    <input id="sectionSearch" name="sectionSearch" type="text" placeholder="Search section" />
+                  </div>
+                  <div class="table-wrap">
+                    <table class="data-table" id="sectionTable">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Section</th>
+                          <th>Unit</th>
+                          <th>Show Together</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="view" data-view="shifts">
+            <section class="employee-shell" aria-label="Shift management">
+              <div class="employee-grid is-stack">
+                <div class="employee-card shift-list-card">
+                  <div class="employee-card-header">
+                    <div>
+                      <p class="eyebrow">Directory</p>
+                      <h3>Shift List</h3>
+                    </div>
+                    <div class="employee-actions">
+                      <button class="btn-outline" type="button" id="shiftAdd">+ Add Shift</button>
+                      <button class="btn-outline" type="button" id="shiftRefresh">Refresh</button>
+                    </div>
+                  </div>
+                  <p class="form-hint" id="shiftNotice"></p>
+                  <div class="field">
+                    <label for="shiftSearch">Search</label>
+                    <input id="shiftSearch" name="shiftSearch" type="text" placeholder="Search shift" />
+                  </div>
+                  <div class="table-wrap">
+                    <table class="data-table" id="shiftTable">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Shift</th>
+                          <th>In</th>
+                          <th>Out</th>
+                          <th>Grace</th>
+                          <th>Lunch</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
 
       </section>
     </main>
+  </div>
+
+  <div class="modal" id="departmentModal" aria-hidden="true">
+    <div class="modal-overlay" data-close="department-modal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="departmentModalTitle">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Edit</p>
+          <h3 id="departmentModalTitle">Edit Department</h3>
+        </div>
+        <button class="btn-outline btn-small" type="button" id="departmentModalClose">Close</button>
+      </div>
+      <div class="modal-body">
+        <form class="employee-form" id="departmentModalForm">
+          <input type="hidden" id="departmentModalId" value="" />
+          <div class="field">
+            <label for="departmentModalName">Department Name</label>
+            <input id="departmentModalName" name="departmentModalName" type="text" placeholder="Department name" required />
+          </div>
+          <div class="field">
+            <label for="departmentModalUnit">Unit</label>
+            <select id="departmentModalUnit" name="departmentModalUnit" required></select>
+          </div>
+          <div class="field">
+            <label for="departmentModalShortName">Short Name</label>
+            <input id="departmentModalShortName" name="departmentModalShortName" type="text" placeholder="Short name" />
+          </div>
+          <div class="field">
+            <label for="departmentModalPriority">Show Priority</label>
+            <input id="departmentModalPriority" name="departmentModalPriority" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="departmentModalBangla">Bangla Name</label>
+            <input id="departmentModalBangla" name="departmentModalBangla" type="text" placeholder="Bangla department name" />
+          </div>
+          <div class="field is-full">
+            <label for="departmentModalRemarks">Remarks</label>
+            <input id="departmentModalRemarks" name="departmentModalRemarks" type="text" placeholder="Remarks" />
+          </div>
+          <div class="employee-actions">
+            <button class="btn-outline" type="submit" id="departmentModalSubmit">Save Changes</button>
+          </div>
+          <p class="form-hint" id="departmentModalNotice"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="shiftModal" aria-hidden="true">
+    <div class="modal-overlay" data-close="shift-modal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="shiftModalTitle">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Shift</p>
+          <h3 id="shiftModalTitle">Add Shift</h3>
+        </div>
+        <button class="btn-outline btn-small" type="button" id="shiftModalClose">Close</button>
+      </div>
+      <div class="modal-body">
+        <form class="employee-form" id="shiftModalForm">
+          <input type="hidden" id="shiftModalId" value="" />
+          <div class="field">
+            <label for="shiftModalName">Shift Name</label>
+            <input id="shiftModalName" name="shiftModalName" type="text" placeholder="Shift name" required />
+          </div>
+          <div class="field">
+            <label for="shiftModalInTime">In Time</label>
+            <input id="shiftModalInTime" name="shiftModalInTime" type="text" placeholder="HH:MM" required />
+          </div>
+          <div class="field">
+            <label for="shiftModalOutTime">Out Time</label>
+            <input id="shiftModalOutTime" name="shiftModalOutTime" type="text" placeholder="HH:MM" required />
+          </div>
+          <div class="field">
+            <label for="shiftModalInFrom">In Time From</label>
+            <input id="shiftModalInFrom" name="shiftModalInFrom" type="text" placeholder="HH:MM" required />
+          </div>
+          <div class="field">
+            <label for="shiftModalOutFrom">Out Time From</label>
+            <input id="shiftModalOutFrom" name="shiftModalOutFrom" type="text" placeholder="HH:MM" required />
+          </div>
+          <div class="field">
+            <label for="shiftModalGrace">Grace</label>
+            <input id="shiftModalGrace" name="shiftModalGrace" type="text" placeholder="HH:MM" required />
+          </div>
+          <div class="field">
+            <label for="shiftModalGraceOut">Grace Out</label>
+            <input id="shiftModalGraceOut" name="shiftModalGraceOut" type="text" placeholder="HH:MM" required />
+          </div>
+          <div class="field">
+            <label for="shiftModalLunchStart">Lunch Start</label>
+            <input id="shiftModalLunchStart" name="shiftModalLunchStart" type="text" placeholder="HH:MM" required />
+          </div>
+          <div class="field">
+            <label for="shiftModalLunchEnd">Lunch End</label>
+            <input id="shiftModalLunchEnd" name="shiftModalLunchEnd" type="text" placeholder="HH:MM" required />
+          </div>
+          <div class="field">
+            <label for="shiftModalInStart">In Time Start</label>
+            <input id="shiftModalInStart" name="shiftModalInStart" type="text" placeholder="HH:MM" />
+          </div>
+          <div class="field">
+            <label for="shiftModalOutEnd">Out Time End</label>
+            <input id="shiftModalOutEnd" name="shiftModalOutEnd" type="text" placeholder="HH:MM" />
+          </div>
+          <div class="field">
+            <label for="shiftModalDinerStart">Diner Start</label>
+            <input id="shiftModalDinerStart" name="shiftModalDinerStart" type="text" placeholder="HH:MM" />
+          </div>
+          <div class="field">
+            <label for="shiftModalDinerEnd">Diner End</label>
+            <input id="shiftModalDinerEnd" name="shiftModalDinerEnd" type="text" placeholder="HH:MM" />
+          </div>
+          <div class="field">
+            <label for="shiftModalDefaultStatus">Default Status</label>
+            <input id="shiftModalDefaultStatus" name="shiftModalDefaultStatus" type="text" placeholder="Default status" />
+          </div>
+          <div class="field is-full">
+            <label for="shiftModalRemarks">Remarks</label>
+            <input id="shiftModalRemarks" name="shiftModalRemarks" type="text" placeholder="Remarks" />
+          </div>
+          <div class="employee-actions">
+            <button class="btn-outline" type="submit" id="shiftModalSubmit">Save Shift</button>
+          </div>
+          <p class="form-hint" id="shiftModalNotice"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="sectionModal" aria-hidden="true">
+    <div class="modal-overlay" data-close="section-modal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="sectionModalTitle">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Section</p>
+          <h3 id="sectionModalTitle">Add Section</h3>
+        </div>
+        <button class="btn-outline btn-small" type="button" id="sectionModalClose">Close</button>
+      </div>
+      <div class="modal-body">
+        <form class="employee-form" id="sectionModalForm">
+          <input type="hidden" id="sectionModalId" value="" />
+          <div class="field">
+            <label for="sectionModalName">Section Name</label>
+            <input id="sectionModalName" name="sectionModalName" type="text" placeholder="Section name" required />
+          </div>
+          <div class="field">
+            <label for="sectionModalUnit">Unit</label>
+            <select id="sectionModalUnit" name="sectionModalUnit" required></select>
+          </div>
+          <div class="field">
+            <label for="sectionModalShowTogether">Show Together</label>
+            <input id="sectionModalShowTogether" name="sectionModalShowTogether" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="sectionModalBangla">Bangla Name</label>
+            <input id="sectionModalBangla" name="sectionModalBangla" type="text" placeholder="Bangla section name" />
+          </div>
+          <div class="field is-full">
+            <label for="sectionModalRemarks">Remarks</label>
+            <input id="sectionModalRemarks" name="sectionModalRemarks" type="text" placeholder="Remarks" />
+          </div>
+          <div class="employee-actions">
+            <button class="btn-outline" type="submit" id="sectionModalSubmit">Save Section</button>
+          </div>
+          <p class="form-hint" id="sectionModalNotice"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="empTypeModal" aria-hidden="true">
+    <div class="modal-overlay" data-close="emp-type-modal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="empTypeModalTitle">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Employee Type</p>
+          <h3 id="empTypeModalTitle">Add Employee Type</h3>
+        </div>
+        <button class="btn-outline btn-small" type="button" id="empTypeModalClose">Close</button>
+      </div>
+      <div class="modal-body">
+        <form class="employee-form" id="empTypeModalForm">
+          <input type="hidden" id="empTypeModalId" value="" />
+          <div class="field">
+            <label for="empTypeModalName">Type Name</label>
+            <input id="empTypeModalName" name="empTypeModalName" type="text" placeholder="Type name" required />
+          </div>
+          <div class="field">
+            <label for="empTypeModalPosition">Position Level</label>
+            <input id="empTypeModalPosition" name="empTypeModalPosition" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="empTypeModalTiffin">Tiffin Allowance</label>
+            <input id="empTypeModalTiffin" name="empTypeModalTiffin" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="empTypeModalBangla">Bangla Type</label>
+            <input id="empTypeModalBangla" name="empTypeModalBangla" type="text" placeholder="Bangla type name" />
+          </div>
+          <div class="field is-full">
+            <label for="empTypeModalRemarks">Remarks</label>
+            <input id="empTypeModalRemarks" name="empTypeModalRemarks" type="text" placeholder="Remarks" />
+          </div>
+          <div class="employee-actions">
+            <button class="btn-outline" type="submit" id="empTypeModalSubmit">Save Type</button>
+          </div>
+          <p class="form-hint" id="empTypeModalNotice"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="designationModal" aria-hidden="true">
+    <div class="modal-overlay" data-close="designation-modal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="designationModalTitle">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Designation</p>
+          <h3 id="designationModalTitle">Add Designation</h3>
+        </div>
+        <button class="btn-outline btn-small" type="button" id="designationModalClose">Close</button>
+      </div>
+      <div class="modal-body">
+        <form class="employee-form" id="designationModalForm">
+          <input type="hidden" id="designationModalId" value="" />
+          <div class="field">
+            <label for="designationModalName">Designation Name</label>
+            <input id="designationModalName" name="designationModalName" type="text" placeholder="Designation name" required />
+          </div>
+          <div class="field">
+            <label for="designationModalGrade">Grade</label>
+            <input id="designationModalGrade" name="designationModalGrade" type="text" placeholder="Grade" />
+          </div>
+          <div class="field">
+            <label for="designationModalPositionId">Position ID</label>
+            <input id="designationModalPositionId" name="designationModalPositionId" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="designationModalPosition">Position</label>
+            <input id="designationModalPosition" name="designationModalPosition" type="text" placeholder="Position" />
+          </div>
+          <div class="field">
+            <label for="designationModalPriority">Position Priority</label>
+            <input id="designationModalPriority" name="designationModalPriority" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="designationModalBonus">App Attd Bonus</label>
+            <input id="designationModalBonus" name="designationModalBonus" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="designationModalOffDay">Off Day Allowance</label>
+            <input id="designationModalOffDay" name="designationModalOffDay" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="designationModalBangGrade">Bangla Grade</label>
+            <input id="designationModalBangGrade" name="designationModalBangGrade" type="text" placeholder="Bangla grade" />
+          </div>
+          <div class="field">
+            <label for="designationModalBangName">Bangla Designation</label>
+            <input id="designationModalBangName" name="designationModalBangName" type="text" placeholder="Bangla designation" />
+          </div>
+          <div class="field">
+            <label for="designationModalDormEntitle">Dorm Entitle</label>
+            <input id="designationModalDormEntitle" name="designationModalDormEntitle" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="designationModalNonDormitory">Non Dormitory</label>
+            <input id="designationModalNonDormitory" name="designationModalNonDormitory" type="number" placeholder="0" />
+          </div>
+          <div class="field is-full">
+            <label for="designationModalRemarks">Remarks</label>
+            <input id="designationModalRemarks" name="designationModalRemarks" type="text" placeholder="Remarks" />
+          </div>
+          <div class="employee-actions">
+            <button class="btn-outline" type="submit" id="designationModalSubmit">Save Designation</button>
+          </div>
+          <p class="form-hint" id="designationModalNotice"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="salaryRuleModal" aria-hidden="true">
+    <div class="modal-overlay" data-close="salary-rule-modal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="salaryRuleModalTitle">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Salary Rule</p>
+          <h3 id="salaryRuleModalTitle">Add Salary Rule</h3>
+        </div>
+        <button class="btn-outline btn-small" type="button" id="salaryRuleModalClose">Close</button>
+      </div>
+      <div class="modal-body">
+        <form class="employee-form" id="salaryRuleModalForm">
+          <input type="hidden" id="salaryRuleModalId" value="" />
+          <div class="field">
+            <label for="salaryRuleModalName">Rule Name</label>
+            <input id="salaryRuleModalName" name="salaryRuleModalName" type="text" placeholder="Rule name" required />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalBasic">Basic</label>
+            <input id="salaryRuleModalBasic" name="salaryRuleModalBasic" type="number" placeholder="0" required />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalHouse">House Rent</label>
+            <input id="salaryRuleModalHouse" name="salaryRuleModalHouse" type="number" placeholder="0" required />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalMedical">Medical</label>
+            <input id="salaryRuleModalMedical" name="salaryRuleModalMedical" type="number" placeholder="0" required />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalTransport">Transport</label>
+            <input id="salaryRuleModalTransport" name="salaryRuleModalTransport" type="number" placeholder="0" required />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalFood">Food</label>
+            <input id="salaryRuleModalFood" name="salaryRuleModalFood" type="number" placeholder="0" required />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalAttdBonus">Attd Bonus</label>
+            <input id="salaryRuleModalAttdBonus" name="salaryRuleModalAttdBonus" type="number" placeholder="0" required />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalMinBonus">Min Bonus</label>
+            <input id="salaryRuleModalMinBonus" name="salaryRuleModalMinBonus" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalDearAlw">Dear Allowance</label>
+            <input id="salaryRuleModalDearAlw" name="salaryRuleModalDearAlw" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalAttdAlw">Attd Allowance</label>
+            <input id="salaryRuleModalAttdAlw" name="salaryRuleModalAttdAlw" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalOtAlw">OT Allowance</label>
+            <input id="salaryRuleModalOtAlw" name="salaryRuleModalOtAlw" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalNightBill">Night Bill</label>
+            <input id="salaryRuleModalNightBill" name="salaryRuleModalNightBill" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalWashingBill">Washing Bill</label>
+            <input id="salaryRuleModalWashingBill" name="salaryRuleModalWashingBill" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalDriverAlw">Driver Allowance</label>
+            <input id="salaryRuleModalDriverAlw" name="salaryRuleModalDriverAlw" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalExportAlw">Export Allowance</label>
+            <input id="salaryRuleModalExportAlw" name="salaryRuleModalExportAlw" type="number" placeholder="0" />
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalIsDeduct">Is Deduct</label>
+            <select id="salaryRuleModalIsDeduct" name="salaryRuleModalIsDeduct">
+              <option value="Y">Yes</option>
+              <option value="N">No</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="salaryRuleModalStatus">Rule Status</label>
+            <input id="salaryRuleModalStatus" name="salaryRuleModalStatus" type="text" placeholder="Status" />
+          </div>
+          <div class="field is-full">
+            <label for="salaryRuleModalRemarks">Remarks</label>
+            <input id="salaryRuleModalRemarks" name="salaryRuleModalRemarks" type="text" placeholder="Remarks" />
+          </div>
+          <div class="employee-actions">
+            <button class="btn-outline" type="submit" id="salaryRuleModalSubmit">Save Rule</button>
+          </div>
+          <p class="form-hint" id="salaryRuleModalNotice"></p>
+        </form>
+      </div>
+    </div>
   </div>
 
   <script src="vendor/unicode2ascii.umd.js"></script>
