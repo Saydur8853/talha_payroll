@@ -1,4 +1,9 @@
+using VisorHR.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<IUnitDbContextFactory, UnitDbContextFactory>();
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -98,10 +103,10 @@ app.MapGet("/employee/by-code", async (string unit, string code, IConfiguration 
                 E_P.BANG_PRESENT_POST,
                 E_P.BANG_PRESENT_PS,
                 E_P.BANG_PRESENT_DIST,
-                E_P.PARMANENT_VILL,
-                E_P.PARMANENT_HOUSE,
-                E_P.PARMANENT_PS,
-                E_P.PARMANENT_DIST,
+                E_P.PERMANENT_VILL,
+                E_P.PERMANENT_HOUSE,
+                E_P.PERMANENT_PS,
+                E_P.PERMANENT_DIST,
                 {bangPermanentVillColumn} BANG_PERMANENT_VILL,
                 {bangPermanentPostColumn} BANG_PERMANENT_POST,
                 {bangPermanentPsColumn} BANG_PERMANENT_PS,
@@ -278,10 +283,10 @@ app.MapGet("/employee/by-code", async (string unit, string code, IConfiguration 
                 presentPoBang = reader["BANG_PRESENT_POST"]?.ToString(),
                 presentPsBang = reader["BANG_PRESENT_PS"]?.ToString(),
                 presentDistBang = reader["BANG_PRESENT_DIST"]?.ToString(),
-                permanentVill = reader["PARMANENT_VILL"]?.ToString(),
-                permanentPo = reader["PARMANENT_HOUSE"]?.ToString(),
-                permanentPs = reader["PARMANENT_PS"]?.ToString(),
-                permanentDist = reader["PARMANENT_DIST"]?.ToString(),
+                permanentVill = reader["PERMANENT_VILL"]?.ToString(),
+                permanentPo = reader["PERMANENT_HOUSE"]?.ToString(),
+                permanentPs = reader["PERMANENT_PS"]?.ToString(),
+                permanentDist = reader["PERMANENT_DIST"]?.ToString(),
                 permanentVillBang = reader["BANG_PERMANENT_VILL"]?.ToString(),
                 permanentPoBang = reader["BANG_PERMANENT_POST"]?.ToString(),
                 permanentPsBang = reader["BANG_PERMANENT_PS"]?.ToString(),
@@ -2985,62 +2990,30 @@ static async Task<string> ResolveStatusReasonColumnAsync(Oracle.ManagedDataAcces
 
 static async Task<string> ResolveBangPermanentDistColumnAsync(Oracle.ManagedDataAccess.Client.OracleConnection connection)
 {
-    if (await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PERMANENT_DIST"))
-    {
-        return "E_P.BANG_PERMANENT_DIST";
-    }
-
-    if (await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PARMANENT_DIST"))
-    {
-        return "E_P.BANG_PARMANENT_DIST";
-    }
-
-    return "NULL";
+    return await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PERMANENT_DIST")
+        ? "E_P.BANG_PERMANENT_DIST"
+        : "NULL";
 }
 
 static async Task<string> ResolveBangPermanentPostColumnAsync(Oracle.ManagedDataAccess.Client.OracleConnection connection)
 {
-    if (await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PERMANENT_POST"))
-    {
-        return "E_P.BANG_PERMANENT_POST";
-    }
-
-    if (await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PARMANENT_POST"))
-    {
-        return "E_P.BANG_PARMANENT_POST";
-    }
-
-    return "NULL";
+    return await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PERMANENT_POST")
+        ? "E_P.BANG_PERMANENT_POST"
+        : "NULL";
 }
 
 static async Task<string> ResolveBangPermanentPsColumnAsync(Oracle.ManagedDataAccess.Client.OracleConnection connection)
 {
-    if (await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PERMANENT_PS"))
-    {
-        return "E_P.BANG_PERMANENT_PS";
-    }
-
-    if (await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PARMANENT_PS"))
-    {
-        return "E_P.BANG_PARMANENT_PS";
-    }
-
-    return "NULL";
+    return await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PERMANENT_PS")
+        ? "E_P.BANG_PERMANENT_PS"
+        : "NULL";
 }
 
 static async Task<string> ResolveBangPermanentVillColumnAsync(Oracle.ManagedDataAccess.Client.OracleConnection connection)
 {
-    if (await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PERMANENT_VILL"))
-    {
-        return "E_P.BANG_PERMANENT_VILL";
-    }
-
-    if (await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PARMANENT_VILL"))
-    {
-        return "E_P.BANG_PARMANENT_VILL";
-    }
-
-    return "NULL";
+    return await ColumnExistsAsync(connection, "EMP_PERSONAL", "BANG_PERMANENT_VILL")
+        ? "E_P.BANG_PERMANENT_VILL"
+        : "NULL";
 }
 
 static async Task<bool> ColumnExistsAsync(Oracle.ManagedDataAccess.Client.OracleConnection connection, string tableName, string columnName)
