@@ -49,7 +49,7 @@
         </div>
         <h1>Welcome back.</h1>
         <p class="lead">
-          Manage teams, payroll, and performance with a view that keeps the details sharp.
+          AI-powered insights to manage teams, payroll, and performance with a view that keeps the details sharp.
         </p>
         <div class="stats">
           <div>
@@ -123,11 +123,55 @@
 
           <div class="alt">
             <span>New to VisorHR?</span>
-            <a class="link" href="#">Request access</a>
+            <a class="link" href="#" data-request-access>Request access</a>
           </div>
         </form>
       </section>
     </main>
+  </div>
+
+  <div class="modal" id="requestAccessModal" aria-hidden="true">
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-card is-compact" role="dialog" aria-modal="true" aria-labelledby="requestAccessTitle">
+      <div class="modal-header">
+        <h3 id="requestAccessTitle">Request access</h3>
+        <button class="ghost" type="button" data-close>Close</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-note">Share a few details and our team will reach out with next steps.</p>
+        <form class="form request-form" id="requestAccessForm" autocomplete="on">
+          <label class="field">
+            <span class="required">Full name</span>
+            <input type="text" name="fullName" placeholder="Your name" required />
+          </label>
+          <label class="field">
+            <span class="required">Work email</span>
+            <input type="email" name="email" placeholder="you@company.com" required />
+          </label>
+          <label class="field">
+            <span class="required">Phone number</span>
+            <input type="tel" name="phone" placeholder="e.g. +1 555 123 4567" required />
+          </label>
+          <label class="field">
+            <span class="required">Company</span>
+            <input type="text" name="company" placeholder="Company name" required />
+          </label>
+          <label class="field">
+            <span>Team size</span>
+            <input type="text" name="teamSize" placeholder="e.g. 150 employees" />
+          </label>
+          <label class="field">
+            <span>Message</span>
+            <textarea name="message" rows="4" placeholder="Tell us what you need help with."></textarea>
+          </label>
+          <div class="modal-actions">
+            <button class="ghost" type="button" data-close>Cancel</button>
+            <button class="primary" type="submit">Send request</button>
+          </div>
+          <div class="notice request-notice" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
   </div>
 
   <script src="app.js"></script>

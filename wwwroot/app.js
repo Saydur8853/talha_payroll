@@ -6,6 +6,12 @@ const form = document.querySelector(".form");
 const dropdown = document.querySelector("[data-dropdown]");
 const UNIT_STORAGE_KEY = "visorhr.unit";
 const AUTH_STORAGE_KEY = "visorhr.auth";
+const requestAccessLink = document.querySelector("[data-request-access]");
+const requestAccessModal = document.getElementById("requestAccessModal");
+const requestAccessForm = document.getElementById("requestAccessForm");
+const requestAccessNotice = requestAccessModal?.querySelector(".request-notice");
+const requestAccessSubmit = requestAccessForm?.querySelector("button[type='submit']");
+const requestAccessCloseButtons = requestAccessModal?.querySelectorAll("[data-close]") || [];
 
 if (toggle && passwordInput) {
   toggle.addEventListener("click", () => {
@@ -129,5 +135,88 @@ if (form) {
         button.textContent = "Sign in";
         button.disabled = false;
       });
+  });
+}
+
+const openRequestAccess = () => {
+  if (!requestAccessModal) {
+    return;
+  }
+
+  if (requestAccessNotice) {
+    requestAccessNotice.className = "notice request-notice";
+    requestAccessNotice.textContent = "";
+  }
+
+  if (requestAccessSubmit) {
+    requestAccessSubmit.disabled = false;
+    requestAccessSubmit.textContent = "Send request";
+  }
+
+  requestAccessModal.classList.add("is-open");
+  requestAccessModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  requestAccessForm?.querySelector("input[name='fullName']")?.focus();
+};
+
+const closeRequestAccess = () => {
+  if (!requestAccessModal) {
+    return;
+  }
+
+  requestAccessForm?.reset();
+  if (requestAccessNotice) {
+    requestAccessNotice.className = "notice request-notice";
+    requestAccessNotice.textContent = "";
+  }
+  if (requestAccessSubmit) {
+    requestAccessSubmit.disabled = false;
+    requestAccessSubmit.textContent = "Send request";
+  }
+
+  requestAccessModal.classList.remove("is-open");
+  requestAccessModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+};
+
+if (requestAccessLink && requestAccessModal) {
+  requestAccessLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    openRequestAccess();
+  });
+
+  requestAccessCloseButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      closeRequestAccess();
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && requestAccessModal.classList.contains("is-open")) {
+      closeRequestAccess();
+    }
+  });
+}
+
+if (requestAccessForm) {
+  requestAccessForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (!requestAccessNotice || !requestAccessSubmit) {
+      return;
+    }
+
+    requestAccessNotice.className = "notice request-notice";
+    requestAccessNotice.textContent = "";
+    requestAccessSubmit.disabled = true;
+    requestAccessSubmit.textContent = "Sending...";
+
+    window.setTimeout(() => {
+      requestAccessNotice.classList.add("is-success");
+      requestAccessNotice.textContent = "Thanks! We will contact you within 1 business day.";
+      requestAccessSubmit.textContent = "Request sent";
+      requestAccessForm.reset();
+    }, 600);
   });
 }
